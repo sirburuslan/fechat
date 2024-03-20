@@ -1,0 +1,39 @@
+// MAIN PART
+
+.fc-main {
+    background-color: $color-blue-dark-extra;
+
+    .fc-plans,
+    .fc-faq {
+        min-height: 100vh;
+    
+        @media (max-height: 850px) {
+            min-height: 850px;
+        }
+    
+    }
+    
+    .fc-top-bar-container,
+    .fc-presentation-container,
+    .fc-stats-container,
+    .fc-features-container,
+    .fc-plans-container,
+    .fc-faq-container,
+    .fc-footer-container {
+        width: 1200px;
+    
+        @media (max-width: 1230px) {
+            padding-right: 15px !important;
+            padding-left: 15px !important;
+            width: 100%;
+        }
+    
+    }
+    
+    .fc-features-container,
+    .fc-plans-container,
+    .fc-faq-container {
+        padding: 14vh 0;
+    }    
+
+}

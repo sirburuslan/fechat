@@ -1,0 +1,102 @@
+// CALENDAR COMPONENT UI
+.fc-calendar {
+    padding: 10px 0 0;
+    width: 300px;
+    height: 300px;
+    font-family: $font-1;
+
+    & > table {
+        width: 300px;
+        height: 300px;
+
+        thead {
+
+            th {
+                text-align: center;
+                font-size: 14px;
+                font-weight: 500;               
+
+                button {
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 3px;
+                    background-color: $color-grey-light;
+                    color: $color-black-dark;
+
+                    &:hover {
+                        background-color: $color-black-light;
+                        color: #FFFFFF;
+                    }
+
+                    & > * {
+                        line-height: 30px;
+                        font-size: 17px;
+                    }
+
+                }
+
+                &:first-child {
+                    text-align: left;
+
+                    button {
+                        margin-left: 10px;
+                    }
+
+                }
+
+                &:last-child {
+                    text-align: right;
+
+                    button {
+                        margin-right: 10px;
+                    }
+
+                } 
+
+            }
+
+        }
+
+        tbody {
+
+            table {
+                margin-top: -10px;
+                width: 300px;
+                height: 250px;
+                
+                td {
+                    text-align: center;
+                    font-size: 12px;
+                    font-weight: 500;
+
+                    a {
+                        display: inline-block;
+                        width: 25px;
+                        height: 25px;
+                        border-radius: 50%;
+                        line-height: 25px;
+                        text-align: center;
+                        font-size: 12px;
+                        font-weight: 400;
+                        
+                        &.fc-calendar-current-day {
+                            background-color: $color-grey-light;
+                        }
+
+                        &.fc-calendar-selected-date,
+                        &:hover {
+                            background-color: $color-violet;
+                            color: #FFFFFF;
+                        }
+
+                    }
+
+                }
+    
+            }
+
+        }
+
+    }
+
+}

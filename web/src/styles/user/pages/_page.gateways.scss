@@ -1,0 +1,94 @@
+// FC gateways PAGE STYLES
+.fc-gateways-container {
+
+    .fc-gateways-not-found {
+        margin: 15px auto;
+        padding: 14px 15px;
+        width: 550px;
+        height: 50px;
+        max-width: 100%;
+        border-radius: 6px;
+        font-family: $font-2;
+        font-size: 14px;
+        background-color: rgba(255, 255, 255, 0.4);
+        color: $color-black;
+
+        &.w-full {
+            width: 100%;
+        }
+
+    }
+    
+    .fc-gateways-header {
+        padding: 50px 0;
+
+        h2 {
+            text-align: center;
+            font-family: $font-2;
+            font-size: 17px;
+            font-weight: 500;
+            color: #FFFFFF;
+        }
+
+    }
+
+    .fc-gateways-list {
+        width: 100%;
+
+        ul {
+            margin: auto;
+            width: 450px;
+            max-width: 100%;
+
+            li {
+
+                a {
+                    padding: 5px 10px;
+                    border: 1px solid $color-green-dark;
+                    background-color: #FFFFFF;
+
+                    &:hover {
+                        background-color: rgba($color: #FFFFFF, $alpha: 0.7);
+                    }
+
+                    img {
+                        display: inline-block;
+                        position: initial !important;
+                        vertical-align: middle;
+                        margin-right: 10px;
+                        width: 35px !important;
+                        height: 35px !important;
+                    }
+                    
+                    span {
+                        margin-top: 5px;
+                        color: $color-violet-dark;
+                    }
+
+                }
+
+                &:first-child {
+
+                    a {
+                        border-top-left-radius: 6px;
+                        border-top-right-radius: 6px;
+                    }
+
+                }
+
+                &:last-child {
+
+                    a {
+                        border-bottom-left-radius: 6px;
+                        border-bottom-right-radius: 6px;
+                    }
+
+                }                
+
+            }
+
+        }
+
+    }
+
+}

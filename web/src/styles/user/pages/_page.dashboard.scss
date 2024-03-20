@@ -1,0 +1,295 @@
+// FC DASHBOARD PAGE STYLES
+.fc-dashboard-container {
+
+    @media (max-width: 1023px) {
+        grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+        gap: inherit !important;
+    }
+
+    .fc-dashboard-not-found {
+        padding: 14px 15px;
+        width: 100%;
+        height: 50px;
+        border-radius: 6px;
+        font-family: $font-2;
+        font-size: 14px;
+        background-color: rgba(255, 255, 255, 0.4);
+        color: $color-black;
+    }
+
+    .fc-messages-section {
+
+        .fc-messages-last {
+            margin: 0;
+            padding: 0;
+
+            li {
+
+                &.fc-no-threads-found {
+                    padding: 15px 15px;
+                    width: 100%;
+                    height: 50px;
+                    border-radius: 6px;
+                    font-family: $font-2;
+                    font-size: 14px;
+                    font-weight: 400;
+                    background-color: rgba(255, 255, 255, 0.4);
+                    color: $color-black;
+                }
+
+                a {
+                    display: block;
+                    padding: 15px;
+                    width: 100%;
+                    min-height: 50px;
+                    border-bottom: 1px solid rgba($color: $color-blue-light, $alpha: 0.5);
+                    background-color: #FFFFFF;
+
+                    &.fc-unread-message {
+                        background-color: $color-grey-light;
+                    }
+
+                    &:hover {
+                        background-color: rgba($color: #FFFFFF, $alpha: 0.8);
+                    }
+
+                    h4 {
+                        font-family: $font-2;
+                        font-size: 13px;
+                        font-weight: 500;
+                        color: $color-violet-dark;
+
+                        .fc-thread-new {
+                            display: inline-block;
+                            vertical-align: middle;
+                            margin: -2px 0 0 15px;
+                            padding: 2px 10px;
+                            border-radius: 6px;
+                            font-family: $font-2;
+                            font-size: 12px;
+                            background-color: $color-blue-dark;   
+                            color: #FFFFFF;                           
+                        }
+
+                    }
+
+                    h4 + span {
+                        font-family: $font-2;
+                        font-size: 13px;
+                        font-weight: 400;
+                        color: $color-grey-dark;                     
+                    }
+
+                    p {
+                        display: -webkit-box;
+                        overflow: hidden;
+                        margin-bottom: 5px;
+                        line-height: 22px;
+                        font-family: $font-5;
+                        font-size: 13px;
+                        font-weight: 400;
+                        color: $color-violet-dark;
+                        -webkit-line-clamp: 2;
+                        -webkit-box-orient: vertical;
+                    }
+
+                    .fc-message-footer {
+
+                        .fc-thread-messages-count-icon {
+                            display: inline-block;
+                            vertical-align: middle;
+                            margin-right: 5px;
+                            font-size: 18px;
+                            color: $color-blue-dark;
+                        }
+
+                        .fc-thread-messages-count-text {
+                            display: inline-block;
+                            margin-right: 15px;
+                            font-family: $font-2;
+                            font-size: 13px;   
+                            color: $color-blue-dark;                         
+                        }
+
+                    }
+
+                }
+
+                &:first-child {
+
+                    a {
+                        border-top-left-radius: 6px;
+                        border-top-right-radius: 6px;
+                    }
+
+                }
+
+                &:last-child {
+
+                    a {
+                        border: 0;
+                        border-bottom-left-radius: 6px;
+                        border-bottom-right-radius: 6px;
+                    }
+
+                }                
+
+            }
+
+        }
+
+    }
+
+    .fc-dashboard-widget {
+        margin-bottom: 15px;
+        width: 100%;
+        min-height: 100px;
+        border-radius: 6px;
+        background-color: #FFFFFF;
+
+        .fc-dashboard-widget-head {
+            padding: 12px 15px;
+            border-bottom: 1px solid $color-grey-light;
+
+            h3 {
+                margin: 0;
+
+                .fc-dashboard-widget-icon {
+                    display: inline-block;
+                    vertical-align: middle;
+                    margin: -5px 5px 0 0;
+                    font-size: 24px;
+                    color: $color-violet;
+                }
+
+                .fc-dashboard-widget-text {
+                    margin-left: 5px;
+                    text-transform: uppercase;
+                    font-family: $font-2;
+                    font-size: 13px;
+                    color: $color-black-light;
+                }
+
+            }
+
+            .fc-dropdown {
+                
+                .fc-button {
+                    display: none;
+                }
+
+                .fc-dropdown-menu {
+                    top: 5px;
+                    left: 0;
+                    width: 127.7px;
+                }
+
+            }
+
+            .fc-button {
+                margin-top: -4px;
+                padding: 4px 15px;
+                border-radius: 4px;
+                color: $color-violet-dark;
+                box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05), 0 1px 1px 0 rgba(0, 0, 0, 0.08);
+
+                & > .fc-dashboard-widget-calendar-icon {
+                    vertical-align: middle;
+                    margin-top: -3px;
+                    margin-right: 3px;
+                    font-size: 18px;
+                }
+
+                & > .fc-dashboard-widget-dropdown-text {
+                    margin: 0 5px;
+                    text-transform: uppercase;
+                    font-family: $font-2;
+                    font-size: 12px;                    
+                }                   
+
+                & > .fc-dashboard-widget-arrow-down-icon {
+                    vertical-align: middle;
+                    margin-top: -3px;
+                    margin-right: 3px;
+                    font-size: 18px;
+                    transition: all 0.3s ease;
+                }                
+
+            }
+
+            .fc-button:has(+ .fc-dropdown[data-expand="true"]) {
+                
+                .fc-dashboard-widget-arrow-down-icon {
+                    transform: rotate(-180deg)
+                }
+
+            }
+
+        }
+
+        .fc-dashboard-widget-body {
+            min-height: 42px;
+
+            .fc-no-results-found {
+                margin: 10px;
+                padding: 5px 15px;
+                font-family: $font-2;
+                font-size: 13px;
+                background-color: $color-violet-light;
+            }
+            
+            canvas {
+                height: 300px;
+            }
+
+            .fc-subscription-plan {
+                padding: 15px;
+
+                h2 {
+                    margin-bottom: 5px;
+                    font-family: $font-2;
+                    font-size: 13px;
+                    font-weight: 600;
+                    color: $color-black-dark;  
+                }
+
+                p {
+                    margin: 0;
+                    font-family: $font-2;
+                    font-size: 13px;
+                    font-weight: 400;
+                    color: $color-grey-dark;                      
+                }
+
+                a {
+                    margin-top: 7px;
+                    padding: 4px 15px;
+                    height: 30px;
+                    border-radius: 4px;
+                    font-family: $font-2;
+                    font-size: 13px;
+                    font-weight: 500;         
+                    background-color: $color-green-dark;           
+                    color: #FFFFFF;
+                    box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.05), 0 1px 1px 0 rgba(0, 0, 0, 0.08);
+
+                    &:hover {
+                        background-color: rgba($color: $color-green-dark, $alpha: 0.7);
+                    }
+
+                    span {
+                        display: inline-block;
+                        vertical-align: middle;
+                        margin-top: -1px;
+                        margin-left: 5px;
+                    }
+
+                }
+
+            }
+
+        }        
+
+    }
+
+}

@@ -1,0 +1,31 @@
+// NOTIFICATION COMPONENT
+.fc-popup-notification {
+    position: fixed;
+    z-index: 9999;
+    bottom: 20px;
+    left: 50%;
+    margin-left: -200px;
+    padding: 9px 14px;
+    width: 400px;
+    min-height: 18px;
+    border-radius: 6px;
+    text-align: center;
+    color: #FFFFFF;
+    box-shadow: $shadow-popup;
+    animation: 0.3s fc-notification linear;
+
+    &.fc-popup-notification-success {
+        background-color: $color-blue-dark;
+    }    
+    
+    &.fc-popup-notification-error {
+        background-color: $color-red;
+    }
+
+    i {
+        vertical-align: middle;
+        margin-right: 5px;
+        font-size: 22px;
+    }
+
+}

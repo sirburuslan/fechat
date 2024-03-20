@@ -1,0 +1,25 @@
+// Reset styles
+input,
+textarea {
+    font-family: $font-2;
+    font-size: 14px;
+    color: $color-black;
+
+    resize: none;
+
+    &:focus,
+    &:active {
+        outline: none;
+    }
+
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    margin: 0;
+    -webkit-appearance: none;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}

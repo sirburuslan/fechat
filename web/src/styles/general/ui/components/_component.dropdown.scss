@@ -1,0 +1,133 @@
+// DROPDOWN COMPONENT UI
+.fc-dropdown {
+    position: relative;
+
+    .fc-button {
+
+        & > * {
+            pointer-events: none;
+        }
+
+        & > .fc-dropdown-arrow-down-icon {
+            vertical-align: middle;
+            margin-top: -3px;
+            margin-right: 3px;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+    }
+
+    &[data-expand="true"] {
+
+        .fc-button {
+    
+            & > .fc-dropdown-arrow-down-icon {
+                transform: rotate(-180deg);
+            }
+    
+        }
+
+    }
+
+    .fc-dropdown-menu {
+        display: none;
+        width: 225px;
+        border-radius: 6px;
+        background-color: #FFFFFF;
+        box-shadow: rgba(0, 0, 0, 0.08) 0px 10px 21px;
+        transform: translate3d(0, 0, 0);
+
+        input[type="text"] {
+            padding: 8px 15px;
+            width: 100%;
+            border-bottom: 1px solid $color-violet-light;
+            border-radius: 6px 6px 0 0;
+        }
+
+        ul {
+
+            li {
+
+                &:first-child {
+                    
+                    a {
+                        border-radius: 6px 6px 0 0;
+                    }
+
+                }
+
+                &:last-child {
+                    
+                    a {
+                        border-radius: 0 0 6px 6px;
+                    }
+
+                }
+
+                &.fc-no-results-found-message {
+                    padding: 10px 15px;
+                    font-family: $font-2;
+                    font-size: 14px;
+                }
+
+                a {
+                    display: block;
+                    padding: 10px 15px;
+                    font-family: $font-2;
+                    font-size: 14px;
+                    background-color: transparent;
+                    transition: all 0.3s ease-in-out;
+
+                    &:hover,
+                    &.fc-active {
+                        background-color: $color-grey-light;
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+    &[data-expand="true"] {
+
+        .fc-dropdown-menu {
+            display: block;
+            position: absolute;
+            z-index: 1;
+            top: 50px;
+            transform: scaleY(0.7);
+            transform-origin: bottom;
+            opacity: 0;
+            animation: fc-show-dropdown 0.2s linear forwards;
+
+            &.fc-dropdown-menu-right {
+                right: 0px;
+            }
+
+        }        
+
+    }
+
+}
+
+@keyframes fc-show-dropdown {
+
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        transform: scaleY(0.7);
+        opacity: 0;
+    }    
+
+    100% {
+        transform: scaleY(1);
+        opacity: 1;
+    }
+
+}

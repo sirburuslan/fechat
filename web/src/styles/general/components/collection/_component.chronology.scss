@@ -1,0 +1,110 @@
+// CHRONOLOGY COMPONENT
+.fc-chronology {
+    padding: 15px;
+    border-radius: 6px;
+    background-color: #FFFFFF;
+
+    ul {
+        margin: 0 0 0 70px;
+        padding: 0;
+        border-left: 1px solid $color-blue-light;
+
+        li {
+            display: flex;
+            margin-bottom: 40px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            .fc-event-time {
+                margin-top: -2px;
+                margin-left: -70px;
+                width: 55px;
+                font-family: $font-2;
+                font-size: 12px;
+                color: $color-grey;
+
+                @media (max-width: 910px) {
+                    width: 57px;
+                    font-size: 11px;
+                }
+
+                @media (max-width: 880px) {
+                    width: 61px;
+                }
+
+                @media (max-width: 850px) {
+                    width: 63px;
+                }
+
+                @media (max-width: 839px) {
+                    width: 65px;
+                }
+
+                @media (max-width: 829px) {
+                    width: 67px;
+                }
+
+                @media (max-width: 819px) {
+                    width: 69px;
+                }
+
+                @media (max-width: 809px) {
+                    width: 71px;
+                }
+
+                @media (max-width: 799px) {
+                    width: 73px;
+                }
+
+                @media (max-width: 789px) {
+                    width: 80px;
+                }
+
+                @media (max-width: 779px) {
+                    width: 82px;
+                }
+
+                @media (max-width: 769px) {
+                    width: 84px;
+                }
+
+                @media (max-width: 768px) {
+                    width: 55px;
+                }
+
+            }                           
+
+            .fc-event-circle {
+                margin-top: 1px;
+                margin-left: 9.3px;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background-color: $color-black-light;
+            }
+
+            .fc-event-text {
+                margin-top: -2px;
+                margin-left: 20px;
+
+                h5 {
+                    font-family: $font-3;
+                    font-size: 13px;
+                    color: $color-violet-dark;   
+                }
+
+                p {
+                    font-family: $font-2;
+                    font-size: 12px;
+                    color: $color-violet;   
+                }
+
+            }
+
+        }
+
+    }
+
+}

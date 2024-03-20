@@ -1,0 +1,12 @@
+// SHOW BOX FROM TOP TO BOTTOM
+@keyframes fc-top-to-bottom-animation {
+
+    0% {
+        transform: scaleY(0);
+    }
+
+    100% {
+        transform: scaleY(1);
+    }
+
+}

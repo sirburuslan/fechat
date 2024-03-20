@@ -1,0 +1,13 @@
+// TABS COMPONENT
+.fc-tabs {
+    
+    .fc-tab {
+        display: none;
+
+        &.fc-show-tab {
+            display: block;
+        }
+
+    }
+
+}

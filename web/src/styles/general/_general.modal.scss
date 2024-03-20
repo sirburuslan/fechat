@@ -1,0 +1,281 @@
+// GENERAL STYLES
+body:has(.fc-modal-show) {
+    overflow: hidden;
+}
+
+// GENERAL MODAL
+.fc-modal {
+    display: none;
+    position: relative;
+
+    &.fc-modal-show,
+    &.fc-modal-hide {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .transition-opacity {
+        z-index: 11;
+    }
+
+    .fc-modal-container {
+        transform: scaleY(0);
+        transform-origin: top;
+        position: fixed;
+        top: 50px;
+        z-index: 12;
+        margin: auto;
+        border-radius: 8px;
+        background-color: #FFFFFF;
+
+        .fc-modal-header {
+            padding: 12px 15px 10px;
+            min-height: 40px;
+            //border-bottom: 1px solid rgba($color-violet, 0.2);
+
+            h3 {
+                line-height: 23px;
+                font-size: 15px;
+                font-weight: 500;
+                color: $color-violet-dark;  
+            }
+
+            .fc-modal-hide-modal {
+                height: 24px;
+
+                & > * {
+                    font-size: 22px;
+                    color: $color-black-light;
+                    transform: scale(0.9);
+                    transition: transform 0.1s ease-in-out;
+                    pointer-events: none;
+                }
+
+                &:hover {
+
+                    & > * {
+                        transform: scale(1);
+                    }
+
+                }
+
+            }
+
+        }
+
+        .fc-modal-body {
+            padding: 15px;
+            min-height: 40px;
+
+            .fc-modal-button {
+                margin-top: 10px;
+
+                button {
+                    display: inline-flex;
+                    margin: 0;
+                    padding: 0 20px;
+                    min-width: 130px;
+                    height: 40px;
+                    border-radius: 6px;
+                    line-height: 40px;
+                    font-family: $font-2;
+                    font-size: 13px;
+                    background-color: $color-blue-light;
+                    color: #FFFFFF;
+                
+                    & > .fc-load-more-icon,
+                    & > .fc-next-icon {
+                        vertical-align: middle;
+                        line-height: 38px;
+                        font-size: 18px;
+                    }
+
+                    & > .fc-load-more-icon {
+                        display: none;
+                    }
+
+                    &.fc-active-button {
+
+                        & > .fc-next-icon {
+                            display: none;
+                        }
+                    
+                        & > .fc-load-more-icon {
+                            display: inherit;
+                            animation: 2s fc-rotate-icon-animation-next infinite linear;
+                        }
+                
+                    }
+                
+                    &.fc-option-violet-btn {
+                        background-color: rgba($color-violet, 1);
+                
+                        &:hover {
+                            background-color: rgba($color-violet, 0.7);
+                        }
+                        
+                    }
+                    
+                    &.fc-option-red-btn {
+                        background-color: rgba($color-red, 1);
+                
+                        &:hover {
+                            background-color: rgba($color-red, 0.7);
+                        }
+                        
+                    }
+                    
+                    &.fc-confirmation-button {
+                        margin-top: 20px;
+                        min-width: 110px;
+                    }
+
+                }
+
+            }
+
+            .fc-modal-text {
+                line-height: 25px;
+                font-size: 14px;
+                color: $color-black;
+            }
+
+            .fc-modal-text-input {
+                margin-bottom: 15px;
+                position: relative;
+                padding: 15px 15px 15px;
+                border-radius: 4px;
+                background-color: rgba($color-violet, 0.1);
+
+                label {
+                    margin-top: -29px;
+                    margin-left: 10px;
+                    font-family: $font-2;
+                    font-size: 13px;
+                    background-color: transparent;
+
+                    & > * {
+                        width: 20px;
+                        height: 20px;
+                        font-size: 19px;
+                        color: $color-violet;
+                    }
+
+                }
+
+                input {
+                    padding: 5px 15px 5px 40px;
+                    height: 38px;
+                    border: 0;
+                    border: 1px solid $color-violet-light;
+                    border-radius: 6px;
+                    font-size: 13px;
+                    font-weight: 400;
+                    background-color: #FFFFFF;
+                    color: $color-black-light;
+                    box-shadow: 0 0 0 30px #FFFFFF inset !important;  
+                    
+                    &:focus,
+                    &:active {
+                        border-bottom: 1px solid $color-violet;
+                    }
+
+                }
+
+            }
+
+            .fc-modal-form-input-error-message {
+                overflow: hidden;
+                margin: 0;
+                padding: 0 12px;
+                width: 100%;
+                height: 0;
+                min-height: 0;
+                border-radius: 3px;
+                line-height: 24px;
+                font-family: $font-2;
+                font-size: 13px;
+                background-color: rgba($color-red-dark, 0.2);
+                color: $color-violet-dark;
+                transition: all 0.3s linear;
+                
+            }
+
+            .fc-modal-form-input-error-message.fc-modal-form-input-error-message-show {
+                margin: 5px 0 0;
+                padding: 3px 12px;
+                min-height: 31px;
+            }
+
+        }
+
+    }
+
+    &.fc-modal-show {
+
+        .fc-modal-container {
+            animation: fc-modal-show 0.2s linear forwards;
+        }
+
+    }
+
+    &.fc-modal-hide {
+
+        .fc-modal-container {
+            animation: fc-modal-hide 0.2s linear forwards;
+        }
+
+    }    
+
+    &.fc-modal-lg {
+        
+        .fc-modal-container {
+            right: auto;
+            left: auto;
+            margin-left: -50px;
+            width: 700px;
+            max-width: 80%;
+        }
+
+    } 
+    
+    &.fc-modal-md {
+        
+        .fc-modal-container {
+            right: auto;
+            left: auto;
+            margin-left: -50px;
+            width: 500px;
+            max-width: 80%;
+        }
+
+
+
+    } 
+
+}
+
+@keyframes fc-modal-show {
+
+    0% {
+        transform: scaleY(0);
+    }
+
+    100% {
+        transform: scaleY(1);
+    }
+
+}
+
+@keyframes fc-modal-hide {
+
+    0% {
+        transform: scaleY(1);
+    }
+
+    100% {
+        transform: scaleY(0);
+    }
+
+}

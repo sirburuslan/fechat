@@ -1,0 +1,142 @@
+// TOP BAR PART
+.fc-top-bar {
+    position: fixed;
+    top: 0;
+    z-index: 9999;
+    width: 100%;
+    min-height: 70px;
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+
+    @media (max-width: 720px) {
+        position: initial;
+    } 
+
+    .fc-top-bar-container {
+        display: flex;
+        flex-wrap: wrap;
+        margin: auto;
+        padding: 10px 0;
+        height: 50px;
+
+        @media (max-width: 720px) {
+            display: inline;
+        } 
+
+        .fc-top-bar-logo {
+            width: 15%;
+
+            @media (max-width: 720px) {
+                width: 100%;
+                text-align: center;
+            } 
+
+            a {
+                line-height: 50px;
+                font-family: $font-4;
+                font-size: 26px;
+                font-weight: 600;
+                color: $color-blue-dark;
+
+                img {
+                    position: inherit !important;
+                    max-width: fit-content !important;
+                    max-height: fit-content !important;
+                }
+
+            }
+
+        }
+
+        .fc-top-bar-menu {
+            width: 50%;
+
+            @media (max-width: 720px) {
+                margin: auto;
+                width: 100%;
+            } 
+
+            ul {
+                display: flex;
+                gap: 35px;
+                margin: 11px 0;
+                padding: 0;
+
+                @media (max-width: 720px) {
+                    margin: 30px auto 50px;
+                    width: 100%;
+                    width: fit-content;
+                }                 
+
+                li {
+                    list-style: none;
+
+                    a {
+                        padding: 8px 15px;
+                        border-radius: 7px;
+                        font-family: $font-1;
+                        font-size: 14px;
+                        font-weight: 600;
+                        background-color: transparent;
+                        color: $color-violet-dark;
+                        transition: all 0.3s ease-in-out;  
+                        
+                        &:hover {
+                            background-color: rgba($color: $color-violet, $alpha: 0.2);
+                        }
+
+                    }
+
+                }
+
+            }
+
+        } 
+        
+        .fc-top-bar-auth {
+            padding: 11px 0;
+            width: 35%;
+            text-align: right;
+
+            @media (max-width: 720px) {
+                width: 100%;
+                text-align: center;
+            } 
+
+            .fc-auth-sign-in,
+            .fc-auth-sign-up {
+                margin-left: 15px;
+                padding: 13px 22px;
+                border-radius: 22px;
+                letter-spacing: 0.5px;
+                font-family: $font-3;
+                font-size: 14px;
+                font-weight: 500;
+                transition: all 0.3s ease-in-out; 
+            }
+
+            .fc-auth-sign-in {
+                background-color: rgba($color: $color-violet, $alpha: 0.2);
+                color: $color-black-dark;
+
+                &:hover {
+                    background-color: $color-grey-light;
+                }
+
+            }
+
+            .fc-auth-sign-up {
+                background-color: $color-black-dark;
+                color: #FFFFFF;
+
+                &:hover {
+                    background-color: rgba($color: $color-black-dark, $alpha: 0.7);
+                }
+                
+            }
+
+        }
+
+    }
+
+}

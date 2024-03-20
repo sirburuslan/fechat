@@ -1,0 +1,79 @@
+// FAQ PART
+.fc-faq {
+
+    .fc-faq-container {
+        margin: auto;
+        height: auto;
+
+        h2 {
+            text-align: center;
+            font-family: $font-8;
+            font-size: 22px;
+            font-weight: 600;
+            color: #FFFFFF;
+        }
+
+        ul {
+            margin: 9vh auto 0;
+            width: 60%;
+
+            @media (max-width: 720px) {
+                width: fit-content;
+            }   
+
+            @media (max-height: 850px) {
+                margin: 60px auto 0;
+            }
+
+            li {
+                margin-bottom: 20px;
+                border-radius: 12px;
+                background-color: #FFFFFF;
+
+                a {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 17px 15px;
+                    font-family: $font-8;
+                    font-size: 15px;
+                    font-weight: 500;
+                    color: $color-black-dark;
+
+                    .material-icons-outlined {
+                        margin-top: -2px;
+                        transition: all 0.3s ease-in-out;
+                    }
+
+                }
+                
+                .fc-faq-answer {
+                    overflow: hidden;
+                    max-height: 0;
+                    transition: all 0.3s ease-in-out;  
+
+                    p {
+                        padding: 0 15px 15px;
+                        line-height: 25px;
+                        font-family: $font-8;
+                        font-size: 14px;
+                        font-weight: 400;
+                        color: $color-black-dark;
+                    }
+
+                }
+
+                a[aria-expanded="true"] > .material-icons-outlined {
+                    transform: rotate(-180deg)
+                }                
+
+                a[aria-expanded="true"] + .fc-faq-answer {
+                    max-height: 500px;
+                }
+
+            }
+
+        }
+
+    }
+
+}

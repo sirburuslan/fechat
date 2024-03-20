@@ -1,0 +1,20 @@
+// Import the Google Icons
+@import '~material-icons/iconfont/material-icons.css';
+
+// Import general styles
+@import '../general/general.index';
+
+// Import the mixins
+@import '../general/mixins/mixins.index';
+
+// Import the components
+@import '../general/components/components.index';
+
+// Import general animations
+@import '../general/animations/animations.index';
+
+// Import general ui components
+@import '../general/ui/components/components.index';
+
+// Import the main chat part
+@import './parts/main';

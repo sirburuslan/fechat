@@ -1,0 +1,235 @@
+// MESSAGES COMPONENT
+.fc-chat-pagination {
+    display: none;
+    margin: auto;
+    padding: 5px;
+    width: 250px;
+    border-radius: 6px;
+    text-align: center;
+    font-family: $font-6;
+    font-size: 14px;
+    font-weight: 400;
+    background-color: #FFFFFF;
+    color: $color-black;
+
+    &:hover {
+        background-color: rgba($color: #FFFFFF, $alpha: 0.6);
+    }
+
+    .fc-load-more-icon {
+        vertical-align: middle;
+        margin: -3px 5px 0 0;
+        font-size: 18px;
+    }
+
+    &.fc-chat-pagination-show {
+        display: block;
+    }
+
+    &.fc-chat-pagination-active {
+    
+        & > .fc-load-more-icon {
+            animation: 2s fc-rotate-icon-animation-next infinite linear;
+        }
+
+    }
+
+}               
+
+.fc-chat-messages {
+    margin: 0;
+    padding: 40px 15px;
+
+    li {
+        margin-bottom: 40px;
+        list-style: none;
+
+        .fc-date {
+            margin-bottom: 20px;
+            width: 100%;
+            line-height: 24px;
+            letter-spacing: 0.2px;
+            text-transform: uppercase;
+            text-align: center;
+            font-family: $font-6;
+            font-size: 11px;
+            font-weight: 600;
+            color: $color-black;
+        }
+
+        .fc-author-photo {
+
+            .bi {
+                padding: 6px;
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                background-color: #FFFFFF;
+                color: $color-violet-dark;
+            }
+            
+            img {
+                object-fit: cover;
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+            }
+
+        }
+
+        .fc-message {
+            margin-right: 15px;
+            margin-left: auto;
+            padding: 15px;
+            min-height: 40px;
+            max-width: calc(80% - 58px);
+            border-radius: 12px;
+            text-align: left;
+            background-color: #708b75;
+            box-shadow: 0 1px 2px 0 $color-grey;
+
+            p {
+                margin-bottom: 15px;
+                line-height: 24px;
+                letter-spacing: 0.2px;
+                text-align: left;
+                font-family: $font-6;
+                font-size: 13px;
+                color: #FFFFFF;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+            }
+
+            img {
+                display: inline-block;
+                margin-left: 15px;
+                max-width: 100px;
+                max-height: 100px;
+
+                &:first-child {
+                    margin-left: 0;
+                }
+
+            }
+
+            .fc-message-attachment {
+                margin-right: 15px;
+                width: 100px;
+                
+                img {
+                    border-radius: 6px;
+                }
+
+            }
+
+        }
+
+        &.fc-guest-message {
+
+            .fc-message {
+                margin-right: 0;
+                margin-left: 15px;
+                background-color: #5e548e;
+                box-shadow: 0 1px 2px 0 #5e548e;
+            }
+
+        }
+
+    }
+
+}
+
+.fc-chat-unseen-messages {
+    display: block;
+    position: absolute;
+    left: 50%;
+    z-index: 1;
+    overflow-y: hidden;
+    margin: -60px 0 0 -125px;
+    padding: 0 5px;
+    width: 250px;
+    height: 0;
+    border-radius: 6px;
+    line-height: 31px;
+    text-align: center;
+    font-family: $font-6;
+    font-size: 14px;
+    font-weight: 400;
+    background-color: #FFFFFF;
+    color: $color-black;
+    transition: height 0.1s ease-in;
+
+    &:hover {
+        background-color: rgba($color: #FFFFFF, $alpha: 0.6);
+    }
+
+    &.fc-chat-unseen-messages-show {
+        height: 31px;
+    }
+
+    .fc-show-unseen-icon {
+        vertical-align: middle;
+        margin: -3px 5px 0 0;
+        font-size: 18px;
+        pointer-events: none;
+    }
+
+}
+
+.fc-chat-uploading-attachments {
+    display: block;
+    position: absolute;
+    left: 50%;
+    z-index: 2;
+    overflow-y: hidden;
+    margin: -70px 0 0 -125px;
+    padding: 0 10px;
+    width: 250px;
+    height: 0;
+    border-radius: 6px;
+    line-height: 22px;
+    text-align: center;
+    font-family: $font-6;
+    font-size: 14px;
+    font-weight: 400;
+    background-color: #FFFFFF;
+    color: $color-black;
+    transition: height 0.1s ease-in;
+
+    &.fc-chat-uploading-attachments-show {
+        padding: 5px 10px;
+        height: 41px;
+    }
+    
+    h3 {
+        margin: 0;
+        padding: 0;
+        font-family: $font-2;
+        font-size: 13px;
+        font-weight: 400;
+        color: $color-violet-dark;        
+    }
+
+    p {
+        margin: 0;
+        padding: 0;
+        font-family: $font-2;
+        font-size: 13px;
+        font-weight: 600;
+        color: $color-violet-dark;    
+    }
+    
+    .fc-progress {
+        background-color: $color-violet-light;
+
+        .rounded-full {
+            width: 0;
+            background-color: $color-violet-dark;
+        }
+
+    }
+
+}

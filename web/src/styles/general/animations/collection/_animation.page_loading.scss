@@ -1,0 +1,16 @@
+// CREATE THE FC PAGE LOADING ANIMATION KEYFRAME
+@keyframes fc-page-loading {
+
+    0% {
+        transform: rotate(0deg);
+    }
+
+    10% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(180deg);
+    }
+
+}

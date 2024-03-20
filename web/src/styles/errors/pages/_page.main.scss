@@ -1,0 +1,64 @@
+// FC MAIN ERRORS PAGE STYLES
+.fc-errors-container {
+    padding: 80px;
+    min-height: 70vh;
+
+    .fc-errors-text {
+        text-align: center;
+
+        h1 {
+            font-family: $font-2;
+            font-size: 55px;
+            font-weight: 200;
+            color: $color-black;
+        }
+
+        h2 {
+            position: relative;
+            font-family: $font-5;
+            font-size: 21px;
+            font-weight: 500;
+            color: $color-black;
+
+            &::after {
+                display: block;
+                content: "";
+                position: absolute;
+                left: 50%;
+                margin-top: 30px;
+                margin-left: -65px;
+                width: 130px;
+                height: 2px;
+                background-color: $color-blue-dark;
+            }
+
+        } 
+        
+        a {
+            margin: 70px auto 0;
+            padding: 0 15px;
+            width: 250px;
+            max-width: 100%;
+            border-radius: 6px;
+            line-height: 40px;
+            text-align: center;
+            font-family: $font-5;
+            font-size: 14px;
+            font-weight: 400;
+            background-color: $color-violet;
+            color: #FFFFFF;
+
+            &:hover {
+                background-color: rgba($color: $color-violet, $alpha: 0.7);
+            }
+
+            .fc-errors-homepage-icon {
+                vertical-align: middle;
+                margin-top: 8px;
+            }
+
+        }
+
+    }
+
+}

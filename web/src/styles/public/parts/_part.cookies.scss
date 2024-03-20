@@ -1,0 +1,82 @@
+// COOKIES PART
+.fc-cookies {
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+    z-index: 9999;
+    width: 300px;
+    border-radius: 7px;
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+
+    .fc-cookies-top {
+        padding: 15px;
+        border-bottom: 1px solid $color-grey-light;
+        
+        h2 {
+            margin-bottom: 10px;
+            font-family: $font-8;
+            font-size: 15px;
+            font-weight: 600;
+            color: $color-black-dark;
+        }
+
+        p {
+            line-height: 23px;
+            font-family: $font-7;
+            font-size: 13px;
+            font-weight: 400;
+            color: $color-grey-dark;
+
+            a {
+                border-bottom: 1px solid transparent;
+                color: $color-black-dark;
+
+                &:hover {
+                    border-bottom: 1px solid $color-black-dark;
+                }
+
+            }
+
+        }        
+
+    }
+
+    .fc-cookies-bottom {
+        padding: 15px;
+
+        a {
+            display: block;
+            margin-bottom: 15px;
+            padding: 9px 22px;
+            width: 100%;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+            text-align: center;
+            font-family: $font-3;
+            font-size: 13px;
+            font-weight: 400;
+            background-color: #1f5fff;
+            color: #FFFFFF;            
+            transition: all 0.3s ease-in-out; 
+
+            &:hover {
+                background-color: rgba($color: #1f5fff, $alpha: 0.7);
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+                background-color: $color-grey-dark;
+                color: #FFFFFF;
+
+                &:hover {
+                    background-color: rgba($color: $color-grey-dark, $alpha: 0.7);
+                }
+                
+            }
+
+        }
+
+    }
+
+}

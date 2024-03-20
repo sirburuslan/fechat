@@ -1,0 +1,17 @@
+// CREATE THE FC ROTATE ANIMATION
+.fc-rotate-animation {
+    animation: fc-rotate-animation 2s linear infinite;
+}
+
+// CREATE THE FC ROTATE ANIMATION KEYFRAME
+@keyframes fc-rotate-animation {
+
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+
+}

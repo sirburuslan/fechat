@@ -1,0 +1,142 @@
+// FC TRANSACTIONS PAGE STYLES
+.fc-transactions-container {
+
+    .fc-search-box {
+        width: 100%;
+    }
+    
+    .fc-transactions-list {
+        margin-bottom: 5px;
+
+        .fc-no-transactions-found {
+            padding: 15px 15px;
+            width: 100%;
+            height: 50px;
+            border-radius: 6px;
+            font-family: $font-2;
+            font-size: 14px;
+            font-weight: 400;
+            background-color: rgba(255, 255, 255, 0.4);
+            color: $color-black;
+        }
+
+        .fc-transaction {
+            margin-bottom: 15px;
+            padding: 12.5px 15px;
+            height: 62.5px;
+            border-radius: 6px;
+            background-color: #FFFFFF;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            & > div {
+
+                h2 {
+                    white-space: nowrap; 
+                    overflow: hidden;
+                    margin: 0;
+                    padding: 0;
+                    width: 200px;
+                    text-overflow: ellipsis;
+                    font-family: $font-1;
+                    font-size: 14px;
+                    font-weight: 500;
+
+                    @media (max-width: 767px) {
+                        width: 100px;
+                    }
+
+                    a {
+                        text-decoration: none;
+                        color: $color-black-dark;
+
+                        &:hover {
+                            text-decoration: underline;
+                        }
+
+                    }
+
+                }
+
+                h3 {
+                    margin: 0;
+                    padding: 0;
+                    line-height: 40px;
+                    font-family: $font-1;
+                    font-size: 13px;
+                    font-weight: 400;
+                    color: $color-violet;                        
+                }
+
+                p {
+                    font-family: $font-2;
+                    font-size: 12px;
+                    font-weight: 400;
+                    color: $color-grey-dark;                     
+                }
+
+                img {
+                    margin-top: 4px;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                }
+
+                .fc-transaction-user-icon {
+                    display: block;
+                    position: relative;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    line-height: 31px;
+                    text-align: center;
+                    font-size: 28px;
+                    background-color: $color-violet-light;
+                    color: $color-violet;
+
+                    .bi {
+                        position: absolute;
+                        top: 3px;
+                        left: 4px;
+                        width: 22px;
+                        height: 22px;
+                    }
+
+                }
+
+                .fc-transaction-status {
+                    display: block;
+                    margin-top: 6px;
+                    padding: 4px 10px;
+                    border-radius: 12px;
+                    text-align: center;
+                    font-family: $font-5;
+                    font-size: 12px;
+                    font-weight: 400;                 
+
+                    &.fc-transaction-status-completed {
+                        background-color: $color-green-dark;
+                        color: #FFFFFF;
+                    }
+
+                    &.fc-transaction-status-cancelled {                        
+                        background-color: $color-grey-dark;
+                        color: #FFFFFF;
+                    }
+
+                    &.fc-transaction-status-failed {
+                        background-color: $color-red;
+                        color: #FFFFFF;
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+}

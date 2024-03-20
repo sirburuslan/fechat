@@ -1,0 +1,163 @@
+// PRESENTATION PART
+.fc-presentation {
+    margin-top: 70px;
+    min-height: calc(100vh - 260px);
+
+    @media (max-width: 720px) {
+        margin-top: 0;
+    } 
+
+    .fc-presentation-container {
+        display: flex;
+        flex-wrap: wrap;
+        margin: auto;
+        padding: 10px 0;
+        height: auto;
+
+        .fc-presentation-text {
+            padding: 10vh 0;
+            width: 50%;
+
+            @media (max-width: 860px) {
+                width: 100%;
+                text-align: center;
+            }
+
+            @media (max-height: 850px) {
+                padding: 70px 0;
+            }
+
+            h1 {
+                margin-bottom: 5vh;
+                font-family: $font-8;
+                font-size: 37px;
+                font-weight: 600;
+                color: #FFFFFF;
+
+                @media (max-width: 990px) {
+                    font-size: 24px;
+                }
+
+                @media (max-height: 850px) {
+                    margin-bottom: 40px;
+                }
+
+                span {
+                    padding: 0 5px;
+                    background-color: rgba($color: #fbfff1, $alpha: 0.1);
+                }
+
+            }
+
+            h4 {
+                margin-bottom: 7vh;
+                line-height: 32px;
+                font-family: $font-7;
+                font-size: 18px;
+                font-weight: 500;
+                color: rgba($color: #fbfff1, $alpha: 1);
+
+                @media (max-width: 990px) {
+                    font-size: 16px;
+                }
+
+                @media (max-width: 940px) {
+                    font-size: 14px;
+                }
+
+                @media (max-height: 850px) {
+                    margin-bottom: 50px;
+                }
+
+            }
+
+            h6 {
+                font-family: $font-7;
+                font-size: 13px;
+                font-weight: 300;
+                color: rgba($color: #fbfff1, $alpha: 0.7);
+
+                & > span {
+                    margin-right: 25px;
+
+                    & > span {
+                        vertical-align: middle;
+                        margin: -3px 5px 0 0;
+                        font-size: 14px;
+                    }
+
+                }
+
+            }
+
+            .fc-get-started,
+            .fc-book-call {
+                display: inline-block;
+                margin: 0 25px 4vh 0;
+                padding: 17px 22px;
+                min-width: 180px;
+                border-radius: 22px;
+                letter-spacing: 0.5px;
+                text-align: center;
+                font-family: $font-3;
+                font-size: 14px;
+                font-weight: 500;
+                transition: all 0.3s ease-in-out; 
+
+                @media (max-height: 850px) {
+                    margin-bottom: 40px;
+                }
+
+            }
+
+            .fc-get-started {
+                background-color: #4740b5;
+                color: #FFFFFF;
+
+                &:hover {
+                    background-color: rgba($color: #4740b5, $alpha: 0.3);
+                }
+
+            }
+
+            .fc-book-call {
+                background-color: rgba($color: #4740b5, $alpha: 0.3);
+                color: #FFFFFF;
+
+                &:hover {
+                    background-color: rgba($color: #4740b5, $alpha: 0);
+                }
+
+            }
+
+        }
+
+        .fc-presentation-image {
+            display: flex;
+            align-items: center;
+            margin: 10vh 0;
+            padding: 5vh 0;
+            width: 50%;
+            border-radius: 22px;
+            text-align: center;
+            background-color: rgba($color: #4740b5, $alpha: 0.1);
+
+            @media (max-width: 860px) {
+                width: 100%;
+            }
+
+            @media (max-height: 850px) {
+                padding: 40px 0;
+            }
+
+            img {
+                position: static !important;
+                margin: auto !important;
+                max-width: 80% !important;
+            }
+
+        }
+
+    }
+
+}

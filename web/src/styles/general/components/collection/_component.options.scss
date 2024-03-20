@@ -1,0 +1,414 @@
+// OPTIONS COMPONENT
+.fc-options {
+    margin: 0;
+    padding: 0;
+
+    & > li {
+        margin-bottom: 15px;
+        list-style: none;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        .fc-option-text,
+        .fc-option-email,
+        .fc-option-number,
+        .fc-option-password {
+            padding-top: 0;
+            width: 100%;
+            height: 50px;
+            border-radius: 12px;
+            background-color: rgba($color: #FFFFFF, $alpha: 0.1);
+
+            input {
+                margin-top: 20px;
+                padding: 10px 40px 10px 15px;
+                width: 100%;
+                height: 30px;
+                border: 0;
+                border-radius: 0 0 12px 12px;
+                font-size: 13px;
+                background-color: transparent;
+                color: $color-violet-dark;
+
+                &::placeholder {
+                    color: rgba($color-violet-dark, 0.7);
+                }
+
+            }
+
+            label {
+                position: absolute;
+                top: 5px;
+                left: 15px;
+                font-family: $font-2;
+                font-size: 12px;
+                font-weight: 400;
+                color: $color-violet-light;
+            }
+
+            .fc-option-text-input:focus ~ label,
+            .fc-option-email-input:focus ~ label,
+            .fc-option-number-input:focus ~ label,
+            .fc-option-password-input:focus ~ label {
+                font-size: 12px;
+                font-weight: 400;
+                color: $color-violet-light;
+            }
+
+        }
+
+        .fc-option-textarea {
+            padding-top: 0;
+            width: 100%;
+            height: 220px;
+            border-radius: 12px;
+            background-color: rgba($color: #FFFFFF, $alpha: 0.1);
+
+            textarea {
+                margin-top: 20px;
+                padding: 10px 40px 10px 15px;
+                width: 100%;
+                height: 200px;
+                border: 0;
+                border-radius: 0 0 12px 12px;
+                font-size: 13px;
+                background-color: transparent;
+                color: $color-violet-dark;
+                resize: none;
+
+                &::placeholder {
+                    color: rgba($color-violet-dark, 0.7);
+                }
+
+            }
+
+            label {
+                position: absolute;
+                top: 5px;
+                left: 15px;
+                font-family: $font-2;
+                font-size: 12px;
+                font-weight: 400;
+                color: $color-violet-light;
+            }
+
+            .fc-option-textarea-input:focus ~ label {
+                font-size: 12px;
+                font-weight: 400;
+                color: $color-violet-light;
+            }
+
+        }
+
+        .fc-option-password {
+
+            input[type="password"] + button {
+
+                .fc-option-password-eye-hide-icon {
+                    display: block;
+                }                     
+
+                .fc-option-password-eye-icon {
+                    display: none;
+                }
+
+            }
+
+            input[type="text"] + button {
+
+                .fc-option-password-eye-hide-icon {
+                    display: none;
+                }                    
+
+                .fc-option-password-eye-icon {
+                    display: block;
+                }
+
+            }            
+
+        }
+
+        .fc-option-copy-button,
+        .fc-option-show-password-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: $color-black;
+
+            &:hover {
+                color: $color-black-light;
+            }
+
+            & > * {
+                font-size: 18px;
+            }
+            
+        }
+
+        .fc-option-dropdown {
+            border-radius: 12px;
+            background-color: rgba($color: #FFFFFF, $alpha: 0.1);
+
+            .fc-dropdown {
+
+                .fc-button {
+                    padding: 15px;
+                    width: 100%;
+                    height: 50px;
+                    border-radius: 12px;
+
+                    span:first-child {
+                        left: 15px;
+                        font-family: $font-2;
+                        font-size: 13px;
+                        font-weight: 400;
+                        color: rgba($color-violet-dark, 1);
+                    }
+
+                    .fc-dropdown-arrow-down-icon {
+                        line-height: 29px;
+                    }
+
+                }
+
+                .fc-dropdown-menu {
+                    margin-top: 3px;
+                    width: 100%;
+                }
+
+            }
+
+        }
+
+        .fc-option-list-manager {
+            padding: 15px;
+            border-radius: 12px;
+            background-color: rgba($color: #FFFFFF, $alpha: 0.1);
+
+            h4 {
+                line-height: 23px;
+                font-family: $font-2;
+                font-size: 13px;
+                font-weight: 400;
+                color: $color-violet-light;
+            }
+
+            .fc-option-list-manager-new-item {
+                height: 24px;
+                border: 1px solid rgba($color-violet-dark, 1);
+                border-radius: 4px;
+                background-color: transparent;
+
+                .fc-new-icon {
+                    font-size: 22px;
+                    color: rgba($color-violet-dark, 1);
+                    pointer-events: none;
+                }
+
+                &:hover {
+                    border-color: rgba($color-violet-dark, 0.4);
+
+                    .fc-new-icon {
+                        color: rgba($color-violet-dark, 0.4);
+                        pointer-events: none;
+                    }
+
+                }
+
+            }
+
+            ul {
+                margin: 15px 0 0;
+                padding: 0;
+
+                &:empty {
+                    margin: 0;
+                }
+
+                li {
+                    margin-bottom: 15px;
+                    padding: 7px 15px;
+                    border-radius: 7px;
+                    background-color: #FFFFFF;
+
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+
+                    & > span {
+                        padding-right: 25px;
+                        line-height: 25px;
+                        font-family: $font-2;
+                        font-size: 13px;
+                        font-weight: 400;
+                        color: $color-violet-dark;
+                    }
+
+                    button {
+                        margin-top: 1px;
+                        height: 18px;
+                        font-size: 12px;
+                        border-bottom: 1px solid $color-violet-dark;
+                        color: $color-violet-dark;
+
+                        &:hover {
+                            border-color: transparent;
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        .fc-option-checkbox {
+            width: 100%;
+
+            input[type=checkbox] {
+                display: none;
+            }
+
+            label {
+                display: block;
+                position: relative;
+                width: 100%;
+                height: 50px;
+                border-radius: 12px;
+                line-height: 50px;
+                text-align: center;
+                font-family: $font-3;
+                font-size: 13px;
+                font-weight: 400;
+                background-color: rgba($color: #FFFFFF, $alpha: 0.1);
+                color: rgba($color: #FFFFFF, $alpha: 0.6);   
+                cursor: pointer;
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                    border-radius: 3px;                 
+                    background-color: rgba($color: $color-violet-dark, $alpha: 0.02);
+                }
+
+                @media (max-width: 666px) {
+                    width: 100%;
+                }
+
+                & > .fc-option-checkbox-checked-icon {
+                    display: none;
+                }
+
+                & > .fc-option-checkbox-check-icon,
+                & > .fc-option-checkbox-checked-icon {
+                    vertical-align: middle;
+                    margin-top: -4px;
+                    margin-right: 8px;
+                    font-size: 22px;
+                }
+
+                & > .fc-option-checkbox-checked-text {
+                    display: none;
+                }
+
+            }
+
+            input:checked + label {
+                color: #FFFFFF;
+
+                & > .fc-option-checkbox-check-icon {
+                    display: none;
+                }
+
+                & > .fc-option-checkbox-checked-icon {
+                    display: inline-block;
+                }  
+
+                & > .fc-option-checkbox-check-text {
+                    display: none;
+                }                         
+                
+                & > .fc-option-checkbox-checked-text {
+                    display: inline-block;
+                }                        
+
+            }
+
+        }
+
+    }
+
+}    
+
+.fc-option-btn {
+    margin-left: 15px;
+    padding: 0 15px;
+    width: fit-content;
+    height: 40px;
+    border-radius: 6px;
+    font-family: $font-1;
+    font-size: 13px;
+    background-color: $color-blue-light;
+    color: $color-black-light-extra;
+
+    > * {
+        vertical-align: middle;
+        margin-top: -2px;
+        margin-right: 8px;
+        font-size: 20px;
+
+        &.fc-load-more-icon {
+            display: none;
+        }
+
+    }
+
+    &.fc-option-green-btn {
+        background-color: rgba($color-green-light-extra, 1);
+
+        &:hover {
+            background-color: rgba($color-green-light-extra, 0.6);
+        }
+
+    }
+
+    &.fc-option-blue-btn {
+        background-color: rgba($color-blue-light, 1);
+
+        &:hover {
+            background-color: rgba($color-blue-light, 0.6);
+        }
+
+    }
+
+    &.fc-option-red-btn {
+        background-color: rgba($color: $color-red, $alpha: 0.6);
+        color: #FFFFFF;
+
+        &:hover {
+            background-color: rgba($color: $color-red, $alpha: 0.4);
+        }
+        
+    } 
+    
+    &.fc-option-active-btn {
+
+        & > .fc-load-icon {
+            display: none;
+        }
+
+        & > .fc-load-more-icon {
+            display: inline-block;
+            animation: 2s fc-rotate-icon-animation-next infinite linear;
+        }
+
+    }
+
+}

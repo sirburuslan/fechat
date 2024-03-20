@@ -1,0 +1,215 @@
+// FC MEMBERS PAGE STYLES
+.fc-members-container {
+
+    .fc-search-box {
+        width: calc(100% - 330px);
+
+        @media (max-width: 991px) {
+            width: calc(100% - 130px);
+        }
+
+    }
+
+    .fc-new-member-button,
+    .fc-export-members-button {
+        width: 150px;
+        height: 46px;
+
+        & > * {
+            pointer-events: none;
+        }
+
+    }
+
+    .fc-new-member-button {
+        background-color: $color-blue-light;
+
+        &:hover {
+            background-color: rgba($color-blue-light, 0.7);
+        }
+
+    }
+
+    .fc-export-members-button {
+        background-color: $color-yellow;
+
+        &:hover {
+            background-color: rgba($color-yellow, 0.7);
+        }
+
+    }
+    
+    .fc-members-list {
+        margin-bottom: 5px;
+
+        @media (max-width: 1023px) {
+            min-height: auto;
+        }
+
+        &:has(> .fc-no-members-found) {
+            grid-template: none;
+        }
+
+        .fc-no-members-found {
+            padding: 15px 15px;
+            width: 100%;
+            height: 50px;
+            border-radius: 6px;
+            font-family: $font-2;
+            font-size: 14px;
+            font-weight: 400;
+            background-color: rgba(255, 255, 255, 0.4);
+            color: $color-black;
+        }
+
+        .fc-member {
+            height: 113px;
+            border-radius: 6px;
+            background-color: #FFFFFF;
+
+            @media (max-height: 950px) {
+                height: 103px;
+            }            
+
+            .fc-dashboard-sidebar-body {
+                padding: 15px 15px;
+                width: 100%;
+                height: 80px;
+                border-bottom: 1px solid $color-violet-light;
+
+                @media (max-height: 950px) {
+                    padding: 10px 15px;
+                    height: 70px;
+                }
+
+                .fc-member-photo {
+                    margin-right: 15px;
+                    height: 50px;
+
+                    img {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                    }
+
+                }
+
+                .fc-profile-photo-cover { 
+                    display: flex;
+                    align-items: center;
+                    margin-right: 15px;
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    text-align: center;
+                    background-color: #e3ebff;
+                    color: $color-violet-dark;
+        
+                    & > * {
+                        margin: auto;
+                        width: 24px;
+                        height: 24px;
+                    }
+                    
+                }
+
+                .fc-member-info {
+                    padding: 10px 0;
+                    height: 50px;
+
+                    h3 {
+                        white-space: nowrap;
+                        overflow: hidden;
+                        margin: 0;
+                        width: 250px;
+                        height: 18px;
+                        text-overflow: ellipsis;
+                        font-family: $font-5;
+                        font-size: 13px;
+                        font-weight: 500;
+                        color: $color-black-dark;
+                    }
+
+                    p {
+                        margin: 0;
+                        font-family: $font-5;
+                        font-size: 13px; 
+                        font-weight: 400;                
+                        color: $color-grey;
+                    }
+
+                }
+
+                .fc-manage-member {
+                    box-sizing: content-box;
+                    padding: 5px;
+                    width: 25px;
+                    height: 25px;
+                    border: 1px solid $color-grey-light;
+                    border-radius: 6px;
+                    color: $color-violet;
+                    transition: all 0.3s ease-in;
+
+                    &:hover {
+                        border-color: $color-violet;
+                    }
+
+                }
+
+                .fc-manage-member:has(+ .fc-dropdown[data-expand="true"]) {
+                    border: 1px solid $color-violet;
+                    background-color: $color-violet;
+
+                    & > * {
+                        color: #FFFFFF;
+                    }
+
+                }
+
+                .fc-dropdown {
+
+                    .fc-button {
+                        display: none;
+                    }
+                    
+                    .fc-dropdown-menu {
+                        top: 0;
+                    }
+
+                }
+
+            }
+
+            .fc-member-footer {
+                padding: 0 15px;
+                height: 35px;
+                font-family: $font-5;
+                font-size: 12px; 
+                font-weight: 400;                
+                color: $color-grey-dark; 
+
+                .fc-member-last-access-icon {
+                    display: inline-block;
+                    vertical-align: middle;
+                    margin-top: -3px;
+                    margin-right: 5px;
+                    font-size: 16px;
+                }
+
+                .fc-member-new-badge {
+                    padding: 0 10px;
+                    border-radius: 6px;
+                    line-height: 18px;
+                    font-size: 11px;
+                    background-color: #9cd08f;
+                    color: #FFFFFF;
+                }
+
+            }
+
+        }
+
+    }
+
+}

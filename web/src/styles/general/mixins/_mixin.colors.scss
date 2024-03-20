@@ -1,0 +1,13 @@
+// COLORS MIXINS
+@mixin fc-mixin-rgba($color: initial, $opacity: 1, $scope: "background-color") {
+
+    @if ( $scope == "background-color" ) {
+        background-color: $color;
+        background-color: rgba($color, $opacity);
+    }
+    @else {
+        color: $color;
+        color: rgba($color, $opacity);
+    } 
+
+}
