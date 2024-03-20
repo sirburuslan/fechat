@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <data name="NoTokenFound" xml:space="preserve">
+        <value>Tokenul de acces nu a fost găsit.</value>
+    </data>
+    <data name="TokenNoValid" xml:space="preserve">
+        <value>Indicatorul de acces nu este valid.</value>
+    </data>
+    <data name="PleaseEnterPassword" xml:space="preserve">
+        <value>Vă rugăm să introduceți o parolă.</value>
+    </data>
+    <data name="PleaseEnterRepeatPassword" xml:space="preserve">
+        <value>Vă rugăm să repetați parola.</value>
+    </data>
+    <data name="PasswordRepeatPasswordNotMatch" xml:space="preserve">
+        <value>Parola și parola repetată nu se potrivesc.</value>
+    </data>
+    <data name="PasswordRequired" xml:space="preserve">
+        <value>Parola este necesară.</value>
+    </data>
+    <data name="PasswordLength" xml:space="preserve">
+        <value>Parola trebuie să aibă o lungime între 6 și 20 de caractere.</value>
+    </data>
+    <data name="PasswordNoSpaces" xml:space="preserve">
+        <value>Parola nu trebuie să conțină spații goale.</value>
+    </data>
+    <data name="PasswordWasSaved" xml:space="preserve">
+        <value>Parola a fost salvată cu succes.</value>
+    </data>
+    <data name="PasswordWasNotSaved" xml:space="preserve">
+        <value>Parola nu a fost salvată cu succes.</value>
+    </data>
+    <data name="PasswordWasChanged" xml:space="preserve">
+        <value>Parola a fost schimbată cu succes.</value>
+    </data>
+    <data name="PasswordWasNotChanged" xml:space="preserve">
+        <value>Parola nu a fost schimbată cu succes.</value>
+    </data>
+    <data name="EmailRequired" xml:space="preserve">
+        <value>Adresa de e-mail este obligatorie.</value>
+    </data>
+    <data name="EmailNotValid" xml:space="preserve">
+        <value>Vă rugăm să introduceți o adresă de e-mail validă.</value>
+    </data>
+    <data name="EmailFound" xml:space="preserve">
+        <value>E-mailul este deja utilizat în sistemul nostru.</value>
+    </data>
+    <data name="EmailNotFound" xml:space="preserve">
+        <value>E-mailul nu a fost găsit în sistemul nostru.</value>
+    </data>
+    <data name="IncorrectEmailPassword" xml:space="preserve">
+        <value>E-mailul sau parola nu sunt corecte.</value>
+    </data>
+    <data name="AccountCreated" xml:space="preserve">
+        <value>Contul a fost creat cu succes.</value>
+    </data>
+    <data name="AccountNotCreated" xml:space="preserve">
+        <value>Contul nu a fost creat cu succes.</value>
+    </data>
+    <data name="AccountNotFound" xml:space="preserve">
+        <value>Membrul nu a fost găsit.</value>
+    </data>
+    <data name="SuccessSignIn" xml:space="preserve">
+        <value>V-ați conectat cu succes.</value>
+    </data>
+    <data name="NoValidNumber" xml:space="preserve">
+        <value>Tip de date nevalid pentru acest câmp.</value>
+    </data>
+    <data name="NoOptionsFound" xml:space="preserve">
+        <value>Nu au fost găsite opțiuni.</value>
+    </data>
+    <data name="NoPermissionsForAction" xml:space="preserve">
+        <value>Nu aveți permisiunea de a efectua această acțiune.</value>
+    </data>
+    <data name="MembersSettingsUpdated" xml:space="preserve">
+        <value>Setările au fost actualizate cu succes.</value>
+    </data>
+    <data name="MembersSettingsNotUpdated" xml:space="preserve">
+        <value>Setările nu au fost actualizate cu succes.</value>
+    </data>
+    <data name="NoAllowedSpecialChars" xml:space="preserve">
+        <value>Caractere speciale nu sunt permise.</value>
+    </data>
+    <data name="WebsiteNameLong" xml:space="preserve">
+        <value>Numele site-ului web este prea lung.</value>
+    </data>
+    <data name="ErrorOccurred" xml:space="preserve">
+        <value>A apărut o eroare.</value>
+    </data>
+    <data name="NoFileUploaded" xml:space="preserve">
+        <value>Fișierul nu a fost încărcat corect.</value>
+    </data>
+    <data name="NoValidFile" xml:space="preserve">
+        <value>Fișierul nu este valid.</value>
+    </data>
+    <data name="NoValidFormat" xml:space="preserve">
+        <value>Imaginea încărcată nu are un format acceptat.</value>
+    </data>
+    <data name="NoStorageSelected" xml:space="preserve">
+        <value>Niciun spațiu de stocare prestabilit selectat.</value>
+    </data>
+        <data name="StorageNotFound" xml:space="preserve">
+        <value>Clasa de stocare nu a fost găsită.</value>
+    </data>
+    <data name="UrlNotValid" xml:space="preserve">
+        <value>Adresa URL nu este validă.</value>
+    </data>
+    <data name="UrlNotValid2" xml:space="preserve">
+        <value>Valoarea trebuie să fie un șir sau nulă.</value>
+    </data>
+    <data name="UrlLong" xml:space="preserve">
+        <value>Adresa URL este prea lungă.</value>
+    </data>
+    <data name="ImageTooBig" xml:space="preserve">
+        <value>Dimensiunea imaginii este prea mare.</value>
+    </data>
+    <data name="CSRFNotGenerated" xml:space="preserve">
+        <value>Un token anti-csrf nu a fost generat cu succes.</value>
+    </data>
+    <data name="AnalyticsCodeLong" xml:space="preserve">
+        <value>Codul de analiză este prea lung.</value>
+    </data>
+    <data name="SmtpProtocolLong" xml:space="preserve">
+        <value>Protocolul Smtp este prea lung.</value>
+    </data>
+    <data name="SmtpHostLong" xml:space="preserve">
+        <value>Gazda SMS este prea lungă.</value>
+    </data>
+    <data name="SmtpPortLong" xml:space="preserve">
+        <value>Portul SMS este prea lung.</value>
+    </data>
+    <data name="SmtpUsernameLong" xml:space="preserve">
+        <value>Nume de utilizator SMS prea lung.</value>
+    </data>
+    <data name="SmtpPasswordLong" xml:space="preserve">
+        <value>Parola SMS prea lungă.</value>
+    </data>
+    <data name="SmtpProtectionLong" xml:space="preserve">
+        <value>Protecția SMS nu este corectă.</value>
+    </data>
+    <data name="PayPalClientIdLong" xml:space="preserve">
+        <value>Idul clientului PayPal prea lung.</value>
+    </data>
+    <data name="PayPalClientSecretLong" xml:space="preserve">
+        <value>Secretul clientului PayPal prea lung.</value>
+    </data>
+    <data name="FirstNameLong" xml:space="preserve">
+        <value>Prenumele este prea lung.</value>
+    </data>
+    <data name="LastNameLong" xml:space="preserve">
+        <value>Numele de familie este prea lung.</value>
+    </data>
+    <data name="EmailLong" xml:space="preserve">
+        <value>E-mailul este prea lung.</value>
+    </data>
+    <data name="NoMembersFound" xml:space="preserve">
+        <value>Niciun membru nu a fost găsit.</value>
+    </data>
+    <data name="MemberWasDeleted" xml:space="preserve">
+        <value>Membrul a fost șters cu succes.</value>
+    </data>
+    <data name="MemberWasNotDeleted" xml:space="preserve">
+        <value>Membrul nu a fost șters cu succes.</value>
+    </data>
+    <data name="AdministratorCanNotDeleteAccount" xml:space="preserve">
+        <value>Administratorul nu își poate șterge contul.</value>
+    </data>
+    <data name="AdministratorCanNotUpdateRole" xml:space="preserve">
+        <value>Administratorul nu își poate schimba rolul.</value>
+    </data>
+    <data name="MemberPhoneLong" xml:space="preserve">
+        <value>Telefonul membrului este prea lung.</value>
+    </data>
+    <data name="MemberLanguageLong" xml:space="preserve">
+        <value>Cuvântul în limbă este prea lung.</value>
+    </data>
+    <data name="MemberIdRequired" xml:space="preserve">
+        <value>Idul de membru este necesar.</value>
+    </data>
+    <data name="MemberUpdated" xml:space="preserve">
+        <value>Datele membrilor au fost actualizate cu succes.</value>
+    </data>
+    <data name="MemberNotUpdated" xml:space="preserve">
+        <value>Datele membrilor nu au fost actualizate cu succes.</value>
+    </data>
+    <data name="MemberPhotoUpdated" xml:space="preserve">
+        <value>Fotografia de profil a fost actualizată cu succes.</value>
+    </data>
+    <data name="MemberPhotoNotUpdated" xml:space="preserve">
+        <value>Fotografia de profil nu a fost actualizată cu succes.</value>
+    </data>
+    <data name="IncorrectPage" xml:space="preserve">
+        <value>Valoarea paginii este incorectă.</value>
+    </data>
+    <data name="IncorrectRole" xml:space="preserve">
+        <value>Valoarea rolului este incorectă.</value>
+    </data>
+    <data name="PlanNameLong" xml:space="preserve">
+        <value>Numele planului este prea lung.</value>
+    </data>
+    <data name="PlanCreated" xml:space="preserve">
+        <value>Planul a fost creat cu succes.</value>
+    </data>
+    <data name="PlanNotCreated" xml:space="preserve">
+        <value>Planul nu a fost creat cu succes.</value>
+    </data>
+    <data name="PlanWasDeleted" xml:space="preserve">
+        <value>Planul a fost șters cu succes.</value>
+    </data>
+    <data name="PlanWasNotDeleted" xml:space="preserve">
+        <value>Planul nu a fost șters cu succes.</value>
+    </data>
+    <data name="NoPlansFound" xml:space="preserve">
+        <value>Nu au fost găsite planuri.</value>
+    </data>
+    <data name="PlanNotFound" xml:space="preserve">
+        <value>Planul nu a fost găsit.</value>
+    </data>
+    <data name="PlanUpdated" xml:space="preserve">
+        <value>Datele planului au fost actualizate cu succes.</value>
+    </data>
+    <data name="PlanNotUpdated" xml:space="preserve">
+        <value>Datele planului nu au fost actualizate cu succes.</value>
+    </data>
+    <data name="PlanPriceLong" xml:space="preserve">
+        <value>Prețul planului este prea lung.</value>
+    </data>
+    <data name="PlanCurrencyLong" xml:space="preserve">
+        <value>Moneda planului este prea lungă.</value>
+    </data>
+    <data name="NoRestrictionsFound" xml:space="preserve">
+        <value>Nu au fost găsite restricții.</value>
+    </data>
+    <data name="TooManyWebsites" xml:space="preserve">
+        <value>Numărul maxim de site-uri web permise este de 50.</value>
+    </data>
+    <data name="WebsitesRestrictionWrongValue" xml:space="preserve">
+        <value>Valoarea restricției site-urilor web ar trebui să fie numerică.</value>
+    </data>
+    <data name="SupportedValueShouldBe" xml:space="preserve">
+        <value>Valoarea trebuie să fie între [min] și [max].</value>
+    </data>
+    <data name="PlanRestrictionsUpdated" xml:space="preserve">
+        <value>Restricțiile planului au fost salvate cu succes.</value>
+    </data>
+    <data name="PlanRestrictionsNotUpdated" xml:space="preserve">
+        <value>Restricțiile planului nu au fost salvate cu succes.</value>
+    </data>
+    <data name="PlanFeaturesUpdated" xml:space="preserve">
+        <value>Funcțiile planului au fost salvate cu succes.</value>
+    </data>
+    <data name="PlanPriceNotValid" xml:space="preserve">
+        <value>Prețul planului nu este valid.</value>
+    </data>
+    <data name="NoFeaturesFound" xml:space="preserve">
+        <value>Nu au fost găsite caracteristici.</value>
+    </data>
+    <data name="ResetCodeLong" xml:space="preserve">
+        <value>Codul de resetare este prea lung.</value>
+    </data>
+    <data name="ResetCodeWasSent" xml:space="preserve">
+        <value>Codul de resetare a parolei a fost trimis la adresa dvs. de e-mail înregistrată.</value>
+    </data>
+    <data name="ResetCodeRequestedAlready" xml:space="preserve">
+        <value>Codul de resetare a fost solicitat recent. Vă rugăm să încercați din nou după 5 minute.</value>
+    </data>
+    <data name="ResetCodeNotvalid" xml:space="preserve">
+        <value>Codul de resetare nu este valid.</value>
+    </data>
+    <data name="ResetCodeExpired" xml:space="preserve">
+        <value>Codul de resetare a expirat.</value>
+    </data>
+    <data name="ResetCodeMissing" xml:space="preserve">
+        <value>Codul de resetare lipsește.</value>
+    </data>
+    <data name="ChangesSaved" xml:space="preserve">
+        <value>Modificările au fost salvate cu succes.</value>
+    </data>
+    <data name="ChangesNotSaved" xml:space="preserve">
+        <value>Modificările nu au fost salvate cu succes.</value>
+    </data>
+    <data name="WebsiteSaved" xml:space="preserve">
+        <value>Site-ul web a fost salvat cu succes.</value>
+    </data>
+    <data name="WebsiteNotSaved" xml:space="preserve">
+        <value>Site-ul web nu a fost salvat cu succes.</value>
+    </data>
+    <data name="WebsiteNotFound" xml:space="preserve">
+        <value>Site-ul web nu a fost găsit.</value>
+    </data>
+    <data name="WebsiteAlreadySaved" xml:space="preserve">
+        <value>Site-ul web este deja salvat.</value>
+    </data>
+    <data name="DomainLong" xml:space="preserve">
+        <value>Domeniul site-ului web este prea lung.</value>
+    </data>
+    <data name="WebsiteNameRequired" xml:space="preserve">
+        <value>Numele site-ului este obligatoriu.</value>
+    </data>
+    <data name="WebsiteUrlRequired" xml:space="preserve">
+        <value>Adresa URL a site-ului este obligatorie.</value>
+    </data>
+    <data name="NoWebsitesFound" xml:space="preserve">
+        <value>Nu au fost găsite site-uri web.</value>
+    </data>
+    <data name="WebsiteWasDeleted" xml:space="preserve">
+        <value>Site-ul web a fost șters cu succes.</value>
+    </data>
+    <data name="WebsiteWasNotDeleted" xml:space="preserve">
+        <value>Site-ul web nu a fost șters cu succes.</value>
+    </data>
+    <data name="WebsiteWasUpdated" xml:space="preserve">
+        <value>Site-ul web a fost actualizat cu succes.</value>
+    </data>
+    <data name="WebsiteWasNotUpdated" xml:space="preserve">
+        <value>Site-ul web nu a fost actualizat cu succes.</value>
+    </data>
+    <data name="ChatWasUpdated" xml:space="preserve">
+        <value>Chat-ul a fost actualizat cu succes.</value>
+    </data>
+    <data name="ChatWasNotUpdated" xml:space="preserve">
+        <value>Chatul nu a fost actualizat cu succes.</value>
+    </data>
+    <data name="MessageLong" xml:space="preserve">
+        <value>Mesajul este prea lung.</value>
+    </data>
+    <data name="ThreadSecretLong" xml:space="preserve">
+        <value>Secretul firului de discuție este prea lung.</value>
+    </data>
+    <data name="ThreadSecretMissing" xml:space="preserve">
+        <value>Secretul firului lipsește.</value>
+    </data>
+    <data name="ThreadNotCreated" xml:space="preserve">
+        <value>Firul nu a fost creat cu succes.</value>
+    </data>
+    <data name="ThreadNotFound" xml:space="preserve">
+        <value>Firul nu a fost găsit.</value>
+    </data>
+    <data name="MessageCreated" xml:space="preserve">
+        <value>Mesajul a fost creat cu succes.</value>
+    </data>
+    <data name="MessageNotCreated" xml:space="preserve">
+        <value>Mesajul nu a fost creat cu succes.</value>
+    </data>
+    <data name="WebsiteIdMissing" xml:space="preserve">
+        <value>Idul site-ului lipsește.</value>
+    </data>
+    <data name="NoMessagesFound" xml:space="preserve">
+        <value>Nu au fost găsite mesaje.</value>
+    </data>
+    <data name="MessageTooShort" xml:space="preserve">
+        <value>Mesajul este prea scurt.</value>
+    </data>
+    <data name="MessageAttachmentSaved" xml:space="preserve">
+        <value>Atașarea mesajului a fost salvat cu succes.</value>
+    </data>
+    <data name="MessageAttachmentNotSaved" xml:space="preserve">
+        <value>Atașarea mesajului nu a fost salvat cu succes.</value>
+    </data>
+    <data name="TooManyImages" xml:space="preserve">
+        <value>Un mesaj poate avea până la 3 imagini atașate.</value>
+    </data>
+    <data name="ThreadWasDeleted" xml:space="preserve">
+        <value>Firul a fost șters cu succes.</value>
+    </data>
+    <data name="ThreadWasNotDeleted" xml:space="preserve">
+        <value>Firul nu a fost șters cu succes.</value>
+    </data>
+    <data name="ThreadIdMissing" xml:space="preserve">
+        <value>Parametrul id-ul firului lipsește.</value>
+    </data>
+    <data name="NoThreadsFound" xml:space="preserve">
+        <value>Nu s-au găsit fire de discuții.</value>
+    </data>
+    <data name="NoPermissionsThisThread" xml:space="preserve">
+        <value>Nu aveți permisiuni de a trimite mesaje în acest fir.</value>
+    </data>
+    <data name="AccessTokenThreadIdMissing" xml:space="preserve">
+        <value>Lipsesc simbolul de acces și ID-ul firului.</value>
+    </data>
+    <data name="GuestNameLong" xml:space="preserve">
+        <value>Numele dvs. trebuie să aibă o lungime între 1 și 50 de caractere.</value>
+    </data>
+    <data name="GuestNotCreated" xml:space="preserve">
+        <value>Invitatul nu a fost creat cu succes.</value>
+    </data>
+    <data name="ChatDisabled" xml:space="preserve">
+        <value>Chatul este dezactivat pentru acest site.</value>
+    </data>
+    <data name="ChatIsDisabled" xml:space="preserve">
+        <value>Chat-ul este dezactivat.</value>
+    </data>
+    <data name="ChatHeaderLong" xml:space="preserve">
+        <value>Antetul de chat este prea lung.</value>
+    </data>
+    <data name="PayPalNotConfigured" xml:space="preserve">
+        <value>PayPal nu este configurat.</value>
+    </data>
+    <data name="PayPalTokenMissing" xml:space="preserve">
+        <value>Tokenul de acces PayPal nu a fost generat cu succes.</value>
+    </data>
+    <data name="PayPalPriceNotValid" xml:space="preserve">
+        <value>Prețul planului nu este valid.</value>
+    </data>
+    <data name="PayPalCurrencyNotValid" xml:space="preserve">
+        <value>Moneda planului nu este validă.</value>
+    </data>
+    <data name="PayPalProductWasNotSaved" xml:space="preserve">
+        <value>Produsul paypal nu a fost salvat cu succes.</value>
+    </data>
+    <data name="PayPalPlanWasNotSaved" xml:space="preserve">
+        <value>Planul paypal nu a fost salvat cu succes.</value>
+    </data>
+    <data name="NoMetaFound" xml:space="preserve">
+        <value>Nu a fost găsit niciun meta.</value>
+    </data>
+    <data name="NoPaymentsMethodsAvailable" xml:space="preserve">
+        <value>Nu au fost găsite metode de plată.</value>
+    </data>
+    <data name="PaymentSourceNotValid" xml:space="preserve">
+        <value>Sursa de plată nu este validă.</value>
+    </data>
+    <data name="OrderIdNotValid" xml:space="preserve">
+        <value>ID-ul comenzii nu este valid.</value>
+    </data>
+    <data name="SubscriptionIdNotValid" xml:space="preserve">
+        <value>Idul abonamentului nu este valid.</value>
+    </data>
+    <data name="SubscriptionNotFound" xml:space="preserve">
+        <value>Abonamentul nu a fost găsit.</value>
+    </data>
+    <data name="SubscriptionCreated" xml:space="preserve">
+        <value>Abonamentul a fost creat cu succes.</value>
+    </data>
+    <data name="SubscriptionNotCreated" xml:space="preserve">
+        <value>Abonamentul nu a fost creat cu succes.</value>
+    </data>
+    <data name="SubscriptionUpdated" xml:space="preserve">
+        <value>Abonamentul a fost actualizat cu succes.</value>
+    </data>
+    <data name="SubscriptionNotUpdated" xml:space="preserve">
+        <value>Abonamentul nu a fost actualizat cu succes.</value>
+    </data>
+    <data name="NoSubscriptionsFound" xml:space="preserve">
+        <value>Nu au fost găsite abonamente.</value>
+    </data>
+    <data name="TransactionCreated" xml:space="preserve">
+        <value>Tranzacția a fost creată cu succes.</value>
+    </data>       
+    <data name="TransactionNotCreated" xml:space="preserve">
+        <value>Tranzacția nu a fost creată cu succes.</value>
+    </data>
+    <data name="NoTransactionsFound" xml:space="preserve">
+        <value>Nu au fost găsite tranzacții.</value>
+    </data>
+    <data name="TransactionNotFound" xml:space="preserve">
+        <value>Tranzacția nu a fost găsită.</value>
+    </data>
+    <data name="NoEventsFound" xml:space="preserve">
+        <value>Nu au fost găsite evenimente.</value>
+    </data>
+    <data name="PlanHasSubscriptions" xml:space="preserve">
+        <value>Planul are abonamente și nu poate fi șters.</value>
+    </data>
+    <data name="MaximumAllowedWebsitesReached" xml:space="preserve">
+        <value>Ați atins numărul maxim de site-uri web permise.</value>
+    </data>
+    <data name="RegistrationDisabled" xml:space="preserve">
+        <value>Înregistrarea este dezactivată.</value>
+    </data>
+    <data name="ReCaptchaKeyLong" xml:space="preserve">
+        <value>Cheia reCaptcha este prea lungă.</value>
+    </data>
+    <data name="GoogleClientIdLong" xml:space="preserve">
+        <value>Idul de client Google este prea lung.</value>
+    </data>
+    <data name="GoogleClientSecretLong" xml:space="preserve">
+        <value>Secretul de client Google este prea lung.</value>
+    </data>
+    <data name="GoogleMapsKeyLong" xml:space="preserve">
+        <value>Cheia Google Maps este prea lungă.</value>
+    </data>
+    <data name="Ip2LocationLong" xml:space="preserve">
+        <value>Cheia Ip2Location este prea lungă.</value>
+    </data>
+    <data name="CodeLong" xml:space="preserve">
+        <value>Codul este prea lung.</value>
+    </data>  
+    <data name="GoogleNotConfigured" xml:space="preserve">
+        <value>Api-ul la Google nu este configurat.</value>
+    </data>   
+    <data name="AccessCodeNotGenerated" xml:space="preserve">
+        <value>Codul de acces nu a fost generat.</value>
+    </data>                                                      
+</root>

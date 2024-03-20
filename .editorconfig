@@ -1,0 +1,10 @@
+[*.{cs,vb}]
+
+# IDE0049: Simplify Names
+dotnet_style_predefined_type_for_locals_parameters_members = true
+
+# CA1305: Specify IFormatProvider
+dotnet_diagnostic.CA1305.severity = none
+
+# Default severity for analyzer diagnostics with category 'Style'
+dotnet_analyzer_diagnostic.category-Style.severity = silent
