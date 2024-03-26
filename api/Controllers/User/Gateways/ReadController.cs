@@ -25,31 +25,29 @@ namespace FeChat.Controllers.User.Gateways {
     // Use the Versioning to add version in url
     using Asp.Versioning;
 
-    // Use General Dtos
+    // Use the General Dtos
     using FeChat.Models.Dtos;
 
-    // Use the Members Dtos
-    using FeChat.Models.Dtos.Members;
-
-    // Use Plans Dtos
+    // Use the Plans Dtos
     using FeChat.Models.Dtos.Plans;
 
-    // Use Plans Entities
+    // Use the Subscriptions
+    using FeChat.Models.Dtos.Subscriptions;    
+
+    // Use the Plans Entities
     using FeChat.Models.Entities.Plans;
 
-    // Use General Utils
+    // Use the General Utils
     using FeChat.Utils.General;
 
     // Gets the Settings Repositories
     using FeChat.Utils.Interfaces.Repositories.Settings;
 
-    // Use the Members Repositories
-    using FeChat.Utils.Interfaces.Repositories.Members;
-
     // Use the Plans Repositories
     using FeChat.Utils.Interfaces.Repositories.Plans;
+
+    // Use the Subscriptions Repositories
     using FeChat.Utils.Interfaces.Repositories.Subscriptions;
-    using FeChat.Models.Dtos.Subscriptions;
 
     /// <summary>
     /// Gateways Read Controller
@@ -87,7 +85,6 @@ namespace FeChat.Controllers.User.Gateways {
         /// <returns>List with gateways or error message</returns>
         [HttpGet("{planId}")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> GatewaysList(int planId, Member memberInfo, ISettingsRepository settingsRepository, IPlansRepository plansRepository, ISubscriptionsRepository subscriptionsRepository) {
 
             // Get the plan's data

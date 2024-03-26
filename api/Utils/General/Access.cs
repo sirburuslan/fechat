@@ -110,7 +110,7 @@ namespace FeChat.Utils.General {
                 Result = new MemberDto {
                     MemberId = member.Result.MemberId,
                     Role = member.Result.Role,
-                    Language = ((member.Result.Language != null) && (member.Result.Language != "english"))?"ro-RO":"en-US"
+                    Language = ((member.Result.Language != null) && (member.Result.Language != "") && (member.Result.Language != "english"))?"ro-RO":"en-US"
                 },
                 Message = null
             };
@@ -181,7 +181,7 @@ namespace FeChat.Utils.General {
                 Result = new MemberDto {
                     MemberId = member.Result.MemberId,
                     Role = member.Result.Role,
-                    Language = ((member.Result.Language != null) && (member.Result.Language != "english"))?"ro-RO":"en-US"
+                    Language = ((member.Result.Language != null) && (member.Result.Language != "") && (member.Result.Language != "english"))?"ro-RO":"en-US"
                 },
                 Message = null
             };

@@ -25,7 +25,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 // Import the incs
-import { getIcon, getWord } from '@/core/inc/incIndex';
+import { getIcon, getWord, getToken } from '@/core/inc/incIndex';
+
+// Import the types
+import { typeToken, typePostHeader } from '@/core/types/typesIndex';
 
 // Import the useFormChange hook
 import useFormChange from '@/core/hooks/auth/reset/useFormChange';
@@ -142,12 +145,30 @@ const Page = ({params}: {params: { slug: string }}): React.JSX.Element => {
 
         try {
 
+            // Generate a new csrf token
+            let csrfToken: typeToken = await getToken();
+
+            // Check if csrf token is missing
+            if ( !csrfToken.success ) {
+
+                // Throw error message
+                throw new Error(getWord('errors', 'error_csrf_token_not_generated'));
+
+            }
+
+            // Set the headers
+            let headers: typePostHeader = {
+                headers: {
+                    CsrfToken: csrfToken.token
+                }
+            };
+
             // Submit the request
             await axios.post(process.env.NEXT_PUBLIC_API_URL + 'api/v1/auth/reset/change-password', {
                 ResetCode: params.slug,
                 Password: values.password,
                 RepeatPassword: values.repeatPassword
-            })
+            }, headers)
             .then((response: AxiosResponse): void => {
 
                 // Get data

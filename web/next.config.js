@@ -22,6 +22,9 @@ const nextConfig = {
                 port: ''
             }
         ]
+    },
+    experimental: {
+        missingSuspenseWithCSRBailout: false,
     }
 
 }

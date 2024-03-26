@@ -5,7 +5,7 @@
  *
  * @author Ruslan Sirbu
  * @version 0.0.1
- * @updated 2024-03-19
+ * @updated 2024-03-22
  *
  * This file contains the page google callback which handles the response code
  */
@@ -13,13 +13,13 @@
 'use client'
 
 // Import the React hooks
-import { useContext, useState, useEffect, Dispatch, SetStateAction } from 'react';
+import { useContext, useState, useEffect, Suspense } from 'react';
+
+// Import the router function
+import { useSearchParams, useRouter } from 'next/navigation';
 
 // Import axios module
 import axios, { AxiosError, AxiosResponse } from 'axios';
-
-// Import the router function
-import { useSearchParams } from 'next/navigation';
 
 // Import the Secure Storage module for react
 import SecureStorage from 'react-secure-storage';
@@ -35,6 +35,9 @@ import { WebsiteOptionsContext } from '@/core/contexts/OptionsContext';
 
 // Create the page component
 const Page = (): React.JSX.Element => {
+
+    // Get the router
+    let router = useRouter();
 
     // Gets the search params
     let searchParams = useSearchParams();
@@ -109,12 +112,12 @@ const Page = (): React.JSX.Element => {
                                     if ( response.data.member.role === 0 ) {
 
                                         // Redirect the administrator to the dashboard page
-                                        document.location.href = process.env.NEXT_PUBLIC_SITE_URL + 'admin/dashboard';
+                                        router.push(process.env.NEXT_PUBLIC_SITE_URL + 'admin/dashboard');
 
                                     } else {
 
                                         // Redirect the user to the dashboard page
-                                        document.location.href = process.env.NEXT_PUBLIC_SITE_URL + 'user/dashboard';
+                                        router.push(process.env.NEXT_PUBLIC_SITE_URL + 'user/dashboard');
 
                                     }
 
@@ -177,7 +180,7 @@ const Page = (): React.JSX.Element => {
     }, [websiteOptions]);
 
     return (
-        <>
+        <Suspense>
             <div className="px-8 pt-6 pb-6 mb-4 fc-auth-validating">
                 <div>
                     {(errorMessage !== '')?(
@@ -187,7 +190,7 @@ const Page = (): React.JSX.Element => {
                     )}
                 </div>
             </div>
-        </>
+        </Suspense>
     );
 
 };

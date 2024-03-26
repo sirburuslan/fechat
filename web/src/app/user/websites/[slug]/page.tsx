@@ -557,7 +557,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
             }; 
 
             // Delete thread
-            await axios.delete(process.env.NEXT_PUBLIC_API_URL + 'api/v1/user/threads/' + threadId, headers)
+            await axios.post(process.env.NEXT_PUBLIC_API_URL + 'api/v1/user/threads/' + threadId, null, headers)
 
             // Process the response
             .then((response: AxiosResponse) => {

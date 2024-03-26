@@ -509,6 +509,7 @@ namespace api.Migrations
 
                     b.ToTable("Websites");
                 });
+                
 #pragma warning restore 612, 618
         }
     }

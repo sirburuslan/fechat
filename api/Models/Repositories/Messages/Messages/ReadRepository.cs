@@ -33,6 +33,7 @@ namespace FeChat.Models.Repositories.Messages.Messages {
 
     // Use General utils for strings
     using FeChat.Utils.General;
+    using FeChat.Models.Dtos.Members;
 
     /// <summary>
     /// Messages Read Repository
@@ -277,6 +278,80 @@ namespace FeChat.Models.Repositories.Messages.Messages {
 
                 return new ResponseDto<bool> {
                     Result = false,
+                    Message = ex.Message
+                };
+
+            }
+
+        }
+
+        /// <summary>
+        /// Get unseen messages by thread
+        /// </summary>
+        /// <returns>Unseen messages or error message</returns>
+        public async Task<ResponseDto<List<UnseenMessageDto>>> AllMessagesUnseenAsync() {
+
+            try {
+
+                // Calculate the start time
+                int startTime = (int)DateTimeOffset.UtcNow.ToUnixTimeSeconds() - 300;
+
+                // Calculate the end time
+                int endTime = (int)DateTimeOffset.UtcNow.ToUnixTimeSeconds() - 360;
+
+                // Get an unseen message
+                List<UnseenMessageDto>? unseenMessages = await _context.Messages
+                    .Join(
+                        _context.Threads,
+                        m => m.ThreadId,
+                        t => t.ThreadId,
+                        (m, t) => new UnseenMessageDto {
+                            MessageId = m.MessageId,
+                            MemberId = m.MemberId,
+                            Seen = m.Seen,
+                            Created = m.Created,
+                            ThreadOwner = t.MemberId                                                
+                        }
+                    )
+                    .Join(
+                        _context.Members,
+                        m => m.ThreadOwner,
+                        u => u.MemberId,
+                        (m, u) => new UnseenMessageDto {
+                            MessageId = m.MessageId,
+                            MemberId = m.MemberId,
+                            Seen = m.Seen,
+                            Created = m.Created,
+                            ThreadOwner = m.ThreadOwner,
+                            FirstName = u.FirstName,
+                            LastName = u.LastName,
+                            Email = u.Email
+                        }
+                    )
+                    .Where(m => startTime >= m.Created && endTime <= m.Created && m.MemberId == 0 && m.Seen == 0)
+                    .ToListAsync();
+
+                // Verify if unseen messages exists
+                if ( (unseenMessages != null) && (unseenMessages.Count > 0) ) {
+
+                    return new ResponseDto<List<UnseenMessageDto>> {
+                        Result = unseenMessages,
+                        Message = null
+                    };
+
+                } else {
+
+                    return new ResponseDto<List<UnseenMessageDto>> {
+                        Result = null,
+                        Message = new Strings().Get("NoMessagesFound")
+                    };
+
+                }
+
+            } catch(Exception ex) {
+
+                return new ResponseDto<List<UnseenMessageDto>> {
+                    Result = null,
                     Message = ex.Message
                 };
 

@@ -11,17 +11,20 @@ namespace api.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "Enabled",
-                table: "Subscriptions");
 
             migrationBuilder.AlterColumn<int>(
                 name: "Expiration",
                 table: "Subscriptions",
                 type: "integer",
                 nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp with time zone");
+                oldClrType: typeof(int),
+                oldType: "integer",
+                defaultValue: 0,
+                oldDefaultValue: 0,
+                oldNullable: true,
+                oldComment: "Previous comment",
+                comment: "New comment"
+            );
 
             migrationBuilder.AlterColumn<int>(
                 name: "ResetTime",
@@ -37,21 +40,19 @@ namespace api.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<DateTime>(
+            migrationBuilder.AlterColumn<int>(
                 name: "Expiration",
                 table: "Subscriptions",
-                type: "timestamp with time zone",
+                type: "integer",
                 nullable: false,
                 oldClrType: typeof(int),
-                oldType: "integer");
-
-            migrationBuilder.AddColumn<int>(
-                name: "Enabled",
-                table: "Subscriptions",
-                type: "integer",
-                maxLength: 1,
-                nullable: false,
-                defaultValue: 0);
+                oldType: "integer",
+                defaultValue: 0,
+                oldDefaultValue: 0,
+                oldNullable: true,
+                oldComment: "Previous comment",
+                comment: "New comment"
+            );
 
             migrationBuilder.AlterColumn<int>(
                 name: "ResetTime",

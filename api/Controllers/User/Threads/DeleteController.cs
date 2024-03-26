@@ -16,9 +16,6 @@ namespace FeChat.Controllers.User.Threads {
     // Use the MVC for the controller interface
     using Microsoft.AspNetCore.Mvc;
 
-    // Use the authorization for access restriction
-    using Microsoft.AspNetCore.Authorization;
-
     // Use the Cors feature to control the access
     using Microsoft.AspNetCore.Cors;
 
@@ -43,6 +40,23 @@ namespace FeChat.Controllers.User.Threads {
     public class DeleteController: Controller {
 
         /// <summary>
+        /// Container for app's configuration
+        /// </summary>
+        private readonly IConfiguration _configuration;
+
+        /// <summary>
+        /// Constructor for this controller
+        /// </summary>
+        /// <param name="configuration">App configuration</param>
+        public DeleteController(IConfiguration configuration) {
+
+            // Add configuration to the container
+            _configuration = configuration;
+
+        }
+
+
+        /// <summary>
         /// Delete a thread
         /// </summary>
         /// <param name="threadId">Contains the thread's ID</param>
@@ -51,8 +65,18 @@ namespace FeChat.Controllers.User.Threads {
         /// <returns>Message about the thread status</returns>
         [HttpDelete("{threadId}")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> DeleteThread(int threadId, Member memberInfo, IMessagesRepository messagesRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Delete a member
             ResponseDto<bool> deleteThread = await messagesRepository.DeleteThreadAsync(threadId, memberInfo.Info!.MemberId);

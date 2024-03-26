@@ -16,9 +16,6 @@ namespace FeChat.Controllers.Administrator.Events {
     // Use the MVC features
     using Microsoft.AspNetCore.Mvc;
 
-    // Use the Authentication feature to get the access token
-    using Microsoft.AspNetCore.Authentication;
-
     // Use the Authorization to restrict access for guests
     using Microsoft.AspNetCore.Authorization;
 
@@ -28,17 +25,14 @@ namespace FeChat.Controllers.Administrator.Events {
     // Use the Versioning to add version in url
     using Asp.Versioning;
 
-    // Use General Dtos
+    // Use the General Dtos
+    using FeChat.Models.Dtos;    
+
+    // Use the Events Dtos
     using FeChat.Models.Dtos.Events;
 
-    // Use General Dtos
-    using FeChat.Models.Dtos;
-
-    // Use Members Dtos
-    using FeChat.Models.Dtos.Members;
-
-    // Use General Utils
-    using FeChat.Utils.General;
+    // Use the General Utils classes for Strings
+    using FeChat.Utils.General;    
 
     // Use the Events repositories
     using FeChat.Utils.Interfaces.Repositories.Events;
@@ -55,6 +49,22 @@ namespace FeChat.Controllers.Administrator.Events {
     public class ReadController: Controller {
 
         /// <summary>
+        /// Container for app's configuration
+        /// </summary>
+        private readonly IConfiguration _configuration;
+
+        /// <summary>
+        /// Constructor for this controller
+        /// </summary>
+        /// <param name="configuration">App configuration</param>
+        public ReadController(IConfiguration configuration) {
+
+            // Add configuration to the container
+            _configuration = configuration;
+
+        }
+
+        /// <summary>
         /// Get the list with events
         /// </summary>
         /// <param name="eventsSearchDto">Events search parameters</param>
@@ -64,8 +74,18 @@ namespace FeChat.Controllers.Administrator.Events {
         [Authorize]
         [HttpPost("list")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> List([FromBody] EventsSearchDto eventsSearchDto, IMembersRepository membersRepository, IEventsRepository eventsRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Prepare year
             int year = (eventsSearchDto.Year != null)?int.Parse(eventsSearchDto.Year):0;

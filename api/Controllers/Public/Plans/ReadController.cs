@@ -50,7 +50,6 @@ namespace FeChat.Controllers.Public.Plans {
         /// <returns>List with plans or error message</returns>
         [HttpGet("list")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> PlansList(IPlansRepository plansRepository) {
 
             // Get all plans

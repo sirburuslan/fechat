@@ -28,10 +28,10 @@ import Image from 'next/image';
 import SecureStorage from 'react-secure-storage';
 
 // Import the incs
-import { getIcon, getWord, getOptions, updateOptions } from '@/core/inc/incIndex';
+import { getIcon, getWord, getOptions, getToken, updateOptions } from '@/core/inc/incIndex';
 
 // Import the types
-import { typeOptions } from '@/core/types/typesIndex';
+import { typeOptions, typeToken, typePostHeader } from '@/core/types/typesIndex';
 
 // Import the options for website and member
 import {WebsiteOptionsContext, MemberOptionsContext} from '@/core/contexts/OptionsContext';
@@ -124,11 +124,29 @@ const Page = (): React.JSX.Element => {
 
         try {
 
+            // Generate a new csrf token
+            let csrfToken: typeToken = await getToken();
+
+            // Check if csrf token is missing
+            if ( !csrfToken.success ) {
+
+                // Throw error message
+                throw new Error(getWord('errors', 'error_csrf_token_not_generated'));
+
+            }
+
+            // Set the headers
+            let headers: typePostHeader = {
+                headers: {
+                    CsrfToken: csrfToken.token
+                }
+            };
+
             // Submit the request
             await axios.post(process.env.NEXT_PUBLIC_API_URL + 'api/v1/auth/signin', {
                 Email: values.email,
                 Password: values.password
-            })
+            }, headers)
             .then((response: AxiosResponse): void => {
 
                 // Get data

@@ -51,7 +51,6 @@ namespace FeChat.Controllers.Public {
         /// <returns>Empty result</returns>
         [HttpPost]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task WebhookRequest(ISettingsRepository settingsRepository, ISubscriptionsRepository subscriptionsRepository) {
 
             // Get the data from the stread

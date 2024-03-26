@@ -58,22 +58,13 @@ namespace FeChat.Controllers.Public.Messages {
         private readonly IConfiguration _configuration;
 
         /// <summary>
-        /// Container for Websites Repository
-        /// </summary>
-        private readonly IWebsitesRepository _websitesRepository;
-
-        /// <summary>
         /// Constructor for this controller
         /// </summary>
         /// <param name="configuration">App configuration</param>
-        /// <param name="websitesRepository">An instance to the websites repository</param>
-        public CreateController(IConfiguration configuration, IWebsitesRepository websitesRepository) {
+        public CreateController(IConfiguration configuration) {
 
             // Add configuration to the container
             _configuration = configuration;
-
-            // Save website repository
-            _websitesRepository = websitesRepository;
 
         }
 
@@ -86,8 +77,18 @@ namespace FeChat.Controllers.Public.Messages {
         /// <returns>Success or error message</returns>
         [HttpPost]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> CreateMessage([FromBody] MessageDto messageDto, IWebsitesRepository websitesRepository, IMessagesRepository messagesRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Check if website id exists
             if ( messageDto.WebsiteId == 0 ) {
@@ -208,8 +209,18 @@ namespace FeChat.Controllers.Public.Messages {
         /// <returns>Upload response</returns>
         [HttpPost("attachments/{websiteId}/{threadSecret}")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> CreateMessageAttachments(List<IFormFile> files, int websiteId, string threadSecret, IWebsitesRepository websitesRepository, IMessagesRepository messagesRepository) {            
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Verify if there are more than 3 files
             if ( files.Count > 3 ) {

@@ -18,11 +18,14 @@ import FieldImage from "@/core/fields/general/collection/FieldImage";
 import FieldCheckbox from "@/core/fields/general/collection/FieldCheckbox";
 import FieldStaticList from "@/core/fields/general/collection/FieldStaticList";
 
-// Export the fields
-export default {
+// Prepare the fields
+const Fields = {
     FieldText,
     FieldTextarea,
     FieldImage,
     FieldCheckbox,
     FieldStaticList
 };
+
+// Export the fields
+export default Fields;

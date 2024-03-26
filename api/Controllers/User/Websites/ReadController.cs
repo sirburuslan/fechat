@@ -16,9 +16,6 @@ namespace FeChat.Controllers.User.Websites {
     // Used Mvc to get the Controller feature
     using Microsoft.AspNetCore.Mvc;
 
-    // Use the Authentication feature to get the access token
-    using Microsoft.AspNetCore.Authentication;
-
     // Use the Authorization to restrict access for guests
     using Microsoft.AspNetCore.Authorization;
 
@@ -34,14 +31,8 @@ namespace FeChat.Controllers.User.Websites {
     // Use General dtos classes
     using FeChat.Models.Dtos;
 
-    // Get the Members dtos
-    using FeChat.Models.Dtos.Members;
-
     // Use Websites dtos classes
     using FeChat.Models.Dtos.Websites;
-
-    // Use the Members Repositories
-    using FeChat.Utils.Interfaces.Repositories.Members;
 
     // Use the Websites Repositories
     using FeChat.Utils.Interfaces.Repositories.Websites;
@@ -55,6 +46,22 @@ namespace FeChat.Controllers.User.Websites {
     public class ReadController: Controller {
 
         /// <summary>
+        /// Container for app's configuration
+        /// </summary>
+        private readonly IConfiguration _configuration;
+
+        /// <summary>
+        /// Constructor for this controller
+        /// </summary>
+        /// <param name="configuration">App configuration</param>
+        public ReadController(IConfiguration configuration) {
+
+            // Add configuration to the container
+            _configuration = configuration;
+
+        }
+
+        /// <summary>
         /// Get the list with websites
         /// </summary>
         /// <param name="searchDto">Search parameters</param>
@@ -64,8 +71,18 @@ namespace FeChat.Controllers.User.Websites {
         [Authorize]
         [HttpPost("list")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> List([FromBody] SearchDto searchDto, Member memberInfo, IWebsitesRepository websitesRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Get all websites
             ResponseDto<ElementsDto<NewWebsiteDto>> websitesList = await websitesRepository.GetWebsitesAsync(memberInfo.Info!.MemberId, searchDto);
@@ -102,7 +119,6 @@ namespace FeChat.Controllers.User.Websites {
         [Authorize]
         [HttpGet("{websiteId}")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Website(int websiteId, Member memberInfo, IWebsitesRepository websitesRepository) {
 
             // Get the website's data

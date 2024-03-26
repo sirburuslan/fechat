@@ -75,7 +75,7 @@ const Footer = (): React.JSX.Element => {
                 </div>
             </div>
             {(websiteOptions.AnalyticsCode !== '')?(
-                <Script dangerouslySetInnerHTML={{ __html: websiteOptions.AnalyticsCode }} />
+                <Script id="fc-analytics-code" dangerouslySetInnerHTML={{ __html: websiteOptions.AnalyticsCode }} />
             ):''}
         </>
     );

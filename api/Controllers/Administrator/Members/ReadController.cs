@@ -16,9 +16,6 @@ namespace FeChat.Controllers.Administrator.Members {
     // Use the Asp MVC for Controllers
     using Microsoft.AspNetCore.Mvc;
 
-    // Use the Authentication feature to get the access token
-    using Microsoft.AspNetCore.Authentication;
-
     // Use the Authorization to restrict access for guests
     using Microsoft.AspNetCore.Authorization;
 
@@ -61,19 +58,45 @@ namespace FeChat.Controllers.Administrator.Members {
     public class ReadController: Controller {
 
         /// <summary>
+        /// Container for app's configuration
+        /// </summary>
+        private readonly IConfiguration _configuration;
+
+        /// <summary>
+        /// Constructor for this controller
+        /// </summary>
+        /// <param name="configuration">App configuration</param>
+        public ReadController(IConfiguration configuration) {
+
+            // Add configuration to the container
+            _configuration = configuration;
+
+        }
+
+        /// <summary>
         /// Get the list with members
         /// </summary>
         /// <param name="searchDto">Search parameters</param>
-        /// <param name="members">An instance to the members repository</param>
+        /// <param name="membersRepository">An instance to the members repository</param>
         /// <returns>List with members or error message</returns>
         [Authorize]
         [HttpPost("list")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
-        public async Task<IActionResult> List([FromBody] SearchDto searchDto, IMembersRepository members) {
+        public async Task<IActionResult> List([FromBody] SearchDto searchDto, IMembersRepository membersRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Get all members
-            ResponseDto<ElementsDto<MemberDto>> membersList = await members.GetMembersAsync(searchDto);
+            ResponseDto<ElementsDto<MemberDto>> membersList = await membersRepository.GetMembersAsync(searchDto);
 
             // Verify if members exists
             if ( membersList.Result != null ) {
@@ -105,8 +128,18 @@ namespace FeChat.Controllers.Administrator.Members {
         [Authorize]
         [HttpPost("export")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Export(IMembersRepository membersRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Get all members
             ResponseDto<List<MemberDto>> membersList = await membersRepository.GetMembersForExportAsync();
@@ -143,8 +176,18 @@ namespace FeChat.Controllers.Administrator.Members {
         [Authorize]
         [HttpGet("{MemberId}")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Member(int MemberId, IMembersRepository membersRepository, ISubscriptionsRepository subscriptionsRepository, IPlansRepository plansRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Get the member's data
             ResponseDto<MemberDto> Member = await membersRepository.GetMemberAsync(MemberId);

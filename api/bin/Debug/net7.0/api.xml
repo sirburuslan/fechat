@@ -32,6 +32,17 @@
             Read Events Controller
             </summary>
         </member>
+        <member name="F:FeChat.Controllers.Administrator.Events.ReadController._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.Administrator.Events.ReadController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor for this controller
+            </summary>
+            <param name="configuration">App configuration</param>
+        </member>
         <member name="M:FeChat.Controllers.Administrator.Events.ReadController.List(FeChat.Models.Dtos.EventsSearchDto,FeChat.Utils.Interfaces.Repositories.Members.IMembersRepository,FeChat.Utils.Interfaces.Repositories.Events.IEventsRepository)">
             <summary>
             Get the list with events
@@ -45,6 +56,17 @@
             <summary>
             Members Create Controller
             </summary>
+        </member>
+        <member name="F:FeChat.Controllers.Administrator.Members.CreateController._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.Administrator.Members.CreateController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor for this controller
+            </summary>
+            <param name="configuration">App configuration</param>
         </member>
         <member name="M:FeChat.Controllers.Administrator.Members.CreateController.CreateMember(FeChat.Models.Dtos.Members.NewMemberDto,FeChat.Utils.Interfaces.Repositories.Members.IMembersRepository)">
             <summary>
@@ -79,7 +101,12 @@
             Websites Repository container
             </summary>
         </member>
-        <member name="M:FeChat.Controllers.Administrator.Members.DeleteController.#ctor(FeChat.Utils.Interfaces.Repositories.Members.IMembersRepository,FeChat.Utils.Interfaces.Repositories.Events.IEventsRepository,FeChat.Utils.Interfaces.Repositories.Subscriptions.ISubscriptionsRepository,FeChat.Utils.Interfaces.Repositories.Websites.IWebsitesRepository)">
+        <member name="F:FeChat.Controllers.Administrator.Members.DeleteController._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.Administrator.Members.DeleteController.#ctor(FeChat.Utils.Interfaces.Repositories.Members.IMembersRepository,FeChat.Utils.Interfaces.Repositories.Events.IEventsRepository,FeChat.Utils.Interfaces.Repositories.Subscriptions.ISubscriptionsRepository,FeChat.Utils.Interfaces.Repositories.Websites.IWebsitesRepository,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             Class Constructor
             </summary>
@@ -87,6 +114,7 @@
             <param name="eventsRepository">Contains an instance to the Events repository</param>
             <param name="subscriptionsRepository">Contains an instance to the Subscriptions repository</param>
             <param name="websitesRepository">Contains an instance to the Websites repository</param>
+            <param name="configuration">App configuration</param>
         </member>
         <member name="M:FeChat.Controllers.Administrator.Members.DeleteController.DeleteMember(System.Int32,FeChat.Utils.General.Member)">
             <summary>
@@ -100,6 +128,17 @@
             <summary>
             Members Options Update Controller
             </summary>
+        </member>
+        <member name="F:FeChat.Controllers.Administrator.Members.Options.UpdateController._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.Administrator.Members.Options.UpdateController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor for this controller
+            </summary>
+            <param name="configuration">App configuration</param>
         </member>
         <member name="M:FeChat.Controllers.Administrator.Members.Options.UpdateController.Options(FeChat.Models.Dtos.Members.OptionsDto,FeChat.Utils.General.Member,FeChat.Utils.Interfaces.Repositories.Members.IMembersRepository)">
             <summary>
@@ -115,12 +154,23 @@
             Members Read Controller
             </summary>
         </member>
+        <member name="F:FeChat.Controllers.Administrator.Members.ReadController._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.Administrator.Members.ReadController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor for this controller
+            </summary>
+            <param name="configuration">App configuration</param>
+        </member>
         <member name="M:FeChat.Controllers.Administrator.Members.ReadController.List(FeChat.Models.Dtos.SearchDto,FeChat.Utils.Interfaces.Repositories.Members.IMembersRepository)">
             <summary>
             Get the list with members
             </summary>
             <param name="searchDto">Search parameters</param>
-            <param name="members">An instance to the members repository</param>
+            <param name="membersRepository">An instance to the members repository</param>
             <returns>List with members or error message</returns>
         </member>
         <member name="M:FeChat.Controllers.Administrator.Members.ReadController.Export(FeChat.Utils.Interfaces.Repositories.Members.IMembersRepository)">
@@ -191,6 +241,17 @@
             Plans Create Controller
             </summary>
         </member>
+        <member name="F:FeChat.Controllers.Administrator.Plans.CreateController._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.Administrator.Plans.CreateController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor for this controller
+            </summary>
+            <param name="configuration">App configuration</param>
+        </member>
         <member name="M:FeChat.Controllers.Administrator.Plans.CreateController.CreatePlan(FeChat.Models.Dtos.Plans.PlanDto,FeChat.Utils.Interfaces.Repositories.Members.IMembersRepository,FeChat.Utils.Interfaces.Repositories.Plans.IPlansRepository)">
             <summary>
             Create a plan
@@ -204,6 +265,17 @@
             <summary>
             Plans Delete Controller
             </summary>
+        </member>
+        <member name="F:FeChat.Controllers.Administrator.Plans.DeleteController._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.Administrator.Plans.DeleteController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor for this controller
+            </summary>
+            <param name="configuration">App configuration</param>
         </member>
         <member name="M:FeChat.Controllers.Administrator.Plans.DeleteController.DeletePlan(System.Int32,FeChat.Utils.Interfaces.Repositories.Plans.IPlansRepository,FeChat.Utils.Interfaces.Repositories.Subscriptions.ISubscriptionsRepository)">
             <summary>
@@ -219,6 +291,17 @@
             Plans Update Controller
             </summary>
         </member>
+        <member name="F:FeChat.Controllers.Administrator.Plans.Features.UpdateController._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.Administrator.Plans.Features.UpdateController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor for this controller
+            </summary>
+            <param name="configuration">App configuration</param>
+        </member>
         <member name="M:FeChat.Controllers.Administrator.Plans.Features.UpdateController.SaveFeatures(System.String[],System.Int32,FeChat.Utils.Interfaces.Repositories.Members.IMembersRepository,FeChat.Utils.Interfaces.Repositories.Plans.IPlansRepository)">
             <summary>
             Save or update the plans features
@@ -233,6 +316,17 @@
             <summary>
             Plans Read Controller
             </summary>
+        </member>
+        <member name="F:FeChat.Controllers.Administrator.Plans.ReadController._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.Administrator.Plans.ReadController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor for this controller
+            </summary>
+            <param name="configuration">App configuration</param>
         </member>
         <member name="M:FeChat.Controllers.Administrator.Plans.ReadController.PlansList(FeChat.Models.Dtos.SearchDto,FeChat.Utils.Interfaces.Repositories.Members.IMembersRepository,FeChat.Utils.Interfaces.Repositories.Plans.IPlansRepository)">
             <summary>
@@ -257,6 +351,17 @@
             Plans Update Controller
             </summary>
         </member>
+        <member name="F:FeChat.Controllers.Administrator.Plans.Restrictions.UpdateController._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.Administrator.Plans.Restrictions.UpdateController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor for this controller
+            </summary>
+            <param name="configuration">App configuration</param>
+        </member>
         <member name="M:FeChat.Controllers.Administrator.Plans.Restrictions.UpdateController.SaveRestrictions(FeChat.Models.Dtos.Plans.RestrictionsDto,System.Int32,FeChat.Utils.Interfaces.Repositories.Members.IMembersRepository,FeChat.Utils.Interfaces.Repositories.Plans.IPlansRepository)">
             <summary>
             Save or update the plans restrictions
@@ -271,6 +376,17 @@
             <summary>
             Plans Update Controller
             </summary>
+        </member>
+        <member name="F:FeChat.Controllers.Administrator.Plans.UpdateController._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.Administrator.Plans.UpdateController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor for this controller
+            </summary>
+            <param name="configuration">App configuration</param>
         </member>
         <member name="M:FeChat.Controllers.Administrator.Plans.UpdateController.UpdatePlanBasic(FeChat.Models.Dtos.Plans.PlanDto,System.Int32,FeChat.Utils.Interfaces.Repositories.Members.IMembersRepository,FeChat.Utils.Interfaces.Repositories.Plans.IPlansRepository)">
             <summary>
@@ -287,11 +403,17 @@
             Plans Read Controller
             </summary>
         </member>
-        <member name="M:FeChat.Controllers.Administrator.Settings.ReadController.#ctor(FeChat.Utils.Interfaces.Repositories.Settings.ISettingsRepository)">
+        <member name="F:FeChat.Controllers.Administrator.Settings.ReadController._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.Administrator.Settings.ReadController.#ctor(FeChat.Utils.Interfaces.Repositories.Settings.ISettingsRepository,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             Settings controller constructor
             </summary>
             <param name="settingsRepository">An instance for the settings repository</param>
+            <param name="configuration">App configuration</param>
         </member>
         <member name="M:FeChat.Controllers.Administrator.Settings.ReadController.OptionsList(FeChat.Utils.Interfaces.Repositories.Members.IMembersRepository)">
             <summary>
@@ -312,24 +434,40 @@
             Plans Read Controller
             </summary>
         </member>
-        <member name="M:FeChat.Controllers.Administrator.Settings.UpdateController.#ctor(FeChat.Utils.Interfaces.Repositories.Settings.ISettingsRepository)">
+        <member name="F:FeChat.Controllers.Administrator.Settings.UpdateController._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.Administrator.Settings.UpdateController.#ctor(FeChat.Utils.Interfaces.Repositories.Settings.ISettingsRepository,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             Settings controller constructor
             </summary>
             <param name="settingsRepository">An instance for the settings repository</param>
+            <param name="configuration">App configuration</param>
         </member>
-        <member name="M:FeChat.Controllers.Administrator.Settings.UpdateController.UpdateOptions(FeChat.Models.Dtos.Settings.OptionsDto,FeChat.Utils.Interfaces.Repositories.Members.IMembersRepository)">
+        <member name="M:FeChat.Controllers.Administrator.Settings.UpdateController.UpdateOptions(FeChat.Models.Dtos.Settings.OptionsDto)">
             <summary>
             Update the options
             </summary>
             <param name="optionsDto">Options to update</param>
-            <param name="membersRepository">Contains an instance to the Members repository</param>
             <returns>Update response</returns>
         </member>
         <member name="T:FeChat.Controllers.Administrator.Transactions.ReadController">
             <summary>
             Transactions Read Controller
             </summary>
+        </member>
+        <member name="F:FeChat.Controllers.Administrator.Transactions.ReadController._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.Administrator.Transactions.ReadController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor for this controller
+            </summary>
+            <param name="configuration">App configuration</param>
         </member>
         <member name="M:FeChat.Controllers.Administrator.Transactions.ReadController.TransactionsList(FeChat.Models.Dtos.SearchDto,System.Nullable{System.Int32},FeChat.Utils.Interfaces.Repositories.Subscriptions.ISubscriptionsRepository)">
             <summary>
@@ -364,12 +502,11 @@
             </summary>
             <param name="configuration">App configuration</param>
         </member>
-        <member name="M:FeChat.Controllers.Administrator.UploadController.Image(Microsoft.AspNetCore.Http.IFormFile,FeChat.Utils.Interfaces.Repositories.Members.IMembersRepository)">
+        <member name="M:FeChat.Controllers.Administrator.UploadController.Image(Microsoft.AspNetCore.Http.IFormFile)">
             <summary>
             Update the options
             </summary>
             <param name="file">Uploaded image</param>
-            <param name="membersRepository">Contains an instance to the Members repository</param>
             <returns>Update response</returns>
         </member>
         <member name="T:FeChat.Controllers.Auth.GoogleController">
@@ -404,6 +541,19 @@
             <summary>
             This controller is used to create new accounts
             </summary>
+        </member>
+        <member name="F:FeChat.Controllers.Auth.RegistrationController._configuration">
+            <summary>
+            App configuration container
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.Auth.RegistrationController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Class Constructor
+            </summary>
+            <param name="configuration">
+            App configuration
+            </param>
         </member>
         <member name="M:FeChat.Controllers.Auth.RegistrationController.Registration(FeChat.Models.Dtos.Members.NewMemberDto,FeChat.Utils.Interfaces.Repositories.Settings.ISettingsRepository,FeChat.Utils.Interfaces.Repositories.Members.IMembersRepository,FeChat.Utils.Interfaces.Repositories.Events.IEventsRepository)">
             <summary>
@@ -488,6 +638,17 @@
             Anti-CSRF tokens generator
             </summary>
         </member>
+        <member name="F:FeChat.Controllers.CsrfController._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.CsrfController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor for this controller
+            </summary>
+            <param name="configuration">App configuration</param>
+        </member>
         <member name="M:FeChat.Controllers.CsrfController.Generate(Microsoft.AspNetCore.Antiforgery.IAntiforgery)">
             <summary>
             Generate an Anti-CSRF token
@@ -504,17 +665,11 @@
             Container for app's configuration
             </summary>
         </member>
-        <member name="F:FeChat.Controllers.Public.Messages.CreateController._websitesRepository">
-            <summary>
-            Container for Websites Repository
-            </summary>
-        </member>
-        <member name="M:FeChat.Controllers.Public.Messages.CreateController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,FeChat.Utils.Interfaces.Repositories.Websites.IWebsitesRepository)">
+        <member name="M:FeChat.Controllers.Public.Messages.CreateController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             Constructor for this controller
             </summary>
             <param name="configuration">App configuration</param>
-            <param name="websitesRepository">An instance to the websites repository</param>
         </member>
         <member name="M:FeChat.Controllers.Public.Messages.CreateController.CreateMessage(FeChat.Models.Dtos.Messages.MessageDto,FeChat.Utils.Interfaces.Repositories.Websites.IWebsitesRepository,FeChat.Utils.Interfaces.Repositories.Messages.IMessagesRepository)">
             <summary>
@@ -540,6 +695,17 @@
             <summary>
             Create Messages Controller
             </summary>
+        </member>
+        <member name="F:FeChat.Controllers.Public.Messages.ReadController._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.Public.Messages.ReadController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor for this controller
+            </summary>
+            <param name="configuration">App configuration</param>
         </member>
         <member name="M:FeChat.Controllers.Public.Messages.ReadController.MessagesList(FeChat.Models.Dtos.Messages.MessagesListDto,FeChat.Utils.Interfaces.Repositories.Websites.IWebsitesRepository,FeChat.Utils.Interfaces.Repositories.Messages.IMessagesRepository)">
             <summary>
@@ -567,6 +733,17 @@
             Create Threads Controller
             </summary>
         </member>
+        <member name="F:FeChat.Controllers.Public.Threads.CreateController._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.Public.Threads.CreateController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor for this controller
+            </summary>
+            <param name="configuration">App configuration</param>
+        </member>
         <member name="M:FeChat.Controllers.Public.Threads.CreateController.CreateThread(FeChat.Models.Dtos.Messages.NewThreadDto,FeChat.Utils.Interfaces.Repositories.Settings.ISettingsRepository,FeChat.Utils.Interfaces.Repositories.Websites.IWebsitesRepository,FeChat.Utils.Interfaces.Repositories.Messages.IMessagesRepository)">
             <summary>
             Create a new thread
@@ -587,11 +764,17 @@
             Container for Websites Repository
             </summary>
         </member>
-        <member name="M:FeChat.Controllers.Public.Threads.UpdateController.#ctor(FeChat.Utils.Interfaces.Repositories.Websites.IWebsitesRepository)">
+        <member name="F:FeChat.Controllers.Public.Threads.UpdateController._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.Public.Threads.UpdateController.#ctor(FeChat.Utils.Interfaces.Repositories.Websites.IWebsitesRepository,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             Constructor for this controller
             </summary>
             <param name="websitesRepository">An instance to the websites repository</param>
+            <param name="configuration">App configuration</param>
         </member>
         <member name="M:FeChat.Controllers.Public.Threads.UpdateController.TypingActive(System.Int32,System.String,FeChat.Utils.Interfaces.Repositories.Messages.IMessagesRepository)">
             <summary>
@@ -840,12 +1023,23 @@
             <param name="memberInfo">Member logged information</param>
             <param name="membersRepository">Contains an instance to the Members repository</param>
         </member>
-        <member name="T:FeChat.Controllers.User.Subscriptions.CreateSubscription">
+        <member name="T:FeChat.Controllers.User.Subscriptions.CreateController">
             <summary>
             Create Subscription Controller
             </summary>
         </member>
-        <member name="M:FeChat.Controllers.User.Subscriptions.CreateSubscription.Create(FeChat.Models.Dtos.Subscriptions.NewSubscriptionDto,FeChat.Utils.General.Member,FeChat.Utils.Interfaces.Repositories.Settings.ISettingsRepository,FeChat.Utils.Interfaces.Repositories.Plans.IPlansRepository,FeChat.Utils.Interfaces.Repositories.Subscriptions.ISubscriptionsRepository,FeChat.Utils.Interfaces.Repositories.Events.IEventsRepository)">
+        <member name="F:FeChat.Controllers.User.Subscriptions.CreateController._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.User.Subscriptions.CreateController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor for this controller
+            </summary>
+            <param name="configuration">App configuration</param>
+        </member>
+        <member name="M:FeChat.Controllers.User.Subscriptions.CreateController.Create(FeChat.Models.Dtos.Subscriptions.NewSubscriptionDto,FeChat.Utils.General.Member,FeChat.Utils.Interfaces.Repositories.Settings.ISettingsRepository,FeChat.Utils.Interfaces.Repositories.Plans.IPlansRepository,FeChat.Utils.Interfaces.Repositories.Subscriptions.ISubscriptionsRepository,FeChat.Utils.Interfaces.Repositories.Events.IEventsRepository)">
             <summary>
             Create Subscriptions
             </summary>
@@ -862,6 +1056,17 @@
             Threads Read Controller
             </summary>
         </member>
+        <member name="F:FeChat.Controllers.User.Threads.DeleteController._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.User.Threads.DeleteController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor for this controller
+            </summary>
+            <param name="configuration">App configuration</param>
+        </member>
         <member name="M:FeChat.Controllers.User.Threads.DeleteController.DeleteThread(System.Int32,FeChat.Utils.General.Member,FeChat.Utils.Interfaces.Repositories.Messages.IMessagesRepository)">
             <summary>
             Delete a thread
@@ -875,6 +1080,17 @@
             <summary>
             Threads Read Controller
             </summary>
+        </member>
+        <member name="F:FeChat.Controllers.User.Threads.ReadController._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.User.Threads.ReadController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor for this controller
+            </summary>
+            <param name="configuration">App configuration</param>
         </member>
         <member name="M:FeChat.Controllers.User.Threads.ReadController.List(FeChat.Models.Dtos.SearchDto,System.Nullable{System.Int32},FeChat.Utils.General.Member,FeChat.Utils.Interfaces.Repositories.Messages.IMessagesRepository)">
             <summary>
@@ -919,6 +1135,17 @@
             Threads Update Controller
             </summary>
         </member>
+        <member name="F:FeChat.Controllers.User.Threads.UpdateController._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.User.Threads.UpdateController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor for this controller
+            </summary>
+            <param name="configuration">App configuration</param>
+        </member>
         <member name="M:FeChat.Controllers.User.Threads.UpdateController.TypingActive(System.Int32,FeChat.Utils.General.Member,FeChat.Utils.Interfaces.Repositories.Messages.IMessagesRepository)">
             <summary>
             Update the typing status
@@ -952,6 +1179,17 @@
             Plans Create Controller
             </summary>
         </member>
+        <member name="F:FeChat.Controllers.User.Websites.CreateController._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.User.Websites.CreateController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor for this controller
+            </summary>
+            <param name="configuration">App configuration</param>
+        </member>
         <member name="M:FeChat.Controllers.User.Websites.CreateController.CreateWebsite(FeChat.Models.Dtos.Websites.NewWebsiteDto,FeChat.Utils.General.Member,FeChat.Utils.Interfaces.Repositories.Subscriptions.ISubscriptionsRepository,FeChat.Utils.Interfaces.Repositories.Plans.IPlansRepository,FeChat.Utils.Interfaces.Repositories.Websites.IWebsitesRepository)">
             <summary>
             Save a website
@@ -967,6 +1205,17 @@
             Websites Delete Controller
             </summary>
         </member>
+        <member name="F:FeChat.Controllers.User.Websites.DeleteController._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.User.Websites.DeleteController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor for this controller
+            </summary>
+            <param name="configuration">App configuration</param>
+        </member>
         <member name="M:FeChat.Controllers.User.Websites.DeleteController.DeleteWebsite(System.Int32,FeChat.Utils.General.Member,FeChat.Utils.Interfaces.Repositories.Websites.IWebsitesRepository)">
             <summary>
             Delete a website
@@ -980,6 +1229,17 @@
             <summary>
             Websites Read Controller
             </summary>
+        </member>
+        <member name="F:FeChat.Controllers.User.Websites.ReadController._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.User.Websites.ReadController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor for this controller
+            </summary>
+            <param name="configuration">App configuration</param>
         </member>
         <member name="M:FeChat.Controllers.User.Websites.ReadController.List(FeChat.Models.Dtos.SearchDto,FeChat.Utils.General.Member,FeChat.Utils.Interfaces.Repositories.Websites.IWebsitesRepository)">
             <summary>
@@ -1003,6 +1263,17 @@
             <summary>
             Websites Update Controller
             </summary>
+        </member>
+        <member name="F:FeChat.Controllers.User.Websites.UpdateController._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Controllers.User.Websites.UpdateController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor for this controller
+            </summary>
+            <param name="configuration">App configuration</param>
         </member>
         <member name="M:FeChat.Controllers.User.Websites.UpdateController.UpdateWebsite(FeChat.Models.Dtos.Websites.NewWebsiteDto,System.Int32,FeChat.Utils.General.Member,FeChat.Utils.Interfaces.Repositories.Websites.IWebsitesRepository)">
             <summary>
@@ -1878,6 +2149,76 @@
             Updated Time
             </summary>
         </member>
+        <member name="T:FeChat.Models.Dtos.Messages.UnseenMessageDto">
+            <summary>
+            Unseen Message Dto
+            </summary>
+        </member>
+        <member name="P:FeChat.Models.Dtos.Messages.UnseenMessageDto.MessageId">
+            <summary>
+            Message ID field
+            </summary>
+        </member>
+        <member name="P:FeChat.Models.Dtos.Messages.UnseenMessageDto.WebsiteId">
+            <summary>
+            Website ID field
+            </summary>
+        </member>
+        <member name="P:FeChat.Models.Dtos.Messages.UnseenMessageDto.ThreadId">
+            <summary>
+            Thread ID field
+            </summary>
+        </member>
+        <member name="P:FeChat.Models.Dtos.Messages.UnseenMessageDto.MemberId">
+            <summary>
+            Member ID field
+            </summary>
+        </member>
+        <member name="P:FeChat.Models.Dtos.Messages.UnseenMessageDto.ThreadSecret">
+            <summary>
+            Thread Secret field
+            </summary>
+        </member>
+        <member name="P:FeChat.Models.Dtos.Messages.UnseenMessageDto.Message">
+            <summary>
+            Message field
+            </summary>
+        </member>
+        <member name="P:FeChat.Models.Dtos.Messages.UnseenMessageDto.Seen">
+            <summary>
+            Seen field
+            </summary>
+        </member>
+        <member name="P:FeChat.Models.Dtos.Messages.UnseenMessageDto.Created">
+            <summary>
+            Created field
+            </summary>
+        </member>
+        <member name="P:FeChat.Models.Dtos.Messages.UnseenMessageDto.Attachments">
+            <summary>
+            Attachments field
+            </summary>
+        </member>
+        <member name="P:FeChat.Models.Dtos.Messages.UnseenMessageDto.ThreadOwner">
+            <summary>
+            Member's id field
+            </summary>
+        </member>
+        <member name="P:FeChat.Models.Dtos.Messages.UnseenMessageDto.FirstName">
+            <summary>
+            Member's first name field
+            </summary>
+        </member>
+        <member name="P:FeChat.Models.Dtos.Messages.UnseenMessageDto.LastName">
+            <summary>
+            Member's last name field
+            </summary>
+        </member>
+        <member name="P:FeChat.Models.Dtos.Messages.UnseenMessageDto.Email">
+            <summary>
+            Member's email field
+            </summary>
+        </member>
         <member name="T:FeChat.Models.Dtos.Plans.FeatureDto">
             <summary>
             Dto for Plans Feature
@@ -2178,6 +2519,11 @@
             Google ReCaptcha Key value
             </summary>
         </member>
+        <member name="F:FeChat.Models.Dtos.Settings.OptionsDto._emailSender">
+            <summary>
+            Email sender value
+            </summary>
+        </member>
         <member name="F:FeChat.Models.Dtos.Settings.OptionsDto._smtpProtocol">
             <summary>
             Smtp protocol value
@@ -2331,6 +2677,11 @@
         <member name="P:FeChat.Models.Dtos.Settings.OptionsDto.SmtpEnabled">
             <summary>
             SMTP Enabled Status
+            </summary>
+        </member>
+        <member name="P:FeChat.Models.Dtos.Settings.OptionsDto.EmailSender">
+            <summary>
+            Email Sender
             </summary>
         </member>
         <member name="P:FeChat.Models.Dtos.Settings.OptionsDto.SmtpProtocol">
@@ -3801,6 +4152,12 @@
             <param name="memberId">Member ID which has unseen messages</param>
             <returns>Bool and error message if exists</returns>
         </member>
+        <member name="M:FeChat.Models.Repositories.Messages.MessagesRepository.AllMessagesUnseenAsync">
+            <summary>
+            Get unseen messages by thread
+            </summary>
+            <returns>Unseen messages or error message</returns>
+        </member>
         <member name="M:FeChat.Models.Repositories.Messages.MessagesRepository.DeleteMessageAsync(System.Int32)">
             <summary>
             Delete message
@@ -3991,6 +4348,12 @@
             <param name="threadId">Thread ID where will be looked for unseen messages</param>
             <param name="memberId">Member ID which has unseen messages</param>
             <returns>Bool and error message if exists</returns>
+        </member>
+        <member name="M:FeChat.Models.Repositories.Messages.Messages.ReadRepository.AllMessagesUnseenAsync">
+            <summary>
+            Get unseen messages by thread
+            </summary>
+            <returns>Unseen messages or error message</returns>
         </member>
         <member name="T:FeChat.Models.Repositories.Messages.Threads.CreateRepository">
             <summary>
@@ -5150,12 +5513,47 @@
             <summary>
             Main class used as entry point for the app
             </summary>
-            <param name="args">
-            Command-line arguments passed when the application is started
-            </param>
-            <returns>
-            void
-            </returns>
+            <param name="args">Command-line arguments passed when the application is started</param>
+        </member>
+        <member name="M:FeChat.Program.CreateHostBuilder(System.String[])">
+            <summary>
+            Create the Host and set Startup
+            </summary>
+            <param name="args">Command-line arguments passed when the application is started</param>
+        </member>
+        <member name="T:FeChat.Startup">
+            <summary>
+            Startup Class
+            </summary>
+        </member>
+        <member name="P:FeChat.Startup.Configuration">
+            <summary>
+            Configuration container
+            </summary>
+        </member>
+        <member name="P:FeChat.Startup.Environment">
+            <summary>
+            Environment container
+            </summary>
+        </member>
+        <member name="M:FeChat.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            Startup Constructor
+            </summary>
+            <param name="configuration">App Configuration</param>
+            <param name="env">Information about the web hosting environment</param>
+        </member>
+        <member name="M:FeChat.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Configure the app services
+            </summary>
+            <param name="services">Collection with services</param>
+        </member>
+        <member name="M:FeChat.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Configure the HTTP request pipeline
+            </summary>
+            <param name="app">Application's request pipeline</param>
         </member>
         <member name="T:FeChat.Utils.Configuration.Db">
             <summary>
@@ -5392,6 +5790,52 @@
             </summary>
             <returns>Member dto or error message</returns>
         </member>
+        <member name="T:FeChat.Utils.General.Antiforgery">
+            <summary>
+            Antiforgery Validator
+            </summary>
+        </member>
+        <member name="F:FeChat.Utils.General.Antiforgery._httpContext">
+            <summary>
+            Http Context container
+            </summary>
+        </member>
+        <member name="F:FeChat.Utils.General.Antiforgery._configuration">
+            <summary>
+            Container for app's configuration
+            </summary>
+        </member>
+        <member name="M:FeChat.Utils.General.Antiforgery.#ctor(Microsoft.AspNetCore.Http.HttpContext,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Antiforgery Constructor
+            </summary>
+            <param name="httpContext">Http context</param>
+            <param name="configuration">App configuration</param>
+        </member>
+        <member name="M:FeChat.Utils.General.Antiforgery.Validate">
+            <summary>
+            Validates an antiforgery token
+            </summary>
+            <returns>Bool true or false</returns>
+        </member>
+        <member name="T:FeChat.Utils.General.Background">
+            <summary>
+            Background Service Class
+            </summary>
+        </member>
+        <member name="M:FeChat.Utils.General.Background.#ctor(System.IServiceProvider)">
+            <summary>
+            Class Constructor
+            </summary>
+            <param name="serviceProvider">Services holder</param>
+        </member>
+        <member name="M:FeChat.Utils.General.Background.ExecuteAsync(System.Threading.CancellationToken)">
+            <summary>
+            Ovveride the BackgroundService method
+            </summary>
+            <param name="stoppingToken">Cancellation Token</param>
+            <returns></returns>
+        </member>
         <member name="T:FeChat.Utils.General.Cache">
             <summary>
             Caches Manager
@@ -5420,6 +5864,35 @@
             Remove cache by group
             </summary>
             <param name="cacheGroup">Name of the group</param>
+        </member>
+        <member name="T:FeChat.Utils.General.Encryptor">
+            <summary>
+            Encryptor Class
+            </summary>
+        </member>
+        <member name="M:FeChat.Utils.General.Encryptor.Encrypt(System.String,System.String)">
+            <summary>
+            Encrypt a string
+            </summary>
+            <param name="plainText">Text to encrypt</param>
+            <param name="encryptionKey">Key for encryption</param>
+            <returns>Encoded string</returns>
+        </member>
+        <member name="M:FeChat.Utils.General.Encryptor.Decrypt(System.String,System.String)">
+            <summary>
+            Decrypt a string
+            </summary>
+            <param name="cipherText">String to decrypt</param>
+            <param name="encryptionKey">Key for encryption</param>
+            <returns>Decoded string</returns>
+        </member>
+        <member name="M:FeChat.Utils.General.Encryptor.GetKeyBytes(System.Security.Cryptography.SymmetricAlgorithm,System.String)">
+            <summary>
+            Get bytes from encryption key
+            </summary>
+            <param name="algorithm">SymmetricAlgorithm</param>
+            <param name="encryptionKey">Key for encryption</param>
+            <returns>Bytes</returns>
         </member>
         <member name="T:FeChat.Utils.General.ErrorMessages">
             <summary>
@@ -5728,6 +6201,21 @@
             <param name="text">Text which should be sanitized</param>
             <returns>Sanitized text</returns>
         </member>
+        <member name="T:FeChat.Utils.General.Sender">
+            <summary>
+            Antiforgery Validator
+            </summary>
+        </member>
+        <member name="M:FeChat.Utils.General.Sender.Send(System.Collections.Generic.Dictionary{System.String,System.String},System.String,System.String,System.String)">
+            <summary>
+            Send email
+            </summary>
+            <param name="optionsList">Website Options</param>
+            <param name="to">Email Receiver</param>
+            <param name="subject">Email Subject</param>
+            <param name="body">Email Body</param>
+            <returns>Bool true or false</returns>
+        </member>
         <member name="T:FeChat.Utils.General.Strings">
             <summary>
             This class was created to manage better the strings
@@ -5921,6 +6409,12 @@
             <param name="ThreadId">Thread ID where will be looked for unseen messages</param>
             <param name="MemberId">Member ID which has unseen messages</param>
             <returns>Bool and error message if exists</returns>
+        </member>
+        <member name="M:FeChat.Utils.Interfaces.Repositories.Messages.IMessagesRepository.AllMessagesUnseenAsync">
+            <summary>
+            Get unseen messages by thread
+            </summary>
+            <returns>Unseen messages or error message</returns>
         </member>
         <member name="M:FeChat.Utils.Interfaces.Repositories.Messages.IMessagesRepository.DeleteMessageAsync(System.Int32)">
             <summary>
@@ -6733,6 +7227,66 @@
             <inheritdoc />
         </member>
         <member name="M:api.Migrations._031.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:api.Migrations._032">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations._032.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations._032.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations._032.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:api.Migrations._033">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations._033.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations._033.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations._033.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:api.Migrations._034">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations._034.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations._034.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations._034.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:api.Migrations._035">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations._035.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations._035.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations._035.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:api.Migrations._036">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations._036.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations._036.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:api.Migrations._036.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
         <member name="T:System.Text.RegularExpressions.Generated.MyRegex_0">

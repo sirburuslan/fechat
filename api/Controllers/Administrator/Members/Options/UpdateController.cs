@@ -19,9 +19,6 @@ namespace FeChat.Controllers.Administrator.Members.Options {
     // Used Mvc to get the Controller feature
     using Microsoft.AspNetCore.Mvc;
 
-    // Use the Authentication feature to get the access token
-    using Microsoft.AspNetCore.Authentication;
-
     // Use the Authorization to restrict access for guests
     using Microsoft.AspNetCore.Authorization;
 
@@ -55,6 +52,22 @@ namespace FeChat.Controllers.Administrator.Members.Options {
     public class UpdateController: Controller {
 
         /// <summary>
+        /// Container for app's configuration
+        /// </summary>
+        private readonly IConfiguration _configuration;
+
+        /// <summary>
+        /// Constructor for this controller
+        /// </summary>
+        /// <param name="configuration">App configuration</param>
+        public UpdateController(IConfiguration configuration) {
+
+            // Add configuration to the container
+            _configuration = configuration;
+
+        }
+
+        /// <summary>
         /// Gets the member information
         /// </summary>
         /// <param name="optionsDto">Contains the member's options</param>
@@ -64,8 +77,18 @@ namespace FeChat.Controllers.Administrator.Members.Options {
         [Authorize]
         [HttpPost("options")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Options([FromBody] OptionsDto optionsDto, Member memberInfo, IMembersRepository membersRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Get all members options
             ResponseDto<List<OptionDto>> optionsList = await membersRepository.OptionsListAsync(memberInfo.Info!.MemberId);

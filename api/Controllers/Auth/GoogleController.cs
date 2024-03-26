@@ -89,7 +89,7 @@ namespace FeChat.Controllers.Auth {
         /// <param name="membersRepository">Contains a session to the Members repository</param>
         /// <param name="eventsRepository">Contains a session to the Events repository</param>
         /// <returns>Success or error message</returns>
-        [IgnoreAntiforgeryToken]
+        [HttpGet]
         public async Task<IActionResult> Access([FromBody] GoogleDto googleDto, ISettingsRepository settingsRepository, IMembersRepository membersRepository, IEventsRepository eventsRepository) {
 
             // Get the options saved in the database

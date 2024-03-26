@@ -28,14 +28,8 @@ namespace FeChat.Controllers.User.Threads {
     // Use general dtos
     using FeChat.Models.Dtos;
 
-    // Use dtos for members
-    using FeChat.Models.Dtos.Members;
-
     // Use dtos for messages
     using FeChat.Models.Dtos.Messages;
-
-    // Use interfaces for Members Repositories
-    using FeChat.Utils.Interfaces.Repositories.Members;
 
     // Use interfaces for Messages Repositories
     using FeChat.Utils.Interfaces.Repositories.Messages;
@@ -52,6 +46,22 @@ namespace FeChat.Controllers.User.Threads {
     public class UpdateController: Controller {
 
         /// <summary>
+        /// Container for app's configuration
+        /// </summary>
+        private readonly IConfiguration _configuration;
+
+        /// <summary>
+        /// Constructor for this controller
+        /// </summary>
+        /// <param name="configuration">App configuration</param>
+        public UpdateController(IConfiguration configuration) {
+
+            // Add configuration to the container
+            _configuration = configuration;
+
+        }
+
+        /// <summary>
         /// Update the typing status
         /// </summary>
         /// <param name="threadId">Contains the thread's ID</param>
@@ -61,8 +71,18 @@ namespace FeChat.Controllers.User.Threads {
         [Authorize]
         [HttpPost("{threadId}/typing")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> TypingActive(int threadId, Member memberInfo, IMessagesRepository messagesRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Get the typing data
             ResponseDto<TypingDto> typing = await messagesRepository.GetTypingAsync(threadId, memberInfo.Info!.MemberId);

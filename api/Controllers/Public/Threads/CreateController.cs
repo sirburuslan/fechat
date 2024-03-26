@@ -56,6 +56,22 @@ namespace FeChat.Controllers.Public.Threads {
     public class CreateController: Controller {
 
         /// <summary>
+        /// Container for app's configuration
+        /// </summary>
+        private readonly IConfiguration _configuration;
+
+        /// <summary>
+        /// Constructor for this controller
+        /// </summary>
+        /// <param name="configuration">App configuration</param>
+        public CreateController(IConfiguration configuration) {
+
+            // Add configuration to the container
+            _configuration = configuration;
+
+        }
+
+        /// <summary>
         /// Create a new thread
         /// </summary>
         /// <param name="newThreadDto">Message content</param>
@@ -65,8 +81,18 @@ namespace FeChat.Controllers.Public.Threads {
         /// <returns>Success message or error message</returns>
         [HttpPost]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> CreateThread([FromBody] NewThreadDto newThreadDto, ISettingsRepository settingsRepository, IWebsitesRepository websitesRepository, IMessagesRepository messagesRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Check if website id exists
             if ( newThreadDto.WebsiteId == 0 ) {
@@ -141,7 +167,7 @@ namespace FeChat.Controllers.Public.Threads {
             System.Net.IPAddress remoteIpAddress = Request.HttpContext.Connection.RemoteIpAddress!;
 
             // Request data from IP
-            ResponseDto<IpDto> ipData = await new IpLookup().GetIpData(optionsList, "84.232.193.39");
+            ResponseDto<IpDto> ipData = await new IpLookup().GetIpData(optionsList, remoteIpAddress.ToString());
 
             // Create the guest's data
             GuestDto guestDto = new() {
@@ -198,14 +224,6 @@ namespace FeChat.Controllers.Public.Threads {
 
             // Verify if the messages was created
             if ( responseDto.Result != null ) {
-
-                TimeSpan delay = TimeSpan.FromSeconds(20);
-                Task backgroundTask = Task.Run(async () =>
-                {
-                    await Task.Delay(delay);
-                    Console.WriteLine($"Background task executed after  minutes.");
-                    // Your background task logic here
-                });
 
                 // Return a json
                 return new JsonResult(new {

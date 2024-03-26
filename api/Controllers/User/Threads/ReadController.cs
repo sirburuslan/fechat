@@ -52,6 +52,22 @@ namespace FeChat.Controllers.User.Threads {
     public class ReadController: Controller {
 
         /// <summary>
+        /// Container for app's configuration
+        /// </summary>
+        private readonly IConfiguration _configuration;
+
+        /// <summary>
+        /// Constructor for this controller
+        /// </summary>
+        /// <param name="configuration">App configuration</param>
+        public ReadController(IConfiguration configuration) {
+
+            // Add configuration to the container
+            _configuration = configuration;
+
+        }
+
+        /// <summary>
         /// Get the threads list
         /// </summary>
         /// <param name="searchDto">Search information</param>
@@ -62,8 +78,18 @@ namespace FeChat.Controllers.User.Threads {
         [Authorize]
         [HttpPost("list/{websiteId?}")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> List([FromBody] SearchDto searchDto, int? websiteId, Member memberInfo, IMessagesRepository messagesRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Get all threads
             ResponseDto<ElementsDto<ResponseThreadDto>> threadsList = await messagesRepository.GetThreadsAsync(searchDto, memberInfo.Info!.MemberId, websiteId);
@@ -99,7 +125,6 @@ namespace FeChat.Controllers.User.Threads {
         [Authorize]
         [HttpGet("last")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Last(Member memberInfo, IMessagesRepository messagesRepository) {
 
             // Get last 5 updated threads
@@ -138,7 +163,6 @@ namespace FeChat.Controllers.User.Threads {
         [Authorize]
         [HttpGet("{threadId}")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Thread(int threadId, Member memberInfo, IMembersRepository membersRepository, IMessagesRepository messagesRepository) {
 
             // Get the thread's data
@@ -253,8 +277,18 @@ namespace FeChat.Controllers.User.Threads {
         [Authorize]
         [HttpPost("{threadId}/messages")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> ThreadMessages([FromBody] SearchDto searchDto, int threadId, Member memberInfo, IMessagesRepository messagesRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Create parameters for messages request
             MessagesListDto messagesListDto = new() {

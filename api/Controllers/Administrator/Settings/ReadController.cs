@@ -25,14 +25,8 @@ namespace FeChat.Controllers.Administrator.Settings {
     // Use the Authentication feature to get the access token
     using Microsoft.AspNetCore.Authentication;
 
-    // Use Authorization for access restriction
-    using Microsoft.AspNetCore.Authorization;
-
     // Use Cors libraries
     using Microsoft.AspNetCore.Cors;
-
-    // Use Antiforgery for CSRF protection
-    using Microsoft.AspNetCore.Antiforgery;
 
     // Use the Versioning library
     using Asp.Versioning;
@@ -64,13 +58,22 @@ namespace FeChat.Controllers.Administrator.Settings {
         ISettingsRepository _settingsRepository;
 
         /// <summary>
+        /// Container for app's configuration
+        /// </summary>
+        private readonly IConfiguration _configuration;
+
+        /// <summary>
         /// Settings controller constructor
         /// </summary>
         /// <param name="settingsRepository">An instance for the settings repository</param>
-        public ReadController(ISettingsRepository settingsRepository) {
+        /// <param name="configuration">App configuration</param>
+        public ReadController(ISettingsRepository settingsRepository, IConfiguration configuration) {
 
             // Set injected settings repository
             _settingsRepository = settingsRepository;
+
+            // Add configuration to the container
+            _configuration = configuration;
 
         }
 
@@ -81,7 +84,6 @@ namespace FeChat.Controllers.Administrator.Settings {
         /// <returns>Requested options</returns>
         [HttpGet("list")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> OptionsList(IMembersRepository membersRepository) {
 
             // Get the options saved in the database
@@ -217,8 +219,18 @@ namespace FeChat.Controllers.Administrator.Settings {
         /// <returns>Requested options</returns>
         [HttpPost("list")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> AllOptions(IMembersRepository membersRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Get the options saved in the database
             ResponseDto<List<Models.Dtos.Settings.OptionDto>> savedOptions = await _settingsRepository.OptionsListAsync();

@@ -43,7 +43,7 @@ const Layout = ({ children }: { children: React.ReactNode }): React.JSX.Element 
             SecureStorage.removeItem('fc_role');
 
             // Redirect to home page
-            router.push(process.env.NEXT_PUBLIC_SITE_URL as string);
+            router.push(process.env.NEXT_PUBLIC_SITE_URL + 'auth/signin');
             
         }
 

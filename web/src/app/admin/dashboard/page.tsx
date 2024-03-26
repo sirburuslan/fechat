@@ -650,7 +650,7 @@ const Page = (): React.JSX.Element => {
 
                                             return (<div className="justify-start items-start p-3 fc-event fc-event-new-member flex" key={event.eventId}>
                                                 {(typeof event.profilePhoto === 'string')?(
-                                                    <Image className="h-10 w-10 rounded-full" width={40} height={40} src={event.profilePhoto as string} alt="Member Photo"  onError={(e: SyntheticEvent<HTMLImageElement, Event>): void => {e.currentTarget.src = '/assets/img/cover.png'}} />
+                                                    <Image className="h-10 w-10 rounded-full" width={40} height={40} src={event.profilePhoto as string} alt="Member Photo" onError={(e: SyntheticEvent<HTMLImageElement, Event>): void => {e.currentTarget.src = '/assets/img/cover.png'}} />
                                                 ): (
                                                     <div className="flex fc-event-icon items-center justify-center">
                                                         { getIcon('IconPerson') }

@@ -59,7 +59,24 @@ namespace FeChat.Controllers.User.Subscriptions {
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/user/subscriptions")]
-    public class CreateSubscription: Controller {
+    public class CreateController: Controller {
+
+        /// <summary>
+        /// Container for app's configuration
+        /// </summary>
+        private readonly IConfiguration _configuration;
+
+        /// <summary>
+        /// Constructor for this controller
+        /// </summary>
+        /// <param name="configuration">App configuration</param>
+        public CreateController(IConfiguration configuration) {
+
+            // Add configuration to the container
+            _configuration = configuration;
+
+        }
+
 
         /// <summary>
         /// Create Subscriptions
@@ -73,8 +90,18 @@ namespace FeChat.Controllers.User.Subscriptions {
         /// <returns>Success or error message</returns>
         [HttpPost]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Create([FromBody] NewSubscriptionDto newSubscriptionDto, Member memberInfo, ISettingsRepository settingsRepository, IPlansRepository plansRepository, ISubscriptionsRepository subscriptionsRepository, IEventsRepository eventsRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             try {
 

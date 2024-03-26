@@ -93,8 +93,8 @@ import IconTour from '@/core/icons/collection/IconTour';
 import IconBiPlayCircleFill from '@/core/icons/collection/IconBiPlayCircleFill';
 import IconTune from '@/core/icons/collection/IconTune';
 
-// Export all icons
-export default {
+// Prepare icons
+const Icons = {
     IconLock,
     IconEye,
     IconEyeSlash,
@@ -188,4 +188,7 @@ export default {
     IconTour,
     IconBiPlayCircleFill,
     IconTune
-}
+};
+
+// Export all icons
+export default Icons;

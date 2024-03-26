@@ -57,13 +57,22 @@ namespace FeChat.Controllers.Public.Threads {
         private readonly IWebsitesRepository _websitesRepository;
 
         /// <summary>
+        /// Container for app's configuration
+        /// </summary>
+        private readonly IConfiguration _configuration;
+
+        /// <summary>
         /// Constructor for this controller
         /// </summary>
         /// <param name="websitesRepository">An instance to the websites repository</param>
-        public UpdateController(IWebsitesRepository websitesRepository) {
+        /// <param name="configuration">App configuration</param>
+        public UpdateController(IWebsitesRepository websitesRepository, IConfiguration configuration) {
 
             // Save website repository
             _websitesRepository = websitesRepository;
+
+            // Add configuration to the container
+            _configuration = configuration;
 
         }
 
@@ -77,8 +86,29 @@ namespace FeChat.Controllers.Public.Threads {
         [AllowAnonymous]
         [HttpPost("{websiteId}/{threadSecret}/typing")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> TypingActive(int websiteId, string threadSecret, IMessagesRepository messagesRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Check if website id exists
             if ( websiteId == 0 ) {

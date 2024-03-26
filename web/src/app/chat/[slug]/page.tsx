@@ -13,10 +13,13 @@
 'use client'
 
 // Import the React's hooks
-import { MouseEventHandler, useState, useEffect, useRef } from 'react';
+import { MouseEventHandler, useState, useEffect, useRef, SyntheticEvent } from 'react';
 
 // Import the Next JS Link component
 import Link from 'next/link';
+
+// Import the Next JS Image component
+import Image from 'next/image';
 
 // Import axios module
 import axios, { AxiosError, AxiosProgressEvent, AxiosResponse } from 'axios';
@@ -44,6 +47,9 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
 
     // Show chat state
     let [chat, showChat] = useState('');
+
+    // Hook for chat owner
+    let [chatOwner, updateChatOwner] = useState('');
 
     // Hook for chat header
     let [chatHeader, updateChatHeader] = useState(<>
@@ -249,11 +255,17 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
                 // Verify if the response is successfully
                 if ( response.data.success ) {
 
+                    // User's photo
+                    let userPhoto = IconPerson();
+
+                    // Update the chat owner data
+                    updateChatOwner((response.data.website.ProfilePhoto !== '')?`<img src="${response.data.website.ProfilePhoto}" alt="User Photo" onError="this.src='${process.env.NEXT_PUBLIC_SITE_URL}assets/img/cover.png';" />`:userPhoto);
+
                     // Update the chat header
                     updateChatHeader(
                         <>
                             {(response.data.website.ProfilePhoto !== '')?(
-                                <img className="h-10 w-10 rounded-full" src={response.data.website.ProfilePhoto as string} alt="Member Photo" onError={(e) => {e.currentTarget.src = '/assets/img/cover.png';}} />
+                                <Image src={response.data.website.ProfilePhoto as string} alt="Member Photo" className="h-10 w-10 rounded-full" onError={(e: SyntheticEvent<HTMLImageElement, Event>): void => {e.currentTarget.src = '/assets/img/cover.png'}} />
                             ):(
                                 <span className="fc-member-picture-cover">
                                     {getIcon('IconPerson')}
@@ -454,7 +466,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
                                 <div class="flex">
                                     <div class="fc-author-photo flex flex-col">
                                         <div class="flex-grow"></div>
-                                        <img src="https://i.imgur.com/sgFTCPQ.jpeg" />
+                                        ${chatOwner}
                                     </div>
                                     <div class="fc-message">
                                         ${content}

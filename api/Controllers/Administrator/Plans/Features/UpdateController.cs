@@ -19,9 +19,6 @@ namespace FeChat.Controllers.Administrator.Plans.Features {
     // Used Mvc to get the Controller feature
     using Microsoft.AspNetCore.Mvc;
 
-    // Use the Authentication feature to get the access token
-    using Microsoft.AspNetCore.Authentication;
-
     // Use the Authorization to restrict access for guests
     using Microsoft.AspNetCore.Authorization;
 
@@ -30,21 +27,18 @@ namespace FeChat.Controllers.Administrator.Plans.Features {
 
     // Use the Versioning to add version in url
     using Asp.Versioning;
-
-    // Use the General Utils classes for Strings
-    using FeChat.Utils.General;
     
     // Use General dtos classes
     using FeChat.Models.Dtos;
-
-    // Use Members dtos
-    using FeChat.Models.Dtos.Members;
 
     // Use Plans dtos classes
     using FeChat.Models.Dtos.Plans;
 
     // Use the plans entity
     using FeChat.Models.Entities.Plans;
+
+    // Use the General Utils classes for Strings
+    using FeChat.Utils.General;    
 
     // Use the Members Repositories
     using FeChat.Utils.Interfaces.Repositories.Members;    
@@ -61,6 +55,22 @@ namespace FeChat.Controllers.Administrator.Plans.Features {
     public class UpdateController: Controller {
 
         /// <summary>
+        /// Container for app's configuration
+        /// </summary>
+        private readonly IConfiguration _configuration;
+
+        /// <summary>
+        /// Constructor for this controller
+        /// </summary>
+        /// <param name="configuration">App configuration</param>
+        public UpdateController(IConfiguration configuration) {
+
+            // Add configuration to the container
+            _configuration = configuration;
+
+        }
+
+        /// <summary>
         /// Save or update the plans features
         /// </summary>
         /// <param name="featuresList">Received features for saving</param>
@@ -71,8 +81,18 @@ namespace FeChat.Controllers.Administrator.Plans.Features {
         [Authorize]
         [HttpPost("{PlanId}")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> SaveFeatures([FromBody] string[] featuresList, int planId, IMembersRepository membersRepository, IPlansRepository plansRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Get the plan's data
             ResponseDto<PlanDto> planData = await plansRepository.GetPlanAsync(planId);

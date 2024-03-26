@@ -12,6 +12,9 @@
 
 'use client'
 
+// Import the react hooks
+import { useEffect } from 'react';
+
 // Import the router function
 import { useRouter  } from 'next/navigation';
 
@@ -21,8 +24,12 @@ const Page = (): React.JSX.Element => {
     // Get the router
     let router = useRouter();
 
-    // Redirect to the sign in page
-    router.push(process.env.NEXT_PUBLIC_SITE_URL + '/auth/signin');
+    useEffect(() => {
+
+        // Redirect to the sign in page
+        router.push(process.env.NEXT_PUBLIC_SITE_URL + '/auth/signin');        
+
+    }, []); 
 
     return <></>;
 

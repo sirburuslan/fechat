@@ -28,9 +28,6 @@ namespace FeChat.Controllers.User.Messages {
     // Use general dtos for responses
     using FeChat.Models.Dtos;
 
-    // Use dtos for members
-    using FeChat.Models.Dtos.Members;
-
     // Use the Messages Dtos
     using FeChat.Models.Dtos.Messages;
 
@@ -39,9 +36,6 @@ namespace FeChat.Controllers.User.Messages {
 
     // Use General utils for strings
     using FeChat.Utils.General;
-
-    // Use the Members Repositories
-    using FeChat.Utils.Interfaces.Repositories.Members;
 
     // Use the Messages Repositories
     using FeChat.Utils.Interfaces.Repositories.Messages;
@@ -84,8 +78,18 @@ namespace FeChat.Controllers.User.Messages {
         /// <returns>Success or error message</returns>
         [HttpPost]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> CreateMessage([FromBody] MessageDto messageDto, Member memberInfo, IWebsitesRepository websitesRepository, IMessagesRepository messagesRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Check if thread id exists
             if ( messageDto.ThreadId == 0 ) {
@@ -190,8 +194,18 @@ namespace FeChat.Controllers.User.Messages {
         /// <returns>Success or error message</returns>
         [HttpPost("attachments/{ThreadId}")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> CreateMessageAttachments(List<IFormFile> files, int threadId, Member memberInfo, IWebsitesRepository websitesRepository, IMessagesRepository messagesRepository) {            
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Verify if there are more than 3 files
             if ( files.Count > 3 ) {

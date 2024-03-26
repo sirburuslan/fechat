@@ -16,6 +16,9 @@ namespace FeChat.Utils.Interfaces.Repositories.Messages {
     // Use general dtos for responses
     using FeChat.Models.Dtos;
 
+    // use members dtos
+    using FeChat.Models.Dtos.Members;
+
     // Use messages dtos
     using FeChat.Models.Dtos.Messages;
 
@@ -45,6 +48,12 @@ namespace FeChat.Utils.Interfaces.Repositories.Messages {
         /// <param name="MemberId">Member ID which has unseen messages</param>
         /// <returns>Bool and error message if exists</returns>
         Task<ResponseDto<bool>> MessagesUnseenAsync(int ThreadId, int MemberId = 0);
+
+        /// <summary>
+        /// Get unseen messages by thread
+        /// </summary>
+        /// <returns>Unseen messages or error message</returns>
+        Task<ResponseDto<List<UnseenMessageDto>>> AllMessagesUnseenAsync();
 
         /// <summary>
         /// Delete message

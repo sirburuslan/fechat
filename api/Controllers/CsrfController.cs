@@ -37,34 +37,82 @@ namespace FeChat.Controllers {
     public class CsrfController: Controller {
 
         /// <summary>
+        /// Container for app's configuration
+        /// </summary>
+        private readonly IConfiguration _configuration;
+
+        /// <summary>
+        /// Constructor for this controller
+        /// </summary>
+        /// <param name="configuration">App configuration</param>
+        public CsrfController(IConfiguration configuration) {
+
+            // Add configuration to the container
+            _configuration = configuration;
+
+        }
+
+        /// <summary>
         /// Generate an Anti-CSRF token
         /// </summary>
         /// <returns>Csrf token or error message</returns>
         [HttpGet("generate")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public IActionResult Generate(IAntiforgery antiforgery) {
+            
+            // Verify if Antiforgery is enabled
+            if ( _configuration["Antiforgery"] == "1" ) {
 
-            // Generate a new token
-            AntiforgeryTokenSet token = antiforgery.GetAndStoreTokens(HttpContext);
+                // Generate a new token
+                AntiforgeryTokenSet token = antiforgery.GetAndStoreTokens(HttpContext);
 
-            // Check if a token was generated
-            if ( token != null ) {
+                // Check if a token was generated
+                if ( token != null ) {
 
-                // Return success response
-                return new JsonResult(new {
-                    success = true,
-                    token
-                });
+                    // Return success response
+                    return new JsonResult(new {
+                        success = true,
+                        token
+                    });
+
+                } else {
+
+                    // Return error response
+                    return new JsonResult(new {
+                        success = false,
+                        message = new Strings().Get("CSRFNotGenerated")
+                    });
+                    
+                }
 
             } else {
 
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("CSRFNotGenerated")
-                });
-                
+                // If the frontend is on different domain, antiforgery will be used a generated code based on the current time
+                // The Cors Policy anyway allows to control from which domain could be accepted the calls
+
+                try {
+
+                    // Create encrypted text
+                    string encryptedText = new Encryptor().Encrypt(DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), _configuration["AntiforgerySecretKey"] ?? string.Empty);
+
+                    // Return success response
+                    return new JsonResult(new {
+                        success = true,
+                        token = new {
+                            requestToken = encryptedText
+                        }
+                    });
+
+                } catch (Exception ex) {
+
+                    // Return error response
+                    return new JsonResult(new {
+                        success = false,
+                        message = ex.Message
+                    });
+                    
+                }
+
             }
 
         }

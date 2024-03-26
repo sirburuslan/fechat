@@ -180,7 +180,10 @@ const words = (): object => {
         admin_google_recaptcha: 'reCAPTCHA',
         admin_google_recaptcha_description: 'Activați Google reCAPTCHA pentru conectare și înscriere',
         admin_google_recaptcha_key: 'reCAPTCHA Api Key',
-        admin_google_recaptcha_key_description: 'Copiați ID-ul cheii din proiectul dvs. Google.'                 
+        admin_google_recaptcha_key_description: 'Copiați ID-ul cheii din proiectul dvs. Google.',
+        admin_email_sender: 'E-mail expeditor',
+        admin_email_sender_description: 'Adresă de e-mail folosită ca expeditor pentru e-mailuri.',
+        admin_enter_email: 'Introduceți adresa de e-mail...'        
     };
 
 

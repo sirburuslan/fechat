@@ -71,7 +71,6 @@ namespace FeChat.Controllers.Administrator.Dashboard {
         [Authorize]
         [HttpGet]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> DashboardData(Member memberInfo, IMembersRepository membersRepository, ISubscriptionsRepository subscriptionsRepository, IEventsRepository eventsRepository) {
 
             // Create the dashboard list
@@ -178,7 +177,6 @@ namespace FeChat.Controllers.Administrator.Dashboard {
         [Authorize]
         [HttpGet("members")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> DashboardMembers(Member memberInfo, IMembersRepository membersRepository) {
 
             // Default time

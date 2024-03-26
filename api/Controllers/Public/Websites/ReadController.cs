@@ -70,7 +70,6 @@ namespace FeChat.Controllers.Public.Websites {
         [AllowAnonymous]
         [HttpGet("{websiteId}")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> WebsiteInfo(int websiteId) {
 
             // Get the website's data

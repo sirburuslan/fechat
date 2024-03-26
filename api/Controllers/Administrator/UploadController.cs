@@ -16,9 +16,6 @@ namespace FeChat.Controllers.Administrator {
     // Use the Mvc to get the controller
     using Microsoft.AspNetCore.Mvc;
 
-    // Use the Authentication feature to get the access token
-    using Microsoft.AspNetCore.Authentication;
-
     // Use Authorization for access restriction
     using Microsoft.AspNetCore.Authorization;
 
@@ -31,14 +28,8 @@ namespace FeChat.Controllers.Administrator {
     // Use general dtos
     using FeChat.Models.Dtos;
 
-    // Use the Dtos for members
-    using FeChat.Models.Dtos.Members;
-
     // Use the General namespace to get the Tokens class
     using FeChat.Utils.General;
-
-    // Use the Members Repositories
-    using FeChat.Utils.Interfaces.Repositories.Members;
 
     /// <summary>
     /// Upload Manager
@@ -68,13 +59,22 @@ namespace FeChat.Controllers.Administrator {
         /// Update the options
         /// </summary>
         /// <param name="file">Uploaded image</param>
-        /// <param name="membersRepository">Contains an instance to the Members repository</param>
         /// <returns>Update response</returns>
         [Authorize]
         [HttpPost("image")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
-        public async Task<IActionResult> Image(IFormFile file, IMembersRepository membersRepository) {
+        public async Task<IActionResult> Image(IFormFile file) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Try to upload the file
             ResponseDto<StorageDto> uploadImage = await new ImageUpload().UploadAsync(_configuration, file);

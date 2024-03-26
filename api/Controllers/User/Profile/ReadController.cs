@@ -16,9 +16,6 @@ namespace FeChat.Controllers.User {
     // Use the Asp MVC for Controllers
     using Microsoft.AspNetCore.Mvc;
 
-    // Use the Authentication feature to get the access token
-    using Microsoft.AspNetCore.Authentication;
-
     // Use the Authorization to restrict access for guests
     using Microsoft.AspNetCore.Authorization;
 
@@ -57,7 +54,6 @@ namespace FeChat.Controllers.User {
         [Authorize]
         [HttpGet("profile")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Profile(Member memberInfo, IMembersRepository membersRepository) { 
 
             // Get the member's data

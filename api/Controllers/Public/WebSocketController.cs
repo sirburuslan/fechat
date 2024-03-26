@@ -40,17 +40,11 @@ namespace FeChat.Controllers.Public {
     // Use General dto for responses
     using FeChat.Models.Dtos;
 
-    // Use Members Dto
-    using FeChat.Models.Dtos.Members;
-
     // Use Messages Dto
     using FeChat.Models.Dtos.Messages;
     
     // Use General Utils for strings
     using FeChat.Utils.General;
-
-    // Use interfaces for Members Repositories
-    using FeChat.Utils.Interfaces.Repositories.Members;
     
     // Use interfaces for Messages Repositories
     using FeChat.Utils.Interfaces.Repositories.Messages;
@@ -76,7 +70,6 @@ namespace FeChat.Controllers.Public {
         /// <returns>Empty result</returns>
         [HttpGet]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> QueueRequest(HttpContext context, IMessagesRepository messagesRepository) {
 
             // Accept an incoming WebSocket connection

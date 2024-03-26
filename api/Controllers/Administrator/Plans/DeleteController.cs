@@ -16,9 +16,6 @@ namespace FeChat.Controllers.Administrator.Plans {
     // Used Mvc to get the Controller feature
     using Microsoft.AspNetCore.Mvc;
 
-    // Use the Authentication feature to get the access token
-    using Microsoft.AspNetCore.Authentication;
-
     // Use the Cors feature to control the access
     using Microsoft.AspNetCore.Cors;
 
@@ -49,6 +46,22 @@ namespace FeChat.Controllers.Administrator.Plans {
     public class DeleteController: Controller {
 
         /// <summary>
+        /// Container for app's configuration
+        /// </summary>
+        private readonly IConfiguration _configuration;
+
+        /// <summary>
+        /// Constructor for this controller
+        /// </summary>
+        /// <param name="configuration">App configuration</param>
+        public DeleteController(IConfiguration configuration) {
+
+            // Add configuration to the container
+            _configuration = configuration;
+
+        }
+
+        /// <summary>
         /// Delete a plan
         /// </summary>
         /// <param name="planId">Contains the plan's ID</param>
@@ -57,8 +70,18 @@ namespace FeChat.Controllers.Administrator.Plans {
         /// <returns>Success or error message</returns>
         [HttpDelete("{planId}")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> DeletePlan(int planId, IPlansRepository plansRepository, ISubscriptionsRepository subscriptionsRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Get the subscriptions by plan id
             ResponseDto<List<SubscriptionDto>> subscriptions = await subscriptionsRepository.GetSubscriptionsByPlanIdAsync(planId);

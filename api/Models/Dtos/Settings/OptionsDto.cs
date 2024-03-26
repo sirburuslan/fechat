@@ -111,7 +111,12 @@ namespace FeChat.Models.Dtos.Settings {
         /// <summary>
         /// Google ReCaptcha Key value
         /// </summary>
-        private string? _reCAPTCHAKey;                                 
+        private string? _reCAPTCHAKey; 
+        
+        /// <summary>
+        /// Email sender value
+        /// </summary>
+        private string? _emailSender;                                         
 
         /// <summary>
         /// Smtp protocol value
@@ -349,6 +354,16 @@ namespace FeChat.Models.Dtos.Settings {
         /// </summary>
         [NumberValidation(Minimum = 0, Maximum = 1, ErrorMessage = "SupportedValueShouldBe")]
         public int? SmtpEnabled { get; set; } 
+
+        /// <summary>
+        /// Email Sender
+        /// </summary>
+        [EmailAddress(ErrorMessageResourceName = "EmailNotValid", ErrorMessageResourceType = typeof(ErrorMessages))]
+        [StringLength(200, ErrorMessageResourceName = "EmailLong", ErrorMessageResourceType = typeof(ErrorMessages))]
+        public string? EmailSender {
+            get => _emailSender;
+            set => _emailSender = HttpUtility.HtmlEncode(JavaScriptEncoder.Default.Encode(value ?? string.Empty));            
+        }         
 
         /// <summary>
         /// SMTP Protocol

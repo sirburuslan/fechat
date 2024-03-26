@@ -22,6 +22,9 @@ namespace FeChat.Models.Repositories.Messages {
     // Use dtos for messages
     using FeChat.Models.Dtos.Messages;
 
+    // Use dtos for members
+    using FeChat.Models.Dtos.Members;
+
     // Use configuration
     using FeChat.Utils.Configuration;
 
@@ -101,6 +104,20 @@ namespace FeChat.Models.Repositories.Messages {
 
             // Read a message and return the response
             return await readRepository.MessagesUnseenAsync(threadId, memberId);
+
+        }
+
+        /// <summary>
+        /// Get unseen messages by thread
+        /// </summary>
+        /// <returns>Unseen messages or error message</returns>
+        public async Task<ResponseDto<List<UnseenMessageDto>>> AllMessagesUnseenAsync() {
+
+            // Init Read Repository
+            Messages.ReadRepository readRepository = new(_memoryCache, _context);
+
+            // Read all unseen messages and return the response
+            return await readRepository.AllMessagesUnseenAsync();
 
         }
 

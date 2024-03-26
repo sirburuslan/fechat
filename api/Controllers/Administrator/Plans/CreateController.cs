@@ -16,9 +16,6 @@ namespace FeChat.Controllers.Administrator.Plans {
     // Used Mvc to get the Controller feature
     using Microsoft.AspNetCore.Mvc;
 
-    // Use the Authentication feature to get the access token
-    using Microsoft.AspNetCore.Authentication;
-
     // Use the Authorization to restrict access for guests
     using Microsoft.AspNetCore.Authorization;
 
@@ -27,9 +24,6 @@ namespace FeChat.Controllers.Administrator.Plans {
 
     // Use the Versioning to add version in url
     using Asp.Versioning;
-
-    // Use the General Utils classes for Strings
-    using FeChat.Utils.General;
     
     // Use General dtos classes
     using FeChat.Models.Dtos;
@@ -37,8 +31,8 @@ namespace FeChat.Controllers.Administrator.Plans {
     // Use Plans dtos classes
     using FeChat.Models.Dtos.Plans;
 
-    // Use the Dtos for members
-    using FeChat.Models.Dtos.Members;
+    // Use the General Utils classes for Strings
+    using FeChat.Utils.General;    
 
     // Use the Plans Repositories
     using FeChat.Utils.Interfaces.Repositories.Plans;
@@ -55,6 +49,22 @@ namespace FeChat.Controllers.Administrator.Plans {
     public class CreateController: Controller {
 
         /// <summary>
+        /// Container for app's configuration
+        /// </summary>
+        private readonly IConfiguration _configuration;
+
+        /// <summary>
+        /// Constructor for this controller
+        /// </summary>
+        /// <param name="configuration">App configuration</param>
+        public CreateController(IConfiguration configuration) {
+
+            // Add configuration to the container
+            _configuration = configuration;
+
+        }
+
+        /// <summary>
         /// Create a plan
         /// </summary>
         /// <param name="planDto">Data transfer object with plan information</param>
@@ -64,8 +74,18 @@ namespace FeChat.Controllers.Administrator.Plans {
         [Authorize]
         [HttpPost]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> CreatePlan([FromBody] PlanDto planDto, IMembersRepository membersRepository, IPlansRepository plansRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Create plan
             ResponseDto<PlanDto> createMember = await plansRepository.CreatePlanAsync(planDto);

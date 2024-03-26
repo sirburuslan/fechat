@@ -29,7 +29,7 @@ import { useQuery } from 'react-query';
 import SecureStorage from 'react-secure-storage';
 
 // Import incs
-import { getWord, getIcon, getField, getToken, showNotification, getOptions, updateOptions } from '@/core/inc/incIndex';
+import { getWord, getIcon, getField, getToken, getOptions, showNotification, updateOptions } from '@/core/inc/incIndex';
 
 // Import types
 import { typeToken, typePostHeader, typeOptions } from '@/core/types/typesIndex';
@@ -75,6 +75,7 @@ const Page = () => {
         GoogleSignInRedirect: process.env.NEXT_PUBLIC_SITE_URL + 'auth/google/callback',
         ReCAPTCHAEnabled: 0,
         ReCAPTCHAKey: '',
+        EmailSender: '',
         SmtpEnabled: 0,
         SmtpProtocol: "mail",
         SmtpHost: '',
@@ -157,12 +158,12 @@ const Page = () => {
         if ( error ) {
 
             // Show error notification
-            showNotification('error', (error as Error).message);
+            console.log(error as Error);
 
         } else if ( (typeof data != 'undefined') && !data.success ) {
 
             // Show error notification
-            showNotification('error', data.message);            
+            console.log(data.message);            
 
         } else if (data) {
 
@@ -657,7 +658,7 @@ const Page = () => {
                                                 setErrors: setErrors
                                             }
                                         })} 
-                                        {getField('general', 'FieldCheckbox', {
+                                        {/*getField('general', 'FieldCheckbox', {
                                             name: 'RegistrationConfirmationEnabled',
                                             label: getWord('admin', 'admin_registration_confirmation', memberOptions['Language']),
                                             description: getWord('admin', 'admin_registration_confirmation_description', memberOptions['Language']),
@@ -672,7 +673,7 @@ const Page = () => {
                                                 errors: errors,
                                                 setErrors: setErrors
                                             }
-                                        })}                                                               
+                                        })*/}                                                               
                                     </ul>                            
                                 </div>
                                 <div className="fc-tab" id="fc-settings-payments-tab">
@@ -917,7 +918,22 @@ const Page = () => {
                                                 setErrors: setErrors
                                             }
                                         })}
-                                        {getField('general', 'FieldStaticList', {
+                                        {getField('general', 'FieldText', {
+                                            name: 'EmailSender',
+                                            label: getWord('admin', 'admin_email_sender', memberOptions['Language']),
+                                            description: getWord('admin', 'admin_email_sender_description', memberOptions['Language']),
+                                            data: {
+                                                placeholder: getWord('admin', 'admin_enter_email', memberOptions['Language']),
+                                                value: fields.EmailSender
+                                            },
+                                            hook: {
+                                                fields: fields,
+                                                setFields: setFields,
+                                                errors: errors,
+                                                setErrors: setErrors
+                                            }
+                                        })}  
+                                        {/*getField('general', 'FieldStaticList', {
                                             name: 'SmtpProtocol',
                                             label: getWord('admin', 'admin_smtp_protocol', memberOptions['Language']),
                                             description: getWord('admin', 'admin_smtp_protocol_description', memberOptions['Language']),
@@ -939,7 +955,7 @@ const Page = () => {
                                                 errors: errors,
                                                 setErrors: setErrors
                                             }
-                                        })} 
+                                        })*/}                                        
                                         {getField('general', 'FieldText', {
                                             name: 'SmtpHost',
                                             label: getWord('admin', 'admin_smtp_host', memberOptions['Language']),

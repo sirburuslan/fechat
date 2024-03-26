@@ -43,6 +43,9 @@ namespace FeChat.Controllers.Auth {
     // Use Members dto to validate and hold member data
     using FeChat.Models.Dtos.Members;
 
+    // Use General Utils
+    using FeChat.Utils.General;
+
     // Use the Repositories interface to get the member repository
     using FeChat.Utils.Interfaces.Repositories.Members;
 
@@ -81,8 +84,39 @@ namespace FeChat.Controllers.Auth {
         /// <returns>Success message and member's data or error message</returns>
         [HttpPost]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> SignIn([FromBody] MemberDto member, IMembersRepository membersRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
+
+            // Get all members
+            ResponseDto<ElementsDto<MemberDto>> membersList = await membersRepository.GetMembersAsync(new SearchDto {
+                Page = 1,
+                Search = ""
+            });
+
+            // Verify if members exists
+            if ( membersList.Result == null ) {
+
+                // Prepare the default member
+                NewMemberDto newMemberDto = new() {
+                    Email = "administrator@example.com",
+                    Password = "12345678",
+                    Role = 0
+                };
+
+                // Create the default member
+                await membersRepository.CreateMemberAsync(newMemberDto);
+
+            }
 
             // Checks if the member data is correct
             ResponseDto<MemberDto> memberDto = await membersRepository.SignIn(member);
@@ -134,7 +168,7 @@ namespace FeChat.Controllers.Auth {
                 // Create a error response
                 var response = new {
                     success = false,
-                    message = memberDto.Message
+                    message = new Strings().Get("IncorrectEmailPassword")
                 };
 
                 // Return a json

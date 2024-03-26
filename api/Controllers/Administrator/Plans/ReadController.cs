@@ -16,9 +16,6 @@ namespace FeChat.Controllers.Administrator.Plans {
     // Used Mvc to get the Controller feature
     using Microsoft.AspNetCore.Mvc;
 
-    // Use the Authentication feature to get the access token
-    using Microsoft.AspNetCore.Authentication;
-
     // Use the Authorization to restrict access for guests
     using Microsoft.AspNetCore.Authorization;
 
@@ -37,9 +34,6 @@ namespace FeChat.Controllers.Administrator.Plans {
     // Use Plans dtos classes
     using FeChat.Models.Dtos.Plans;
 
-    // Use the Dtos for members
-    using FeChat.Models.Dtos.Members;
-
     // Use the Plans Repositories
     using FeChat.Utils.Interfaces.Repositories.Plans;
 
@@ -55,6 +49,22 @@ namespace FeChat.Controllers.Administrator.Plans {
     public class ReadController: Controller {
 
         /// <summary>
+        /// Container for app's configuration
+        /// </summary>
+        private readonly IConfiguration _configuration;
+
+        /// <summary>
+        /// Constructor for this controller
+        /// </summary>
+        /// <param name="configuration">App configuration</param>
+        public ReadController(IConfiguration configuration) {
+
+            // Add configuration to the container
+            _configuration = configuration;
+
+        }
+
+        /// <summary>
         /// Get the list with plans
         /// </summary>
         /// <param name="searchDto">Search parameters</param>
@@ -64,8 +74,18 @@ namespace FeChat.Controllers.Administrator.Plans {
         [Authorize]
         [HttpPost("list")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> PlansList([FromBody] SearchDto searchDto, IMembersRepository membersRepository, IPlansRepository plansRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Get all plans
             ResponseDto<ElementsDto<PlanDto>> plansList = await plansRepository.GetPlansByPageAsync(searchDto);
@@ -102,7 +122,6 @@ namespace FeChat.Controllers.Administrator.Plans {
         [Authorize]
         [HttpGet("{planId}")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> PlanInfo(int planId, IMembersRepository members, IPlansRepository plansRepository) {
 
             // Get the plan's data

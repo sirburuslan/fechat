@@ -16,9 +16,6 @@ namespace FeChat.Controllers.User.Websites {
     // Used Mvc to get the Controller feature
     using Microsoft.AspNetCore.Mvc;
 
-    // Use the Authentication feature to get the access token
-    using Microsoft.AspNetCore.Authentication;
-
     // Use the Authorization to restrict access for guests
     using Microsoft.AspNetCore.Authorization;
 
@@ -34,9 +31,6 @@ namespace FeChat.Controllers.User.Websites {
     // Use General Dtos
     using FeChat.Models.Dtos;
 
-    // Use Members Dtos
-    using FeChat.Models.Dtos.Members;
-
     // Use Plans dtos
     using FeChat.Models.Dtos.Plans;
 
@@ -45,9 +39,6 @@ namespace FeChat.Controllers.User.Websites {
 
     // Use Websites Dtos
     using FeChat.Models.Dtos.Websites;
-
-    // Use the Repositories for Members
-    using FeChat.Utils.Interfaces.Repositories.Members;
 
     // Use the Repositories for Plans
     using FeChat.Utils.Interfaces.Repositories.Plans;
@@ -67,6 +58,22 @@ namespace FeChat.Controllers.User.Websites {
     public class CreateController: Controller {
 
         /// <summary>
+        /// Container for app's configuration
+        /// </summary>
+        private readonly IConfiguration _configuration;
+
+        /// <summary>
+        /// Constructor for this controller
+        /// </summary>
+        /// <param name="configuration">App configuration</param>
+        public CreateController(IConfiguration configuration) {
+
+            // Add configuration to the container
+            _configuration = configuration;
+
+        }
+
+        /// <summary>
         /// Save a website
         /// </summary>
         /// <param name="websiteDto">Data transfer object with website information</param>
@@ -77,8 +84,18 @@ namespace FeChat.Controllers.User.Websites {
         [Authorize]
         [HttpPost]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> CreateWebsite([FromBody] NewWebsiteDto websiteDto, Member memberInfo, ISubscriptionsRepository subscriptionsRepository, IPlansRepository plansRepository, IWebsitesRepository websitesRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Default websites limit number container
             int websitesLimit = 0;

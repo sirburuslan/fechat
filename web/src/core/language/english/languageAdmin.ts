@@ -180,7 +180,10 @@ const words = (): object => {
         admin_google_recaptcha: 'reCAPTCHA',
         admin_google_recaptcha_description: 'Enable Google reCAPTCHA for Sign In and Sign Up.',
         admin_google_recaptcha_key: 'reCAPTCHA Api Key',
-        admin_google_recaptcha_key_description: 'Copy the Key ID from your Google Project.',                  
+        admin_google_recaptcha_key_description: 'Copy the Key ID from your Google Project.',
+        admin_email_sender: "Email Sender",
+        admin_email_sender_description: "Email address used as sender for emails.",
+        admin_enter_email: "Enter the email address ..."
     };
 
 

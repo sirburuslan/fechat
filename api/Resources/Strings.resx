@@ -491,5 +491,29 @@
     </data>    
     <data name="AccessCodeNotGenerated" xml:space="preserve">
         <value>The access code wasn't generated successfully.</value>
-    </data>                                                  
+    </data>
+    <data name="InvalidCsrfToken" xml:space="preserve">
+        <value>Invalid CSRF token.</value>
+    </data>
+    <data name="WelcomeToSite" xml:space="preserve">
+        <value>Welcome to Fechat</value>
+    </data>  
+    <data name="LoginCredentials" xml:space="preserve">
+        <value>Below are your login credentials</value>
+    </data>      
+    <data name="BestRegards" xml:space="preserve">
+        <value>Best regards.</value>
+    </data>
+    <data name="Email" xml:space="preserve">
+        <value>Email</value>
+    </data>   
+    <data name="Password" xml:space="preserve">
+        <value>Password</value>
+    </data> 
+    <data name="NewUnreadMessage" xml:space="preserve">
+        <value>Aveți mesaj necitit</value>
+    </data>
+    <data name="YouHaveNewUnreadMessage" xml:space="preserve">
+        <value>Ați primit un mesaj nou pe FeChat.</value>
+    </data>                                                                 
 </root>

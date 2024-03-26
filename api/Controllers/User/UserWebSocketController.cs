@@ -77,7 +77,6 @@ namespace FeChat.Controllers.User {
         /// <returns>Empty result</returns>
         [HttpGet]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> QueueRequest(HttpContext context, IMembersRepository membersRepository, IMessagesRepository messagesRepository) {
 
             // Accept an incoming WebSocket connection

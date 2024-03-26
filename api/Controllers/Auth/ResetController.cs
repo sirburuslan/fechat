@@ -78,8 +78,18 @@ namespace FeChat.Controllers.Auth {
         /// <returns>Success or error message</returns>
         [HttpPost]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Reset([FromBody] MemberDto member, IMembersRepository membersRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Get the email
             ResponseDto<MemberDto> memberEmail = await membersRepository.GetMemberEmailAsync(member);
@@ -158,7 +168,6 @@ namespace FeChat.Controllers.Auth {
         /// <returns>Success or error message</returns>
         [HttpGet("validate/{code}")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Validate(string code, IMembersRepository membersRepository) {
 
             // Remove unwanted characters from the code
@@ -210,8 +219,18 @@ namespace FeChat.Controllers.Auth {
         [Authorize]
         [HttpPost("change-password")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> UpdateMemberPassword([FromBody] MemberDto memberDto, IMembersRepository membersRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Verify if memberDto.ResetCode exists
             if ( memberDto.ResetCode == null ) {

@@ -46,6 +46,24 @@ namespace FeChat.Controllers.Auth {
     public class RegistrationController : Controller {
 
         /// <summary>
+        /// App configuration container
+        /// </summary>
+        private readonly IConfiguration _configuration;
+
+        /// <summary>
+        /// Class Constructor
+        /// </summary>
+        /// <param name="configuration">
+        /// App configuration
+        /// </param>
+        public RegistrationController(IConfiguration configuration) {
+
+            // Save the configuration
+            _configuration = configuration;
+            
+        }
+
+        /// <summary>
         /// This method validates the member's data and creates an account
         /// </summary>
         /// <param name="newMemberDto">Data transfer object with member information</param>
@@ -53,8 +71,19 @@ namespace FeChat.Controllers.Auth {
         /// <param name="membersRepository">Contains a session to the Members repository</param>
         /// <param name="eventsRepository">Contains a session to the Events repository</param>
         /// <returns>Success or error message</returns>
-        [IgnoreAntiforgeryToken]
+        [HttpPost]
         public async Task<IActionResult> Registration([FromBody] NewMemberDto newMemberDto, ISettingsRepository settingsRepository, IMembersRepository membersRepository, IEventsRepository eventsRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Get the options saved in the database
             ResponseDto<List<Models.Dtos.Settings.OptionDto>> savedOptions = await settingsRepository.OptionsListAsync();
@@ -103,6 +132,12 @@ namespace FeChat.Controllers.Auth {
 
                 // Save event
                 await eventsRepository.CreateEventAsync(createMember.Result.MemberId, 1);
+
+                // Create email body content
+                string body = "<p>" + new Strings().Get("LoginCredentials") + ":</p><div class=\"credentials\"><p><span class=\"email\">" + new Strings().Get("Email") + ":</span> <span>" + newMemberDto.Email + "</span></p><p><span>" + new Strings().Get("Password") + ":</span> <span>" + newMemberDto.Password + "</span></p></div><p>" + new Strings().Get("BestRegards") + "</p>";
+
+                // Send email
+                await new Sender().Send(optionsList, newMemberDto.Email ?? string.Empty, new Strings().Get("WelcomeToSite"), body);
 
                 // Create a success response
                 var response = new {

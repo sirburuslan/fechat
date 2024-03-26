@@ -16,9 +16,6 @@ namespace FeChat.Controllers.Administrator.Members {
     // Used Mvc to get the Controller feature
     using Microsoft.AspNetCore.Mvc;
 
-    // Use the Authentication feature to get the access token
-    using Microsoft.AspNetCore.Authentication;
-
     // Use the Cors feature to control the access
     using Microsoft.AspNetCore.Cors;
 
@@ -27,9 +24,6 @@ namespace FeChat.Controllers.Administrator.Members {
 
     // Use the Dtos for response
     using FeChat.Models.Dtos;
-
-    // Use the Dtos for members
-    using FeChat.Models.Dtos.Members;
 
     // Use the general namespace fot strings
     using FeChat.Utils.General;    
@@ -40,9 +34,11 @@ namespace FeChat.Controllers.Administrator.Members {
     // Use Repository for Members
     using FeChat.Utils.Interfaces.Repositories.Members;
 
+    // Use Repositories for Subscriptions
+    using FeChat.Utils.Interfaces.Repositories.Subscriptions;
+
     // Use Repositories for Websites
     using FeChat.Utils.Interfaces.Repositories.Websites;
-    using FeChat.Utils.Interfaces.Repositories.Subscriptions;
 
     /// <summary>
     /// This controller gets the member's basic information
@@ -73,13 +69,19 @@ namespace FeChat.Controllers.Administrator.Members {
         private readonly IWebsitesRepository _websitesRepository;
 
         /// <summary>
+        /// Container for app's configuration
+        /// </summary>
+        private readonly IConfiguration _configuration;
+
+        /// <summary>
         /// Class Constructor
         /// </summary>
         /// <param name="membersRepository">Contains an instance to the Members repository</param>
         /// <param name="eventsRepository">Contains an instance to the Events repository</param>
         /// <param name="subscriptionsRepository">Contains an instance to the Subscriptions repository</param>
         /// <param name="websitesRepository">Contains an instance to the Websites repository</param>
-        public DeleteController(IMembersRepository membersRepository, IEventsRepository eventsRepository, ISubscriptionsRepository subscriptionsRepository, IWebsitesRepository websitesRepository) {
+        /// <param name="configuration">App configuration</param>
+        public DeleteController(IMembersRepository membersRepository, IEventsRepository eventsRepository, ISubscriptionsRepository subscriptionsRepository, IWebsitesRepository websitesRepository, IConfiguration configuration) {
 
             // Save members repository
             _membersRepository = membersRepository;
@@ -93,6 +95,9 @@ namespace FeChat.Controllers.Administrator.Members {
             // Save websites repository
             _websitesRepository = websitesRepository;
 
+            // Add configuration to the container
+            _configuration = configuration;
+
         }
 
         /// <summary>
@@ -103,8 +108,18 @@ namespace FeChat.Controllers.Administrator.Members {
         /// <returns>Message if the member was deleted or error</returns>
         [HttpDelete("{memberId}")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> DeleteMember(int memberId, Member memberInfo) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Check if the administrator tries to delete his account
             if ( memberId == memberInfo.Info!.MemberId ) {

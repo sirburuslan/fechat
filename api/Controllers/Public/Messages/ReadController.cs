@@ -53,6 +53,22 @@ namespace FeChat.Controllers.Public.Messages {
     public class ReadController: Controller {
 
         /// <summary>
+        /// Container for app's configuration
+        /// </summary>
+        private readonly IConfiguration _configuration;
+
+        /// <summary>
+        /// Constructor for this controller
+        /// </summary>
+        /// <param name="configuration">App configuration</param>
+        public ReadController(IConfiguration configuration) {
+
+            // Add configuration to the container
+            _configuration = configuration;
+
+        }
+
+        /// <summary>
         /// Gets the messages
         /// </summary>
         /// <param name="messagesListDto">Parameters to list the messages</param>
@@ -61,8 +77,18 @@ namespace FeChat.Controllers.Public.Messages {
         /// <returns></returns>
         [HttpPost("list")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> MessagesList([FromBody] MessagesListDto messagesListDto, IWebsitesRepository websitesRepository, IMessagesRepository messagesRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Check if website id exists
             if ( messagesListDto.WebsiteId == 0 ) {

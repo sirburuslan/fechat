@@ -22,26 +22,20 @@ namespace FeChat.Controllers.Administrator.Settings {
     // Use the Mvc to get the controller
     using Microsoft.AspNetCore.Mvc;
 
-    // Use the Authentication feature to get the access token
-    using Microsoft.AspNetCore.Authentication;
-
     // Use Authorization for access restriction
     using Microsoft.AspNetCore.Authorization;
 
     // Use Cors libraries
     using Microsoft.AspNetCore.Cors;
 
-    // Use Antiforgery for CSRF protection
-    using Microsoft.AspNetCore.Antiforgery;
-
     // Use the Versioning library
     using Asp.Versioning;
 
-    // Use General Dtos
+    // Use the General Dtos
     using FeChat.Models.Dtos;
 
-    // Use the Dtos for members
-    using FeChat.Models.Dtos.Members;
+    // Use the Settings Dtos
+    using FeChat.Models.Dtos.Settings;
 
     // Use the Settings entities
     using FeChat.Models.Entities.Settings;
@@ -67,13 +61,22 @@ namespace FeChat.Controllers.Administrator.Settings {
         ISettingsRepository _settingsRepository;
 
         /// <summary>
+        /// Container for app's configuration
+        /// </summary>
+        private readonly IConfiguration _configuration;
+
+        /// <summary>
         /// Settings controller constructor
         /// </summary>
         /// <param name="settingsRepository">An instance for the settings repository</param>
-        public UpdateController(ISettingsRepository settingsRepository) {
+        /// <param name="configuration">App configuration</param>
+        public UpdateController(ISettingsRepository settingsRepository, IConfiguration configuration) {
 
             // Set injected settings repository
             _settingsRepository = settingsRepository;
+
+            // Add configuration to the container
+            _configuration = configuration;
 
         }
 
@@ -81,16 +84,25 @@ namespace FeChat.Controllers.Administrator.Settings {
         /// Update the options
         /// </summary>
         /// <param name="optionsDto">Options to update</param>
-        /// <param name="membersRepository">Contains an instance to the Members repository</param>
         /// <returns>Update response</returns>
         [Authorize]
         [HttpPost("update")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
-        public async Task<IActionResult> UpdateOptions([FromBody] Models.Dtos.Settings.OptionsDto optionsDto, IMembersRepository membersRepository) {
+        public async Task<IActionResult> UpdateOptions([FromBody] OptionsDto optionsDto) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Get all options saved in the database
-            ResponseDto<List<Models.Dtos.Settings.OptionDto>> savedOptions = await _settingsRepository.OptionsListAsync();
+            ResponseDto<List<OptionDto>> savedOptions = await _settingsRepository.OptionsListAsync();
 
             // Options to update container
             List<SettingsEntity> optionsUpdate = new();
@@ -108,7 +120,7 @@ namespace FeChat.Controllers.Administrator.Settings {
                 for ( int o = 0; o < optionsLength; o++ ) {
 
                     // Get option's name
-                    PropertyInfo? optionName = typeof(Models.Dtos.Settings.OptionsDto).GetProperty(savedOptions.Result[o].OptionName);
+                    PropertyInfo? optionName = typeof(OptionsDto).GetProperty(savedOptions.Result[o].OptionName);
 
                     // Verify if option's name is not null
                     if ( optionName != null ) {
@@ -139,7 +151,7 @@ namespace FeChat.Controllers.Administrator.Settings {
             List<SettingsEntity> optionsSave = new();
 
             // Get all options dto properties
-            PropertyInfo[] propertyInfos = typeof(Models.Dtos.Settings.OptionsDto).GetProperties();
+            PropertyInfo[] propertyInfos = typeof(OptionsDto).GetProperties();
 
             // Get properties length
             int propertiesLength = propertyInfos.Length;

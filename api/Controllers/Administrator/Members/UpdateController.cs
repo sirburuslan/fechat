@@ -16,9 +16,6 @@ namespace FeChat.Controllers.Administrator.Members {
     // Use the Asp Net core MVC
     using Microsoft.AspNetCore.Mvc;
 
-    // Use the Authentication feature to get the access token
-    using Microsoft.AspNetCore.Authentication;
-
     // Use the Authorization to restrict access for guests
     using Microsoft.AspNetCore.Authorization;
 
@@ -27,9 +24,6 @@ namespace FeChat.Controllers.Administrator.Members {
 
     // Use the Versioning to add version in url
     using Asp.Versioning;
-
-    // Use the General Utils classes for Strings
-    using FeChat.Utils.General;
     
     // Use the Dtos for response
     using FeChat.Models.Dtos;
@@ -45,6 +39,9 @@ namespace FeChat.Controllers.Administrator.Members {
 
     // Use the Entities for Members
     using FeChat.Models.Entities.Members;
+
+    // Use General Utils
+    using FeChat.Utils.General;
 
     // Use the Repositories for Members
     using FeChat.Utils.Interfaces.Repositories.Members;
@@ -92,8 +89,18 @@ namespace FeChat.Controllers.Administrator.Members {
         [Authorize]
         [HttpPost("{MemberId}")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> UpdateMemberProfile([FromBody] UpdateMemberDto updateMemberDto, int MemberId, Member memberInfo, IMembersRepository membersRepository, ISubscriptionsRepository subscriptionsRepository, IPlansRepository plansRepository) {      
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Verify if email exists
             if ( updateMemberDto.Email == null ) {
@@ -452,11 +459,21 @@ namespace FeChat.Controllers.Administrator.Members {
         [Authorize]
         [HttpPut("{MemberId}")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> UpdateMemberPassword([FromBody] MemberDto memberDto, int MemberId, IMembersRepository membersRepository) {
 
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
+
             // Verify if password exists
-            if ( memberDto.Password == null ) {
+            if ( (memberDto.Password == null) || (memberDto.Password == "") ) {
 
                 // Return a json
                 return new JsonResult(new {
@@ -528,8 +545,18 @@ namespace FeChat.Controllers.Administrator.Members {
         [Authorize]
         [HttpPost("image/{MemberId}")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> UpdateMemberImage(IFormFile file, int MemberId, IMembersRepository membersRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Try to upload the file
             ResponseDto<StorageDto> uploadImage = await new ImageUpload().UploadAsync(_configuration, file);

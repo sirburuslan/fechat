@@ -16,9 +16,6 @@ namespace FeChat.Controllers {
     // Use the Dynamic classes
     using System.Dynamic;
 
-    // Use Antiforgery for csrf generation
-    using Microsoft.AspNetCore.Antiforgery;
-
     // Use the Authentication feature to get the access token
     using Microsoft.AspNetCore.Authentication;
 
@@ -76,7 +73,6 @@ namespace FeChat.Controllers {
         /// <returns>List with settings</returns>
         [HttpGet]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> GetSettings(ISettingsRepository settingsRepository, IMembersRepository membersRepository, ISubscriptionsRepository subscriptionsRepository, IPlansRepository plansRepository) {
 
             // Get the options saved in the database

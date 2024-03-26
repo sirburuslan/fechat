@@ -332,12 +332,8 @@ namespace api.Migrations
                     b.Property<int>("Created")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Enabled")
-                        .HasMaxLength(1)
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("Expiration")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("integer");
 
                     b.Property<int>("MemberId")
                         .HasColumnType("integer");

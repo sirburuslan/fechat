@@ -61,7 +61,6 @@ namespace FeChat.Controllers.User.Dashboard {
         [Authorize]
         [HttpGet]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> DashboardData(Member memberInfo, IMembersRepository membersRepository, IMessagesRepository messagesRepository) {
 
             // Default time
@@ -137,7 +136,6 @@ namespace FeChat.Controllers.User.Dashboard {
         [Authorize]
         [HttpGet("threads")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> DashboardThreads(Member memberInfo, IMembersRepository membersRepository, IMessagesRepository messagesRepository) {
 
             // Default time

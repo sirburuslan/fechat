@@ -24,7 +24,7 @@ namespace api.Migrations
                     NetId = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     Enabled = table.Column<int>(type: "integer", maxLength: 1, nullable: false),
                     Source = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
-                    Expiration = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Expiration = table.Column<DateTime>(type: "integer", nullable: false),
                     Created = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>

@@ -21,8 +21,8 @@ import FieldDynamicList from "@/core/fields/extra/collection/FieldDynamicList";
 import FieldListManager from "@/core/fields/extra/collection/FieldListManager";
 import FieldCheckbox from "@/core/fields/extra/collection/FieldCheckbox";
 
-// Export the fields
-export default {
+// Prepare the fields
+const Fields = {
     FieldText,
     FieldTextarea,
     FieldPassword,
@@ -33,3 +33,6 @@ export default {
     FieldListManager,
     FieldCheckbox
 };
+
+// Export the fields
+export default Fields;

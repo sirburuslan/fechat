@@ -16,9 +16,6 @@ namespace FeChat.Controllers.User.Websites {
     // Used Mvc to get the Controller feature
     using Microsoft.AspNetCore.Mvc;
 
-    // Use the Authentication feature to get the access token
-    using Microsoft.AspNetCore.Authentication;
-
     // Use the Authorization to restrict access for guests
     using Microsoft.AspNetCore.Authorization;
 
@@ -49,6 +46,22 @@ namespace FeChat.Controllers.User.Websites {
     public class UpdateController: Controller {
 
         /// <summary>
+        /// Container for app's configuration
+        /// </summary>
+        private readonly IConfiguration _configuration;
+
+        /// <summary>
+        /// Constructor for this controller
+        /// </summary>
+        /// <param name="configuration">App configuration</param>
+        public UpdateController(IConfiguration configuration) {
+
+            // Add configuration to the container
+            _configuration = configuration;
+
+        }
+
+        /// <summary>
         /// Update the website informations
         /// </summary>
         /// <param name="websiteDto">Data transfer object with website information</param>
@@ -58,8 +71,18 @@ namespace FeChat.Controllers.User.Websites {
         [Authorize]
         [HttpPost("{websiteId}")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> UpdateWebsite([FromBody] NewWebsiteDto websiteDto, int websiteId, Member memberInfo, IWebsitesRepository websitesRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Verify if website name is required
             if ( websiteDto.Name == null ) {
@@ -154,8 +177,18 @@ namespace FeChat.Controllers.User.Websites {
         [Authorize]
         [HttpPost("{websiteId}/chat")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> UpdateChat([FromBody] NewWebsiteDto websiteDto, int websiteId, Member memberInfo, IWebsitesRepository websitesRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Set Website Id
             websiteDto.WebsiteId = websiteId;            

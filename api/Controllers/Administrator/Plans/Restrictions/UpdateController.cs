@@ -19,9 +19,6 @@ namespace FeChat.Controllers.Administrator.Plans.Restrictions {
     // Used Mvc to get the Controller feature
     using Microsoft.AspNetCore.Mvc;
 
-    // Use the Authentication feature to get the access token
-    using Microsoft.AspNetCore.Authentication;
-
     // Use the Authorization to restrict access for guests
     using Microsoft.AspNetCore.Authorization;
 
@@ -30,9 +27,6 @@ namespace FeChat.Controllers.Administrator.Plans.Restrictions {
 
     // Use the Versioning to add version in url
     using Asp.Versioning;
-
-    // Use the General Utils classes for Strings
-    using FeChat.Utils.General;
     
     // Use General dtos classes
     using FeChat.Models.Dtos;
@@ -40,11 +34,11 @@ namespace FeChat.Controllers.Administrator.Plans.Restrictions {
     // Use Plans dtos classes
     using FeChat.Models.Dtos.Plans;
 
-    // Use the Dtos for Members
-    using FeChat.Models.Dtos.Members;
-
     // Use the plans entity
     using FeChat.Models.Entities.Plans;
+
+    // Use the General Utils classes for Strings
+    using FeChat.Utils.General;    
 
     // Use the Plans Repositories
     using FeChat.Utils.Interfaces.Repositories.Plans;
@@ -61,6 +55,22 @@ namespace FeChat.Controllers.Administrator.Plans.Restrictions {
     public class UpdateController: Controller {
 
         /// <summary>
+        /// Container for app's configuration
+        /// </summary>
+        private readonly IConfiguration _configuration;
+
+        /// <summary>
+        /// Constructor for this controller
+        /// </summary>
+        /// <param name="configuration">App configuration</param>
+        public UpdateController(IConfiguration configuration) {
+
+            // Add configuration to the container
+            _configuration = configuration;
+
+        }
+
+        /// <summary>
         /// Save or update the plans restrictions
         /// </summary>
         /// <param name="restrictionsDto">Received restrictions for saving</param>
@@ -71,8 +81,18 @@ namespace FeChat.Controllers.Administrator.Plans.Restrictions {
         [Authorize]
         [HttpPost("{PlanId}")]
         [EnableCors("AllowOrigin")]
-        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> SaveRestrictions([FromBody] RestrictionsDto restrictionsDto, int PlanId, IMembersRepository membersRepository, IPlansRepository plansRepository) {
+
+            // Verify if antiforgery is valid
+            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
+
+                // Return error response
+                return new JsonResult(new {
+                    success = false,
+                    message = new Strings().Get("InvalidCsrfToken")
+                });
+
+            }
 
             // Get the plan's data
             ResponseDto<PlanDto> planData = await plansRepository.GetPlanAsync(PlanId);
