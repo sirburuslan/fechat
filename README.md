@@ -2,6 +2,8 @@
 
 <p>FeChat is a platform that allows users to generate chats for websites. The platform can be used as a SaaS service to sell different plans with varying features.</p>
 
+<p>Demo Video: https://youtu.be/2mQ51BC5sUM </p>
+
 <h3>Key Features for Administrator:</h3>
 <ol>
   <li>Configure services from the administrator panel.</li>
