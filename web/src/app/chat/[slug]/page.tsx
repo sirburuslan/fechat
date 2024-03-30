@@ -255,6 +255,9 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
                 // Verify if the response is successfully
                 if ( response.data.success ) {
 
+                    // Sent message to the parent
+                    window.parent.postMessage({domain: response.data.website.Domain}, '*');
+
                     // User's photo
                     let userPhoto = IconPerson();
 
@@ -469,7 +472,9 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
                                         ${chatOwner}
                                     </div>
                                     <div class="fc-message">
-                                        ${content}
+                                        ${content.replaceAll("\\\\", "\\").replace(/\\\\u/g, '\\u').replace(/\\(u[0-9A-Fa-f]{4})/g, (match: string): string => {
+                                            return String.fromCharCode(parseInt(match.substring(2), 16));
+                                        })}
                                     </div>
                                 </div>
                             </li>`;
@@ -481,7 +486,9 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
                                 ${messageDate}
                                 <div class="flex">
                                     <div class="fc-message">
-                                        ${content}
+                                        ${content.replaceAll("\\\\", "\\").replace(/\\\\u/g, '\\u').replace(/\\(u[0-9A-Fa-f]{4})/g, (match: string): string => {
+                                            return String.fromCharCode(parseInt(match.substring(2), 16));
+                                        })}
                                     </div>
                                     <div class="fc-author-photo flex flex-col">
                                         <div class="flex-grow"></div>

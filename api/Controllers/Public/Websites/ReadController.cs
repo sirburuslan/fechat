@@ -101,6 +101,9 @@ namespace FeChat.Controllers.Public.Websites {
                     // Add Website Url
                     { "Url", websiteDto.Result.Url ?? string.Empty },
 
+                    // Add Website Domain
+                    { "Domain", websiteDto.Result.Domain ?? string.Empty },                    
+
                     // Add Chat status
                     { "Enabled", websiteDto.Result.Enabled },
 

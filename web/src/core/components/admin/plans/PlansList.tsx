@@ -619,7 +619,7 @@ const PlansList = (): React.JSX.Element => {
                     if ( document.querySelectorAll('.fc-plans-list > .fc-plan').length < 2 ) {
 
                         // Set previous page
-                        search.Page = (search.Page - 1);
+                        search.Page = (search.Page > 1)?(search.Page - 1):search.Page;
 
                         // Search for plans
                         setSearch(search);

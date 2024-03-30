@@ -5,7 +5,7 @@
  *
  * @author Ruslan Sirbu
  * @version 0.0.1
- * @updated 2024-03-12
+ * @updated 2024-03-26
  *
  * This file contains the auth layout
  */
@@ -16,7 +16,7 @@
 import { useEffect } from 'react';
 
 // Import the router function
-import { useRouter  } from 'next/navigation';
+import { useRouter, usePathname  } from 'next/navigation';
 
 // Import the Secure Storage module for react
 import SecureStorage from 'react-secure-storage';
@@ -30,11 +30,14 @@ const Layout = ({ children }: { children: React.ReactNode }): React.JSX.Element 
     // Get the router
     let router = useRouter();
 
+    // Get the current path name
+    let pathname: string = usePathname();
+
     // Run the content after component load
     useEffect((): void => {
 
-        // Check if member data exists
-        if ( SecureStorage.getItem('fc_jwt')  ) {
+        // Check if path name is sign out page
+        if ( pathname === '/auth/signout' ) {
 
             // Remove the jwt token
             SecureStorage.removeItem('fc_jwt');
@@ -42,8 +45,20 @@ const Layout = ({ children }: { children: React.ReactNode }): React.JSX.Element 
             // Remove the jwt role
             SecureStorage.removeItem('fc_role');
 
-            // Redirect to home page
-            router.push(process.env.NEXT_PUBLIC_SITE_URL + 'auth/signin');
+        } else if ( SecureStorage.getItem('fc_jwt')  ) {
+
+            // Check if member is administrator
+            if ( SecureStorage.getItem('fc_role') === 0 ) {
+
+                // Redirect the administrator to the dashboard page
+                router.push(process.env.NEXT_PUBLIC_SITE_URL + 'admin/dashboard');
+
+            } else {
+
+                // Redirect the user to the dashboard page
+                router.push(process.env.NEXT_PUBLIC_SITE_URL + 'user/dashboard');
+
+            }
             
         }
 

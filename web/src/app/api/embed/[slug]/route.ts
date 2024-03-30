@@ -52,14 +52,24 @@ export async function GET(request: Request, { params }: { params: { slug: string
 
                 }
 
-            } else {
-
+            } else if ( event.data === 'hide' ) {
+                
                 chat.style.height = '0';
 
                 setTimeout(() => {
                     chat.style.width = '80px'
                     chat.style.height = '70px';
                 }, 300);
+                
+            } else if ( typeof event.data.domain != 'undefined' ) {
+
+                if ( window.location.hostname !== event.data.domain ) {
+
+                    document.getElementsByTagName('body')[0].removeChild(iframe);
+
+                    console.log('ChatError: The chat is created for another domain.');
+
+                }
 
             }
 

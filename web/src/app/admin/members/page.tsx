@@ -734,7 +734,7 @@ const Page = (): React.JSX.Element => {
                     if ( document.querySelectorAll('.fc-members-list > .fc-member').length < 2 ) {
 
                         // Set previous page
-                        search.Page = (search.Page - 1);
+                        search.Page = (search.Page > 1)?(search.Page - 1):search.Page;
 
                         // Search for members
                         setSearch(search);

@@ -163,6 +163,9 @@ namespace FeChat {
             // Register the library for cache storing
             services.AddMemoryCache();
 
+            // Register the library for responses compression
+            services.AddResponseCompression();
+
             // Register service for Member
             services.AddScoped<Member>();
 
@@ -290,51 +293,13 @@ namespace FeChat {
             // Redirects all HTTP urls to HTTPS
             app.UseHttpsRedirection();
 
-            // Verify if the app is in development
-            if (Environment.IsDevelopment()) {
-
-                // Enable Swagger support
-                app.UseSwagger();
-
-                // Enable Swagger UI
-                app.UseSwaggerUI();
-
-                // Enables the Developer Exception Page 
-                app.UseDeveloperExceptionPage();
-
-            }
-
-            // Get the site url
-            var SiteUrl = Configuration.GetValue<string>("SiteUrl");
-
-            // Enables authentication capabilities
-            app.UseAuthentication();
-
-
-            app.UseRouting(); // Enable routing before using endpoints
-
-            // Set the created Cors policy
-            app.UseCors(options =>
-            {
-                options.WithOrigins(SiteUrl ?? string.Empty)
-                    .AllowAnyMethod() // Adjust allowed methods (GET, POST, etc.)
-                    .AllowAnyHeader(); // Adjust allowed headers as needed
-            });            
-
-            // Enables the autorization middleware for requests validation
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints => // Use the injected IEndpointRouteBuilder
-            {
-                endpoints.MapControllers(); // Register controllers
-            });
-
-            app.UseCookiePolicy();
-
             // Enable support for WebSocket requests
             app.UseWebSockets();
 
-            // Catch all requests
+            // Use the Responses Compression
+            app.UseResponseCompression();
+
+            // Catch the websockets requests
             app.Use(async (context, next) => {
 
                 // Check if is a WebSocket request
@@ -371,6 +336,38 @@ namespace FeChat {
 
             });
 
+            // Verify if the app is in development
+            if (Environment.IsDevelopment()) {
+
+                // Enable Swagger support
+                app.UseSwagger();
+
+                // Enable Swagger UI
+                app.UseSwaggerUI();
+
+                // Enables the Developer Exception Page 
+                app.UseDeveloperExceptionPage();
+
+            }
+
+            // Get the site url
+            var SiteUrl = Configuration.GetValue<string>("SiteUrl");
+
+            // Enables authentication capabilities
+            app.UseAuthentication();
+
+            // Enable routing before using endpoints
+            app.UseRouting(); 
+
+            // Set the created Cors policy
+            app.UseCors(options =>
+            {
+                options.WithOrigins(SiteUrl ?? string.Empty)
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            });   
+
+            // Process the HTTP requests
             app.Use(async (context, next) => {
 
                 // Default language container
@@ -405,7 +402,7 @@ namespace FeChat {
                     // Set language
                     lang = (memberAccess.Result.Language != null)?memberAccess.Result.Language:"";
 
-                } else if ( context.Request.Path.ToString().IndexOf("/api/v1/user") == 0 ) {
+                } else if ( (context.Request.Path.ToString().IndexOf("/api/v1/user") == 0) && ( context.Request.Path != "/api/v1/user/websocket" ) ) {
 
                     // Get current member data
                     ResponseDto<MemberDto> memberAccess = await new Access(context).IsUserAsync(context.RequestServices.GetService<IMembersRepository>()!);
@@ -443,7 +440,22 @@ namespace FeChat {
                 // Call the next middleware in the pipeline
                 await next();
 
+            });         
+
+            // Enables the autorization middleware for requests validation
+            app.UseAuthorization();
+
+            // Use the injected IEndpointRouteBuilder
+            app.UseEndpoints(endpoints => 
+            {
+                // Register controllers
+                endpoints.MapControllers(); 
             });
+
+            app.UseCookiePolicy();
+
+            // Enable support for WebSocket requests
+            app.UseWebSockets();
 
         }
 

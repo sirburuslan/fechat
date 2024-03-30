@@ -315,7 +315,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
             if ( element.message ) {
 
                 // Set message as content
-                content = `<p>${unescapeRegexString(element.message.replaceAll(/\\n/g, '</p><p>'))}</p>`;
+                content = `<p>${element.message.replaceAll(/\\n/g, '</p><p>')}</p>`;
 
             } else if ( element.attachments.length > 0 ) {
 
@@ -347,7 +347,9 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
                     ${messageDate}
                     <div class="flex">
                         <div class="fc-message">
-                            ${content}
+                            ${content.replaceAll("\\\\", "\\").replace(/\\\\u/g, '\\u').replace(/\\(u[0-9A-Fa-f]{4})/g, (match: string): string => {
+                                return String.fromCharCode(parseInt(match.substring(2), 16));
+                            })}
                         </div>
                         <div class="fc-author-photo flex flex-col">
                             <div class="flex-grow"></div>
@@ -367,7 +369,9 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
                             ${IconPerson()}
                         </div> 
                         <div class="fc-message">
-                            ${content}
+                            ${content.replaceAll("\\\\", "\\").replace(/\\\\u/g, '\\u').replace(/\\(u[0-9A-Fa-f]{4})/g, (match: string): string => {
+                                return String.fromCharCode(parseInt(match.substring(2), 16));
+                            })}
                         </div>
                     </div>
                 </li>`;
@@ -385,7 +389,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
             // Update the messages list
             setHtmlMessages(prevHtml => messagesList + prevHtml);
 
-        } else {
+        } else if ( messagesList !== '' ) {
 
             // Set messages
             setHtmlMessages(messagesList);
@@ -471,7 +475,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
         enabled: !fetchedData
     });
 
-    // Run code after content load
+    // Monitor the data change
     useEffect((): () => void => {
 
         // Set the bearer token
@@ -480,102 +484,19 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
         // Create a Web Socket connection
         let socket = new WebSocket(process.env.NEXT_PUBLIC_API_URL?.replace('http', 'ws') + 'api/v1/user/websocket');
 
-        // Register an event when the connection opens
-        socket.onopen = (event: Event): void => {
-
-            // Prepare the data to send
-            let fields = {
-                AccessToken: token,
-                ThreadId: params.slug
-            };
-
-            // Send fields as string
-            socket.send(JSON.stringify(fields));
-
-        };
-
-        // Catch the messages
-        socket.onmessage = (event: MessageEvent<any>): void => {
-
-            // Decode the event data
-            let eventData = JSON.parse(event.data);
-
-            // Check if unseen messages exists
-            if ( typeof eventData.unseen !== 'undefined' ) {
-
-                // Select the chat body
-                let chatBody: Element = document.getElementsByClassName('fc-thread-chat-body')[0];
-
-                // Check if the div is scrolled up to the bottom
-                if ( (((chatBody as HTMLElement).offsetHeight + chatBody.scrollTop) >= chatBody.scrollHeight) || (chatBody.scrollHeight < 200) ) {
-
-                    // Reset the pagination
-                    pagination.Page = 1;
-
-                    // Reset Messages ids
-                    messagesIds.current = [];
-
-                    // Reset temporary dates
-                    tempDates.current = {};
-
-                    // Get the unseen messages
-                    threadMessages();
-
-                } else {
-
-                    // Show the unseen notification
-                    document.getElementsByClassName('fc-chat-unseen-messages')[0].classList.add('fc-chat-unseen-messages-show');
-
-                }
-
-            } else if ( typeof eventData.typing !== 'undefined' ) {
-
-                // Show typing animation
-                document.getElementsByClassName('fc-message-typing')[0].classList.add('fc-message-typing-show');
-
-                // Schedule a search
-                scheduleAnimation((): void => { 
-                    
-                    // Remove typing animation
-                    document.getElementsByClassName('fc-message-typing')[0].classList.remove('fc-message-typing-show');                                
-
-                }, 3000);
-                
-            }
-
-        };
-
-        // Register an event for clicks tracking
-        document.addEventListener('click', trackClicks);
-        
-        return (): void => {
-
-            // Web Socket connection
-            socket.close();
-
-            // Remove event for clicks tracking
-            document.removeEventListener('click', trackClicks);
-
-        };
-
-    }, []);
-
-    // Monitor the data change
-    useEffect((): void => {
-
         // Check if has occurred an error
         if ( error ) {
-console.log(1);
+
             // Set thread error message
             setThreadError((error as Error).message);
 
         } else if ( (typeof data != 'undefined') && !data.success ) {
-console.log(2);
+
             // Set thread error message
             setThreadError(data.message);
 
         } else if (data) {
-console.log(data);
+
             // Check if guest exists
             if ( typeof data.guest !== 'undefined' ) {
 
@@ -593,7 +514,7 @@ console.log(data);
                 }); 
 
             }
-            
+
             // Check if thread exists
             if ( typeof data.thread !== 'undefined' ) {
 
@@ -613,17 +534,106 @@ console.log(data);
 
                     }
 
+                    // Reset the pagination
+                    pagination.Page = 1;
+
+                    // Reset Messages ids
+                    messagesIds.current = [];
+
+                    // Reset temporary dates
+                    tempDates.current = {};
+
                     // Set the messages in the queue to be displayed
                     elementsList(data.thread.messages);
+
+                    // Register an event when the connection opens
+                    socket.onopen = (event: Event): void => {
+
+                        // Prepare the data to send
+                        let fields = {
+                            AccessToken: token,
+                            ThreadId: params.slug
+                        };
+
+                        // Send fields as string
+                        socket.send(JSON.stringify(fields));
+
+                    };
+
+                    // Catch the messages
+                    socket.onmessage = (event: MessageEvent<any>): void => {
+
+                        // Decode the event data
+                        let eventData = JSON.parse(event.data);
+
+                        // Check if unseen messages exists
+                        if ( typeof eventData.unseen !== 'undefined' ) {
+
+                            // Select the chat body
+                            let chatBody: Element = document.getElementsByClassName('fc-thread-chat-body')[0];
+
+                            // Check if the div is scrolled up to the bottom
+                            if ( (((chatBody as HTMLElement).offsetHeight + chatBody.scrollTop) >= chatBody.scrollHeight) || (chatBody.scrollHeight < 200) ) {
+
+                                // Reset the pagination
+                                pagination.Page = 1;
+
+                                // Reset Messages ids
+                                messagesIds.current = [];
+
+                                // Reset temporary dates
+                                tempDates.current = {};
+
+                                // Get the unseen messages
+                                threadMessages();
+
+                            } else {
+
+                                // Show the unseen notification
+                                document.getElementsByClassName('fc-chat-unseen-messages')[0].classList.add('fc-chat-unseen-messages-show');
+
+                            }
+
+                        } else if ( typeof eventData.typing !== 'undefined' ) {
+
+                            // Show typing animation
+                            document.getElementsByClassName('fc-message-typing')[0].classList.add('fc-message-typing-show');
+
+                            // Schedule a search
+                            scheduleAnimation((): void => { 
+                                
+                                // Remove typing animation
+                                document.getElementsByClassName('fc-message-typing')[0].classList.remove('fc-message-typing-show');                                
+
+                            }, 3000);
+                            
+                        }
+
+                    };
 
                 }
 
             }
 
+            
+
         } 
 
         // Stop to fetch data
         setFetchedData(true); 
+
+        // Register an event for clicks tracking
+        document.addEventListener('click', trackClicks);
+        
+        return (): void => {
+
+            // Web Socket connection
+            socket.close();
+
+            // Remove event for clicks tracking
+            document.removeEventListener('click', trackClicks);
+
+        };
 
     }, [data]);
 
@@ -1070,7 +1080,9 @@ console.log(data);
                                     {getIcon('IconPerson')}                                 
                                 </div>
                                 <div className="fc-thread-guest-name">
-                                    {guestInfo.Name}  <div className="fc-message-typing"></div>                           
+                                    {guestInfo.Name.replaceAll("\\\\", "\\").replace(/\\\\u/g, '\\u').replace(/\\(u[0-9A-Fa-f]{4})/g, (match: string): string => {
+                                        return String.fromCharCode(parseInt(match.substring(2), 16));
+                                    })}  <div className="fc-message-typing"></div>                           
                                 </div>
                                 <div className="fc-thread-guest-email">
                                     <a href={"mailto:" + guestInfo.Email}>

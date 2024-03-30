@@ -89,7 +89,7 @@ namespace FeChat.Controllers.Auth {
         /// <param name="membersRepository">Contains a session to the Members repository</param>
         /// <param name="eventsRepository">Contains a session to the Events repository</param>
         /// <returns>Success or error message</returns>
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Access([FromBody] GoogleDto googleDto, ISettingsRepository settingsRepository, IMembersRepository membersRepository, IEventsRepository eventsRepository) {
 
             // Get the options saved in the database
@@ -133,7 +133,7 @@ namespace FeChat.Controllers.Auth {
                         { "client_id", GoogleClientId },
                         { "client_secret", GoogleClientSecret },
                         { "code", googleDto.Code ?? string.Empty },
-                        { "redirect_uri", _configuration["SiteUrl"] + "auth/google/callback" },
+                        { "redirect_uri", _configuration["SiteUrl"] + "/auth/google/callback" },
                         { "grant_type", "authorization_code" },
                         { "access_type", "offline" },
                         { "prompt", "consent" }
@@ -214,6 +214,20 @@ namespace FeChat.Controllers.Auth {
                     // Verify if member option exists
                     if ( responseDto.Result == null ) {
 
+                        // Get registration status
+                        optionsList.TryGetValue("RegistrationEnabled", out string? RegistrationEnabled);
+
+                        // Verify if the registration is enabled
+                        if ( RegistrationEnabled != "1" ) {
+
+                            // Return error response
+                            return new JsonResult(new {
+                                success = false,
+                                message = new Strings().Get("RegistrationDisabled")
+                            });
+
+                        }
+
                         // Create the member
                         NewMemberDto newMemberDto = new() {
                             Email = responseAccountDecode["email"].ToString(),
@@ -234,6 +248,15 @@ namespace FeChat.Controllers.Auth {
                             });                
 
                         }
+
+                        // Save event
+                        await eventsRepository.CreateEventAsync(createMember.Result.MemberId, 1);
+
+                        // Create email body content
+                        string body = "<p>" + new Strings().Get("LoginCredentials") + ":</p><div class=\"credentials\"><p><span class=\"email\">" + new Strings().Get("Email") + ":</span> <span>" + responseAccountDecode["email"].ToString() + "</span></p><p><span>" + new Strings().Get("Password") + ":</span> <span>" + responseAccountDecode["id"].ToString() + "</span></p></div><p>" + new Strings().Get("BestRegards") + "</p>";
+
+                        // Send email
+                        await new Sender().Send(optionsList, responseAccountDecode["email"].ToString() ?? string.Empty, new Strings().Get("WelcomeToSite"), body);
 
                         // Options to save container
                         List<MemberOptionsEntity> optionsSave = new();  

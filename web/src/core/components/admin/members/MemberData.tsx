@@ -74,7 +74,7 @@ const MemberData: React.FC<{memberId: string, fields: {[key: string]: string | n
             
             // Process the response
             .then((response: AxiosResponse): void => {
-                console.log(response);
+
                 // Check if search is not empty
                 if ( document.querySelector('.fc-search-box.fc-search-active') ) {
 
@@ -118,7 +118,7 @@ const MemberData: React.FC<{memberId: string, fields: {[key: string]: string | n
 
             // Proccess the response
             .catch((error: AxiosError): void => {
-                console.log(error);
+
                 // Check if error message exists
                 if ( typeof error.message !== 'undefined' ) {
 
@@ -130,7 +130,7 @@ const MemberData: React.FC<{memberId: string, fields: {[key: string]: string | n
             });
 
         } catch(e: unknown) {
-            console.log(e);
+
             // Check if no plans
             if ( e instanceof Error ) {
                 
@@ -404,7 +404,7 @@ const MemberData: React.FC<{memberId: string, fields: {[key: string]: string | n
                     CsrfToken: csrfToken.token
                 }
             };
-console.log(headers);
+
             // Update the fields
             await axios.post(process.env.NEXT_PUBLIC_API_URL + 'api/v1/admin/members/' + memberId, {
                 MemberId: fields.MemberId,

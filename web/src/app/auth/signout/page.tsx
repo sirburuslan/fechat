@@ -18,6 +18,9 @@ import { useEffect } from 'react';
 // Import the router function
 import { useRouter  } from 'next/navigation';
 
+// Import the Secure Storage module for react
+import SecureStorage from 'react-secure-storage';
+
 // Create the Page component
 const Page = (): React.JSX.Element => {
 

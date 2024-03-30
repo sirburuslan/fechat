@@ -361,7 +361,9 @@ const Page = (): React.JSX.Element => {
                             <Link href={'/user/threads/' + thread.threadId} className={((thread.messageSeen < 1) && (thread.memberId === 0))?"fc-unread-message":""}>
                                 <div className="w-full mb-2 flex justify-between">
                                     <h4>
-                                        {unescapeRegexString(thread.guestName)}
+                                        {thread.guestName.replaceAll("\\\\", "\\").replace(/\\\\u/g, '\\u').replace(/\\(u[0-9A-Fa-f]{4})/g, (match: string): string => {
+                                            return String.fromCharCode(parseInt(match.substring(2), 16));
+                                        })}
                                         {(thread.created > (data.time - 86400))?(
                                             <span className="fc-thread-new">
                                                 {getWord('user', 'user_new_thread', memberOptions['Language'])}
@@ -373,7 +375,9 @@ const Page = (): React.JSX.Element => {
                                 </div>
                                 <div className="w-full">
                                     <p>
-                                        {unescapeRegexString(thread.message.replaceAll(/\\n/g, " "))}
+                                        {thread.message.replaceAll("\\\\", "\\").replace(/\\\\u/g, '\\u').replace(/\\(u[0-9A-Fa-f]{4})/g, (match: string): string => {
+                                            return String.fromCharCode(parseInt(match.substring(2), 16));
+                                        })}
                                     </p>
                                 </div> 
                                 <div className="w-full fc-message-footer">

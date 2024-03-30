@@ -78,7 +78,7 @@ namespace FeChat.Controllers.User {
         [HttpGet]
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> QueueRequest(HttpContext context, IMembersRepository membersRepository, IMessagesRepository messagesRepository) {
-
+Console.WriteLine(1);
             // Accept an incoming WebSocket connection
             WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
 
@@ -99,7 +99,7 @@ namespace FeChat.Controllers.User {
                 
                 // Verify if access token exists
                 if ( !fields.ContainsKey("AccessToken") ) {
-
+Console.WriteLine(2);
                     // Prepare the response
                     byte[] response = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new {
                         success = false,

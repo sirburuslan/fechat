@@ -15,6 +15,9 @@
 // Import some React's hooks
 import { useState, useRef, useContext, MouseEventHandler, FormEvent } from 'react';
 
+// Import the router function
+import { useRouter } from 'next/navigation';
+
 // Import axios
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
@@ -41,6 +44,9 @@ import useFormSignIn from '@/core/hooks/auth/signin/useFormSignIn';
  
 // Create the Page component
 const Page = (): React.JSX.Element => {
+
+    // Get the router
+    let router = useRouter();
 
     // Website options
     let {websiteOptions, setWebsiteOptions} = useContext(WebsiteOptionsContext); 
@@ -180,12 +186,12 @@ const Page = (): React.JSX.Element => {
                         if ( response.data.member.role === 0 ) {
 
                             // Redirect the administrator to the dashboard page
-                            document.location.href = process.env.NEXT_PUBLIC_SITE_URL + 'admin/dashboard';
+                            router.push(process.env.NEXT_PUBLIC_SITE_URL + 'admin/dashboard');
 
                         } else {
 
                             // Redirect the user to the dashboard page
-                            document.location.href = process.env.NEXT_PUBLIC_SITE_URL + 'user/dashboard';
+                            router.push(process.env.NEXT_PUBLIC_SITE_URL + 'user/dashboard');
 
                         }
 

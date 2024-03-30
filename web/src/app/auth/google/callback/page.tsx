@@ -25,13 +25,13 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import SecureStorage from 'react-secure-storage';
 
 // Import the incs
-import { getWord, getToken } from '@/core/inc/incIndex';
+import { getWord, getOptions, getToken, updateOptions } from '@/core/inc/incIndex';
 
-// Import types
-import { typeToken, typePostHeader } from '@/core/types/typesIndex';
+// Import the types
+import { typeOptions, typeToken, typePostHeader } from '@/core/types/typesIndex';
 
 // Import the options for website and member
-import { WebsiteOptionsContext } from '@/core/contexts/OptionsContext';
+import {WebsiteOptionsContext, MemberOptionsContext} from '@/core/contexts/OptionsContext';
 
 // Create the page component
 const Page = (): React.JSX.Element => {
@@ -42,11 +42,25 @@ const Page = (): React.JSX.Element => {
     // Gets the search params
     let searchParams = useSearchParams();
     
-    // Error message container
-    let [errorMessage, setErrorMessage] = useState('');
+    // Message container
+    let [message, setMessage] = useState('');
 
     // Website options
-    let { websiteOptions } = useContext(WebsiteOptionsContext);
+    let {websiteOptions, setWebsiteOptions} = useContext(WebsiteOptionsContext); 
+
+    // Member options
+    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
+
+    // Get all options
+    let getOptionsAll = async (): Promise<void> => {
+
+        // Request the options
+        let optionsList: {success: boolean, options?: typeOptions} = await getOptions();
+
+        // Update memberOptions
+        updateOptions(optionsList, setWebsiteOptions, setMemberOptions);
+
+    }
 
     // Monitor websiteOptions change
     useEffect((): void => {
@@ -58,9 +72,9 @@ const Page = (): React.JSX.Element => {
             if ( (websiteOptions.GoogleAuthEnabled !== '1') || (websiteOptions.GoogleClientId === '') || (websiteOptions.GoogleClientSecret === '') ) {
 
                 // Set error message
-                setErrorMessage(getWord('auth', 'auth_google_is_not_configured'));
+                setMessage(getWord('auth', 'auth_google_is_not_configured'));
 
-            } else {
+            } else if ( message === '' ) {
 
                 // Get the code from url
                 let code: string | null = searchParams.get('code');
@@ -104,6 +118,12 @@ const Page = (): React.JSX.Element => {
 
                                 // Save the member role
                                 SecureStorage.setItem('fc_role', response.data.member.role);
+
+                                // Reload the options
+                                getOptionsAll();
+
+                                // Add validating message
+                                setMessage(getWord('auth', 'auth_validating'));                                
 
                                 // Set a pause
                                 setTimeout((): void => {
@@ -160,7 +180,7 @@ const Page = (): React.JSX.Element => {
                         if ( error instanceof Error ) {
             
                             // Add error message
-                            setErrorMessage(error.message);
+                            setMessage(error.message);
             
                         } else {
             
@@ -183,8 +203,8 @@ const Page = (): React.JSX.Element => {
         <Suspense>
             <div className="px-8 pt-6 pb-6 mb-4 fc-auth-validating">
                 <div>
-                    {(errorMessage !== '')?(
-                        errorMessage 
+                    {(message !== '')?(
+                        message 
                     ):(
                         getWord('auth', 'auth_validating')
                     )}

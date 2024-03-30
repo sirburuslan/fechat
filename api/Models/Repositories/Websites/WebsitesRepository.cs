@@ -331,7 +331,7 @@ namespace FeChat.Models.Repositories.Websites {
                     .ToListAsync();
 
                     // Get the total count before pagination
-                    int totalCount = await query.CountAsync();
+                    int totalCount = await query.Where(w => w.MemberId == memberId).CountAsync();
 
                     // Add data to website response
                     websitesResponse = new Tuple<List<NewWebsiteDto>, int>(websites, totalCount);
@@ -488,6 +488,9 @@ namespace FeChat.Models.Repositories.Websites {
                     // Create the cache
                     _memoryCache.Set(cacheKey, websiteDto, cacheOptions);
 
+                    // Save the cache key in the group
+                    new Cache(_memoryCache).Save("websites", cacheKey);
+
                 }
 
                 // Verify if website exists
@@ -569,6 +572,9 @@ namespace FeChat.Models.Repositories.Websites {
 
                     // Create the cache
                     _memoryCache.Set(cacheKey, websiteDto, cacheOptions);
+
+                    // Save the cache key in the group
+                    new Cache(_memoryCache).Save("websites", cacheKey);
 
                 }
 

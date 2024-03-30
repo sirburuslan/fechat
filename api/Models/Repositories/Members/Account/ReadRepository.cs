@@ -376,7 +376,8 @@ namespace FeChat.Models.Repositories.Members.Account {
                         FirstName = m.FirstName,
                         LastName = m.LastName,
                         Email = m.Email,
-                        Role = m.Role
+                        Role = m.Role,
+                        Created = m.Created
                     })
                     .GroupJoin(
                         _context.MembersOptions.Where(o => o.OptionName == "Language"),
@@ -392,6 +393,7 @@ namespace FeChat.Models.Repositories.Members.Account {
                             LastName = x.member.LastName,
                             Email = x.member.Email,
                             Role = x.member.Role,
+                            Created = x.member.Created,
                             Language = option != null ? option.OptionValue : null               
                         }
                     )

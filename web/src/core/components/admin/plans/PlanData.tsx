@@ -246,7 +246,6 @@ const PlanData: React.FC<{planId: string, fields: {[key: string]: string | numbe
 
             // Process the response
             .then(async (response: AxiosResponse) => {
-                console.log(response);
 
                 // Verify if the response is successfully
                 if ( response.data.success ) {

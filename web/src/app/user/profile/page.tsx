@@ -42,9 +42,6 @@ import { WebsiteOptionsContext, MemberOptionsContext } from '@/core/contexts/Opt
 // Import the Profile Data component
 import ProfileData from "@/core/components/user/profile/ProfileData";
 
-// Import the Profile Notifications component
-import ProfileNotifications from "@/core/components/user/profile/ProfileNotifications";
-
 // Create the page content
 const Page = (): React.JSX.Element => {
 
@@ -385,9 +382,6 @@ const Page = (): React.JSX.Element => {
                         </div>
                         <div className="fc-member-options col-span-1 md:col-span-2 lg:col-span-3 xl:col-span-3">
                             <ProfileData fields={fields} setFields={setFields} />          
-                        </div>
-                        <div className="fc-member-events col-span-1 md:col-span-2 lg:col-span-3 xl:col-span-3">
-                            <ProfileNotifications fields={fields} setFields={setFields} /> 
                         </div>
                     </div>          
                 </div>            

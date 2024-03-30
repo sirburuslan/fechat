@@ -492,7 +492,7 @@ const Page = (): React.JSX.Element => {
                     if ( document.querySelectorAll('.fc-threads-list > .fc-thread').length < 2 ) {
 
                         // Set previous page
-                        search.Page = (search.Page - 1);
+                        search.Page = (search.Page > 1)?(search.Page - 1):search.Page;
 
                         // Search for threads
                         setSearch(search);

@@ -115,6 +115,9 @@ const cancelSession = (): void => {
         // Remove the jwt token
         SecureStorage.removeItem('fc_jwt');
 
+        // Remove the jwt role
+        SecureStorage.removeItem('fc_role');
+
     }
 
     // Redirect the user to session expired

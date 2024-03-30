@@ -232,7 +232,7 @@ namespace FeChat.Models.Repositories.Messages.Threads {
             try {
 
                 // Create the cache key
-                string cacheKey = "fc_hot_threads_" + memberId;
+                string cacheKey = "fc_hot_threads_w" + memberId;
 
                 // Verify if the cache is saved
                 if ( !_memoryCache.TryGetValue(cacheKey, out List<ResponseThreadDto>? threads) ) {

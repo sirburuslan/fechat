@@ -34,13 +34,13 @@ import SecureStorage from 'react-secure-storage';
 import ChartLineWidget from '@/core/components/admin/dashboard/ChartLineWidget';
 
 // Import the incs
-import { getIcon, getWord, getToken, getMonth, showNotification, calculateTime, unescapeRegexString } from '@/core/inc/incIndex';
+import { getIcon, getWord, getToken, getMonth, getOptions, updateOptions, showNotification, calculateTime, unescapeRegexString } from '@/core/inc/incIndex';
 
 // Import the types
-import { typeToken, typePostHeader } from '@/core/types/typesIndex';
+import { typeToken, typePostHeader, typeOptions } from '@/core/types/typesIndex';
 
 // Import the options for website and member
-import {MemberOptionsContext} from '@/core/contexts/OptionsContext';
+import {WebsiteOptionsContext, MemberOptionsContext} from '@/core/contexts/OptionsContext';
 
 // Import the ui components
 import {UiCalendar} from '@/core/components/general/ui/UiIndex';
@@ -48,8 +48,11 @@ import {UiCalendar} from '@/core/components/general/ui/UiIndex';
 // Create the page content
 const Page = (): React.JSX.Element => {
 
+    // Website options
+    let {websiteOptions, setWebsiteOptions} = useContext(WebsiteOptionsContext); 
+
     // Member options
-    let {memberOptions} = useContext(MemberOptionsContext);
+    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
 
     // Set a hook for error message if dashboard can't be reached
     let [dashboardError, setDashboardError] = useState('');
@@ -470,10 +473,13 @@ const Page = (): React.JSX.Element => {
                         dashboardMembers();
 
                         // Set a pause
-                        setTimeout((): void => {
+                        setTimeout(async (): Promise<void> => {
 
-                            // Set the dropown link
-                            document.getElementsByClassName('fc-dashboard-widget-dropdown-text')[0].textContent = menuText;
+                            // Request the options
+                            let optionsList: {success: boolean, options?: typeOptions} = await getOptions();
+
+                            // Update memberOptions
+                            updateOptions(optionsList, setWebsiteOptions, setMemberOptions);
 
                         }, 300);
 

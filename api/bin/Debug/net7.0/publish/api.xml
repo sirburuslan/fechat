@@ -5513,12 +5513,47 @@
             <summary>
             Main class used as entry point for the app
             </summary>
-            <param name="args">
-            Command-line arguments passed when the application is started
-            </param>
-            <returns>
-            void
-            </returns>
+            <param name="args">Command-line arguments passed when the application is started</param>
+        </member>
+        <member name="M:FeChat.Program.CreateHostBuilder(System.String[])">
+            <summary>
+            Create the Host and set Startup
+            </summary>
+            <param name="args">Command-line arguments passed when the application is started</param>
+        </member>
+        <member name="T:FeChat.Startup">
+            <summary>
+            Startup Class
+            </summary>
+        </member>
+        <member name="P:FeChat.Startup.Configuration">
+            <summary>
+            Configuration container
+            </summary>
+        </member>
+        <member name="P:FeChat.Startup.Environment">
+            <summary>
+            Environment container
+            </summary>
+        </member>
+        <member name="M:FeChat.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            Startup Constructor
+            </summary>
+            <param name="configuration">App Configuration</param>
+            <param name="env">Information about the web hosting environment</param>
+        </member>
+        <member name="M:FeChat.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Configure the app services
+            </summary>
+            <param name="services">Collection with services</param>
+        </member>
+        <member name="M:FeChat.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Configure the HTTP request pipeline
+            </summary>
+            <param name="app">Application's request pipeline</param>
         </member>
         <member name="T:FeChat.Utils.Configuration.Db">
             <summary>
