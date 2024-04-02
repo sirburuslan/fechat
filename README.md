@@ -6,6 +6,8 @@
 
 <p>Administrator Panel Video: https://youtu.be/Eq6J8s3vM0o </p>
 
+<p>Multiple Language Support: https://youtu.be/TVNwoM_HzgY </p>
+
 <h3>Key Features for Administrator:</h3>
 <ol>
   <li>Configure services from the administrator panel.</li>
