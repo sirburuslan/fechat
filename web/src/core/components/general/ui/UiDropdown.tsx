@@ -36,13 +36,13 @@ type DropdownProps = {
 const UiDropdown: React.FC<DropdownProps> = ({button, options, id, menuPosition}): React.JSX.Element => {
 
     // Register a reference for the dropdown
-    let menuRef = useRef<HTMLDivElement>(null);
+    const menuRef = useRef<HTMLDivElement>(null);
 
     // Get the current path name
-    let pathname: string = usePathname();
+    const pathname: string = usePathname();
 
     // Handle click outside
-    let handleClickOutside: (e: MouseEvent) => void = (e: MouseEvent): void => {
+    const handleClickOutside: (e: MouseEvent) => void = (e: MouseEvent): void => {
 
         // Verify if the click is outside the menu
         if ( menuRef.current && !menuRef.current.contains(e.target as Node) ) {
@@ -73,11 +73,11 @@ const UiDropdown: React.FC<DropdownProps> = ({button, options, id, menuPosition}
     }, []);
 
     // Show menu
-    let buttonClick: (e: React.MouseEvent<HTMLElement>) => void = (e: React.MouseEvent<HTMLElement>): void => {
+    const buttonClick: (e: React.MouseEvent<HTMLElement>) => void = (e: React.MouseEvent<HTMLElement>): void => {
         e.preventDefault();
 
         // Get the target
-        let target = e.target as HTMLElement;
+        const target = e.target as HTMLElement;
 
         // Verify if the dropdown is showed
         if ( target.closest('.fc-dropdown')!.getAttribute('data-expand') === 'false' ) {
@@ -86,13 +86,13 @@ const UiDropdown: React.FC<DropdownProps> = ({button, options, id, menuPosition}
             target.closest('.fc-dropdown')!.setAttribute('data-expand', 'true');
 
             // Get menu
-            let menu: Element = target.closest('.fc-dropdown')!.getElementsByClassName('fc-dropdown-menu')[0];
+            const menu: Element = target.closest('.fc-dropdown')!.getElementsByClassName('fc-dropdown-menu')[0];
 
             // Get the height
-            let height: number = menu.clientHeight;
+            const height: number = menu.clientHeight;
 
             // Calculate the height of the button
-            let button_height: number = target.offsetHeight;
+            const button_height: number = target.offsetHeight;
 
             // Set transformation
             (menu as HTMLElement).style.transform = `translate3d(0, -${button_height + height}px, 0)`;

@@ -113,9 +113,6 @@
     </data>
     <data name="ImageTooBig" xml:space="preserve">
         <value>The image size is too large.</value>
-    </data> 
-    <data name="CSRFNotGenerated" xml:space="preserve">
-        <value>An anti-csrf token not generated successfully.</value>
     </data>
     <data name="AnalyticsCodeLong" xml:space="preserve">
         <value>The analytics code is too long.</value>
@@ -492,9 +489,6 @@
     <data name="AccessCodeNotGenerated" xml:space="preserve">
         <value>The access code wasn't generated successfully.</value>
     </data>
-    <data name="InvalidCsrfToken" xml:space="preserve">
-        <value>Invalid CSRF token.</value>
-    </data>
     <data name="WelcomeToSite" xml:space="preserve">
         <value>Welcome to Fechat</value>
     </data>  
@@ -511,9 +505,15 @@
         <value>Password</value>
     </data> 
     <data name="NewUnreadMessage" xml:space="preserve">
-        <value>Aveți mesaj necitit</value>
+        <value>A New Message Received</value>
     </data>
     <data name="YouHaveNewUnreadMessage" xml:space="preserve">
-        <value>Ați primit un mesaj nou pe FeChat.</value>
-    </data>                                                                 
+        <value>You have received a new message on FeChat.</value>
+    </data>
+    <data name="ClosingWebSocketConnection" xml:space="preserve">
+        <value>Closing WebSocket connection</value>
+    </data>
+    <data name="OptionsNotFound" xml:space="preserve">
+        <value>App options were not found.</value>
+    </data>                                                     
 </root>

@@ -26,15 +26,15 @@ import { MemberOptionsContext } from '@/core/contexts/OptionsContext';
 const FieldEmail = (params: typeField): React.JSX.Element => {
 
     // Member options
-    let {memberOptions} = useContext(MemberOptionsContext);   
+    const {memberOptions} = useContext(MemberOptionsContext);   
 
     // Generate unique id
-    let uniqueId: string = "fc-settings-email-input-" + params.name;
+    const uniqueId: string = "fc-settings-email-input-" + params.name;
 
     /**
      * Change value handler
      */
-    let changeValue = (): void => {
+    const changeValue = (): void => {
 
         // Change the input value
         params.hook.fields[params.name] = (document.querySelector(".fc-option-email #" + uniqueId) as HTMLInputElement).value;
@@ -47,7 +47,7 @@ const FieldEmail = (params: typeField): React.JSX.Element => {
     /**
      * Copy email handler
      */
-    let copyEmail = (): void => {
+    const copyEmail = (): void => {
 
         // Verify if field is undefined
         if ( typeof params.hook.fields[params.name] === 'undefined' ) {

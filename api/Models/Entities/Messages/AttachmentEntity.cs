@@ -13,7 +13,7 @@
 // Namespace for Messages Entities
 namespace FeChat.Models.Entities.Messages {
 
-    // Use the Adnnotations for attributes
+    // System Namespaces
     using System.ComponentModel.DataAnnotations; 
 
     /// <summary>

@@ -13,7 +13,7 @@
 // Namespace for Subscription entities
 namespace FeChat.Models.Entities.Subscriptions {
 
-    // Use the DataAnnotations
+    // System Namespaces
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>

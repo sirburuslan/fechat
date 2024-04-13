@@ -28,7 +28,7 @@ const FieldCheckbox = (params: typeField): React.JSX.Element => {
     if ( typeof document !== 'undefined' ) {
 
         // Get input
-        let input: Element | null = document.querySelector(".fc-extra-option #fc-option-checkbox-input-" + params.name.toLowerCase());
+        const input: Element | null = document.querySelector(".fc-extra-option #fc-option-checkbox-input-" + params.name.toLowerCase());
 
         // check if input exists
         if ( input instanceof HTMLInputElement ) {
@@ -53,7 +53,7 @@ const FieldCheckbox = (params: typeField): React.JSX.Element => {
     /**
      * Change value handler
      */
-    let changeValue = (): void => {
+    const changeValue = (): void => {
 
         // Change the input value
         params.hook.fields[params.name] = (document.querySelector(".fc-extra-option #fc-option-checkbox-input-" + params.name.toLowerCase()) as HTMLInputElement).checked?1:0;

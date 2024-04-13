@@ -13,17 +13,13 @@
 // Namespace for General Utils
 namespace FeChat.Utils.General {
 
-    // Use the Authentication to get the token from http context
+    // System Namespaces
     using Microsoft.AspNetCore.Authentication;
 
-    // Use the General Dto classes
-    using FeChat.Models.Dtos;
-
-    // Use the Member Dto classes
-    using FeChat.Models.Dtos.Members;
-
-    // Use the Members repository
-    using FeChat.Utils.Interfaces.Repositories.Members;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Members;
+    using Utils.Interfaces.Repositories.Members;
 
     /// <summary>
     /// Access Validator
@@ -52,18 +48,18 @@ namespace FeChat.Utils.General {
         /// <returns>Member dto or error message</returns>
         public async Task<ResponseDto<MemberDto>> IsAdminAsync(IMembersRepository members) {
 
-            // Retrieve the access token from the HttpContext
-            string accessToken = _httpContext.GetTokenAsync("access_token").Result ?? string.Empty;
+            // Get the access token from http context
+            string? accessToken = _httpContext.GetTokenAsync("access_token").Result;
 
-            // Check if access token exists
-            if (accessToken == null) {
+            // Check if the access token is empty
+            if ( accessToken == null ) {
 
                 // Return error response
                 return new ResponseDto<MemberDto> {
                     Result = null,
                     Message = new Strings().Get("NoTokenFound")
                 };
-
+                
             }
 
             // Get the member's ID
@@ -123,18 +119,18 @@ namespace FeChat.Utils.General {
         /// <returns>Member dto or error message</returns>
         public async Task<ResponseDto<MemberDto>> IsUserAsync(IMembersRepository members) {
 
-            // Retrieve the access token from the HttpContext
-            string accessToken = _httpContext.GetTokenAsync("access_token").Result ?? string.Empty;
+            // Get the access token from http context
+            string? accessToken = _httpContext.GetTokenAsync("access_token").Result;
 
-            // Check if access token exists
-            if (accessToken == null) {
+            // Check if the access token is empty
+            if ( accessToken == null ) {
 
                 // Return error response
                 return new ResponseDto<MemberDto> {
                     Result = null,
                     Message = new Strings().Get("NoTokenFound")
                 };
-
+                
             }
 
             // Get the member's ID

@@ -13,11 +13,9 @@
 // Namespace for General Utils
 namespace FeChat.Utils.General {
 
-    // Use the Text classes for text encoding
-    using System.Text;
-
-    // Use the classes for encryption and decryption
+    // System Namespaces
     using System.Security.Cryptography;
+    using System.Text;
 
     /// <summary>
     /// Encryptor Class

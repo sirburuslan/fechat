@@ -13,35 +13,19 @@
 // Namespace for Public Threads Controllers
 namespace FeChat.Controllers.Public.Threads {
 
-    // Use the MVC for the controller interface
-    using Microsoft.AspNetCore.Mvc;
-
-    // Use the authorization for access restriction
+    // System Namespaces
     using Microsoft.AspNetCore.Authorization;
-
-    // Use the Cors feature to control the access
     using Microsoft.AspNetCore.Cors;
-
-    // Use the Versioning to add version in url
+    using Microsoft.AspNetCore.Mvc;
     using Asp.Versioning;
 
-    // Use general dtos
-    using FeChat.Models.Dtos;
-
-    // Use dtos for messages
-    using FeChat.Models.Dtos.Messages;
-
-    // Use Websites Dtos
-    using FeChat.Models.Dtos.Websites;
-
-    // Use General utils for strings
-    using FeChat.Utils.General;
-
-    // Use interfaces for Messages Repositories
-    using FeChat.Utils.Interfaces.Repositories.Messages;
-    
-    // Use Websites repositories
-    using FeChat.Utils.Interfaces.Repositories.Websites;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Messages;
+    using Models.Dtos.Websites;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Messages;
+    using Utils.Interfaces.Repositories.Websites;
 
     /// <summary>
     /// Threads Update Controller
@@ -57,22 +41,13 @@ namespace FeChat.Controllers.Public.Threads {
         private readonly IWebsitesRepository _websitesRepository;
 
         /// <summary>
-        /// Container for app's configuration
-        /// </summary>
-        private readonly IConfiguration _configuration;
-
-        /// <summary>
         /// Constructor for this controller
         /// </summary>
         /// <param name="websitesRepository">An instance to the websites repository</param>
-        /// <param name="configuration">App configuration</param>
-        public UpdateController(IWebsitesRepository websitesRepository, IConfiguration configuration) {
+        public UpdateController(IWebsitesRepository websitesRepository) {
 
             // Save website repository
             _websitesRepository = websitesRepository;
-
-            // Add configuration to the container
-            _configuration = configuration;
 
         }
 
@@ -87,28 +62,6 @@ namespace FeChat.Controllers.Public.Threads {
         [HttpPost("{websiteId}/{threadSecret}/typing")]
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> TypingActive(int websiteId, string threadSecret, IMessagesRepository messagesRepository) {
-
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
-
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
 
             // Check if website id exists
             if ( websiteId == 0 ) {

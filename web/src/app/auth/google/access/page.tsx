@@ -28,13 +28,13 @@ import { WebsiteOptionsContext } from '@/core/contexts/OptionsContext';
 const Page = (): React.JSX.Element => {
 
     // Get the router
-    let router = useRouter();
+    const router = useRouter();
 
     // Error message container
-    let [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     // Website options
-    let { websiteOptions } = useContext(WebsiteOptionsContext);
+    const { websiteOptions } = useContext(WebsiteOptionsContext);
 
     // Monitor websiteOptions change
     useEffect((): void => {
@@ -51,7 +51,7 @@ const Page = (): React.JSX.Element => {
             } else {
 
                 //Login params
-                let authParams = {
+                const authParams = {
                     client_id: websiteOptions.GoogleClientId,
                     scope: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
                     redirect_uri: process.env.NEXT_PUBLIC_SITE_URL + 'auth/google/callback',
@@ -61,7 +61,7 @@ const Page = (): React.JSX.Element => {
                 };
 
                 // Build the login URL
-                let loginUrl = `https://accounts.google.com/o/oauth2/v2/auth?${new URLSearchParams(authParams)}`;
+                const loginUrl = `https://accounts.google.com/o/oauth2/v2/auth?${new URLSearchParams(authParams)}`;
 
                 // Redirect to the login page
                 router.push(loginUrl);                

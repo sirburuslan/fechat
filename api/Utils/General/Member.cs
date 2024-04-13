@@ -13,8 +13,8 @@
 // Namespace for General Utils
 namespace FeChat.Utils.General {
 
-    // Use the Members Dtos
-    using FeChat.Models.Dtos.Members;
+    // App Namespaces
+    using Models.Dtos.Members;
 
     /// <summary>
     /// Member Holder

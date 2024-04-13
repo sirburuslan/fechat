@@ -25,7 +25,7 @@ import SecureStorage from 'react-secure-storage';
 const Page = (): React.JSX.Element => {
 
     // Get the router
-    let router = useRouter();
+    const router = useRouter();
 
     useEffect(() => {
 

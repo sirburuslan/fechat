@@ -13,27 +13,16 @@
 // Namespace for Messages Repositories
 namespace FeChat.Models.Repositories.Messages.Messages {
 
-    // Use the Entity Framework
+    // System Namespaces
     using Microsoft.EntityFrameworkCore;
-
-    // Using catching memory extension
     using Microsoft.Extensions.Caching.Memory;
 
-    // Use general dtos
-    using FeChat.Models.Dtos;
-
-    // Use dtos for messages
-    using FeChat.Models.Dtos.Messages;
-
-    // Use Messages Entities
-    using FeChat.Models.Entities.Messages;
-
-    // Use configuration
-    using FeChat.Utils.Configuration;
-
-    // Use General utils for strings
-    using FeChat.Utils.General;
-    using FeChat.Models.Dtos.Members;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Messages;
+    using Models.Entities.Messages;
+    using Utils.Configuration;
+    using Utils.General;
 
     /// <summary>
     /// Messages Read Repository

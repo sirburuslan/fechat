@@ -13,38 +13,20 @@
 // Namespace for Public Threads Controllers
 namespace FeChat.Controllers.Public.Threads {
 
-    // Use the MVC feature for controllers
-    using Microsoft.AspNetCore.Mvc;
-
-    // Use the Cors feature to control the access
-    using Microsoft.AspNetCore.Cors;
-
-    // Use the Authorization feature to allow guests access
+    // System Namespaces
     using Microsoft.AspNetCore.Authorization;
-
-    // Use the Versioning to add version in url
+    using Microsoft.AspNetCore.Cors;
+    using Microsoft.AspNetCore.Mvc;
     using Asp.Versioning;
 
-    // Use general dtos for responses
-    using FeChat.Models.Dtos;
-
-    // Use the Messages Dtos
-    using FeChat.Models.Dtos.Messages;
-
-    // Use the Websites Dtos
-    using FeChat.Models.Dtos.Websites;
-
-    // Use General utils for strings
-    using FeChat.Utils.General;
-
-    // Use the Messages Repositories
-    using FeChat.Utils.Interfaces.Repositories.Messages;
-
-    // Use the Settings Repositories
-    using FeChat.Utils.Interfaces.Repositories.Settings;
-
-    // Use the Websites Repositories
-    using FeChat.Utils.Interfaces.Repositories.Websites;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Messages;
+    using Models.Dtos.Websites;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Messages;
+    using Utils.Interfaces.Repositories.Settings;
+    using Utils.Interfaces.Repositories.Websites;
 
     /// <summary>
     /// Create Threads Controller
@@ -54,22 +36,6 @@ namespace FeChat.Controllers.Public.Threads {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/threads")]
     public class CreateController: Controller {
-
-        /// <summary>
-        /// Container for app's configuration
-        /// </summary>
-        private readonly IConfiguration _configuration;
-
-        /// <summary>
-        /// Constructor for this controller
-        /// </summary>
-        /// <param name="configuration">App configuration</param>
-        public CreateController(IConfiguration configuration) {
-
-            // Add configuration to the container
-            _configuration = configuration;
-
-        }
 
         /// <summary>
         /// Create a new thread
@@ -82,17 +48,6 @@ namespace FeChat.Controllers.Public.Threads {
         [HttpPost]
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> CreateThread([FromBody] NewThreadDto newThreadDto, ISettingsRepository settingsRepository, IWebsitesRepository websitesRepository, IMessagesRepository messagesRepository) {
-
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
 
             // Check if website id exists
             if ( newThreadDto.WebsiteId == 0 ) {

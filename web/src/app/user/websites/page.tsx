@@ -28,10 +28,10 @@ import { useQuery } from 'react-query';
 import SecureStorage from 'react-secure-storage';
 
 // Import the incs
-import { getIcon, getWord, getToken, showNotification } from '@/core/inc/incIndex';
+import { getIcon, getWord, showNotification } from '@/core/inc/incIndex';
 
 // Import the types
-import { typeToken, typePostHeader } from '@/core/types/typesIndex';
+import { typePostHeader } from '@/core/types/typesIndex';
 
 // Import the options for website and member
 import {MemberOptionsContext} from '@/core/contexts/OptionsContext';
@@ -46,28 +46,28 @@ import Confirmation from '@/core/components/general/Confirmation';
 const Page = (): React.JSX.Element => {
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
 
     // Modal status
-    let [modalStatus, setModalStatus] = useState('');
+    const [modalStatus, setModalStatus] = useState('');
 
     // New website fields
-    let [website, setWebsite] = useState({
+    const [website, setWebsite] = useState({
         name: '',
         url: ''
     });
 
     // Set a hook for errors value
-    let [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState({});
 
     // Set a hook for search parameters
-    let [search, setSearch] = useState({
+    const [search, setSearch] = useState({
         Search: '',
         Page: 1
     });   
     
     // Set a hook for navigation
-    let [navigation, setNavigation] = useState({
+    const [navigation, setNavigation] = useState({
         scope: 'websites',
         page: 1,
         total: 0,
@@ -75,13 +75,13 @@ const Page = (): React.JSX.Element => {
     });  
 
     // Websites list holder
-    let [websites, setWebsites] = useState<React.ReactNode | null>(null);
+    const [websites, setWebsites] = useState<React.ReactNode | null>(null);
 
     // Hook to fetch data with useQuery
-    let [fetchedData, setFetchedData] = useState(false);
+    const [fetchedData, setFetchedData] = useState(false);
 
     // Search pause container
-    let searchPause = useRef<NodeJS.Timeout>();
+    const searchPause = useRef<NodeJS.Timeout>();
 
     // Check if document is defined
     if ( typeof document !== 'undefined' ) {
@@ -92,35 +92,23 @@ const Page = (): React.JSX.Element => {
     };
 
     // Create the request for websites
-    let websitesList = async (): Promise<any> => {
+    const websitesList = async (): Promise<any> => {
 
         // Hide the navigation box
         document.getElementsByClassName('fc-navigation')[0].classList.remove('block');
 
-        // Generate a new csrf token
-        let csrfToken: typeToken = await getToken();
-
-        // Check if csrf token is missing
-        if ( !csrfToken.success ) {
-
-            // Show error notification
-            throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-        }
-
         // Set the bearer token
-        let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+        const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
         // Set the headers
-        let headers: typePostHeader = {
+        const headers: typePostHeader = {
             headers: {
-                Authorization: `Bearer ${token}`,
-                CsrfToken: csrfToken.token
+                Authorization: `Bearer ${token}`
             }
         };
 
         // Request the websites list
-        let response = await axios.post(process.env.NEXT_PUBLIC_API_URL + 'api/v1/user/websites/list', search, headers)
+        const response = await axios.post(process.env.NEXT_PUBLIC_API_URL + 'api/v1/user/websites/list', search, headers)
         
         // Process the response
         return response.data;
@@ -129,7 +117,7 @@ const Page = (): React.JSX.Element => {
 
 
     // Content for the New Website modal
-    let newWebsite = (): React.JSX.Element => {
+    const newWebsite = (): React.JSX.Element => {
 
         return (
             <form id="fc-create-member-form" onSubmit={saveWebsite}>            
@@ -195,7 +183,7 @@ const Page = (): React.JSX.Element => {
      * @param funcion fun contains the function
      * @param integer interval contains time
      */
-    let scheduleSearch = ($fun: () => void, interval: number): void => {
+    const scheduleSearch = ($fun: () => void, interval: number): void => {
 
         // Verify if an event was already scheduled
         if (searchPause.current) {
@@ -211,7 +199,7 @@ const Page = (): React.JSX.Element => {
     };
 
     // Request the websites list
-    let { isLoading, error, data } = useQuery('websitesList', websitesList, {
+    const { isLoading, error, data } = useQuery('websitesList', websitesList, {
         enabled: !fetchedData
     });
 
@@ -261,7 +249,7 @@ const Page = (): React.JSX.Element => {
             setWebsites(data.result.elements.map((website: any, index: number) => {
 
                 // Dropdown items
-                let dropdownItems: Array<{text: string, url: string, id: string}> = [{
+                const dropdownItems: Array<{text: string, url: string, id: string}> = [{
                     text: getWord('default', 'default_edit', memberOptions['Language']),
                     url: '/user/websites/' + website.websiteId,
                     id: 'edit-website'
@@ -299,7 +287,7 @@ const Page = (): React.JSX.Element => {
             }));
 
             // Set limit
-            let limit: number = ((data.result.page * 10) < data.result.total)?(data.result.page * 10):data.result.total;
+            const limit: number = ((data.result.page * 10) < data.result.total)?(data.result.page * 10):data.result.total;
 
             // Set text
             document.querySelector('#fc-navigation-websites h3')!.innerHTML = (((data.result.page - 1) * 10) + 1) + '-' + limit + ' ' + getWord('default', 'default_of', memberOptions['Language']) + ' ' + data.result.total + ' ' + getWord('default', 'default_results', memberOptions['Language']);
@@ -328,20 +316,20 @@ const Page = (): React.JSX.Element => {
      * 
      * @param Event e
      */
-    let trackClicks = async (e: Event): Promise<void> => {
+    const trackClicks = async (e: Event): Promise<void> => {
 
         // Get the target
-        let target = e.target;
+        const target = e.target;
 
         // Check if the click is inside dropdown
         if ( (target instanceof Element) && target.closest('.fc-dropdown-menu') && (target.nodeName === 'A') && (target.getAttribute('data-id') === 'delete-website') ) {
             e.preventDefault();
 
             // Get the website's ID
-            let websiteId: string | null = target.closest('.fc-website')!.getAttribute('data-website');
+            const websiteId: string | null = target.closest('.fc-website')!.getAttribute('data-website');
 
             // Create a link
-            let newLink: HTMLAnchorElement = document.createElement('a');
+            const newLink: HTMLAnchorElement = document.createElement('a');
 
             // Set the website's ID
             newLink.setAttribute('data-id', websiteId!);
@@ -369,7 +357,7 @@ const Page = (): React.JSX.Element => {
             e.preventDefault();
 
             // Get the page
-            let page: string | null = target.getAttribute('data-page');
+            const page: string | null = target.getAttribute('data-page');
 
             // Set search value
             search.Page = parseInt(page!);
@@ -389,7 +377,7 @@ const Page = (): React.JSX.Element => {
      * 
      * @param React.ChangeEvent e 
      */
-    let searchWebsites = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const searchWebsites = (e: React.ChangeEvent<HTMLInputElement>): void => {
 
         // Add fc-search-active to show the animation
         e.target.closest('.fc-search-box')!.classList.add('fc-search-active');
@@ -418,7 +406,7 @@ const Page = (): React.JSX.Element => {
      * 
      * @param React.ChangeEvent e 
      */
-    let cancelSearchWebsites = (e: React.MouseEvent<HTMLAnchorElement>): void => {
+    const cancelSearchWebsites = (e: React.MouseEvent<HTMLAnchorElement>): void => {
 
         // Add fc-search-complete to hide the animation
         e.currentTarget.closest('.fc-search-box')!.classList.remove('fc-search-complete');
@@ -453,25 +441,13 @@ const Page = (): React.JSX.Element => {
 
         try {
 
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-            }
-
             // Set the bearer token
-            let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+            const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
             // Set the headers
-            let headers: typePostHeader = {
+            const headers: typePostHeader = {
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                    CsrfToken: csrfToken.token
+                    Authorization: `Bearer ${token}`
                 }
             }; 
 
@@ -547,14 +523,14 @@ const Page = (): React.JSX.Element => {
      * 
      * @param Event e 
      */
-    let websiteDropdown = (e: React.MouseEvent<HTMLElement>): void => {
+    const websiteDropdown = (e: React.MouseEvent<HTMLElement>): void => {
         e.preventDefault();
 
         // Get target
-        let target = e.target as HTMLElement;
+        const target = e.target as HTMLElement;
 
         // Select a dropdown
-        let dropdown: HTMLCollectionOf<Element> = target.closest('div')!.getElementsByClassName('fc-dropdown');
+        const dropdown: HTMLCollectionOf<Element> = target.closest('div')!.getElementsByClassName('fc-dropdown');
 
         // Verify if the dropdown is open
         if ( dropdown[0].getAttribute('data-expand') === 'false' ) {
@@ -563,13 +539,13 @@ const Page = (): React.JSX.Element => {
             dropdown[0].setAttribute('data-expand', 'true');
 
             // Get menu
-            let menu: Element = dropdown[0]!.getElementsByClassName('fc-dropdown-menu')[0];
+            const menu: Element = dropdown[0]!.getElementsByClassName('fc-dropdown-menu')[0];
 
             // Get the height
-            let height: number = menu.clientHeight;
+            const height: number = menu.clientHeight;
 
             // Calculate the height of the button
-            let button_height: number = target.offsetHeight;
+            const button_height: number = target.offsetHeight;
 
             // Set transformation
             (menu as HTMLElement).style.transform = `translate3d(0, -${button_height + height}px, 0)`;
@@ -588,7 +564,7 @@ const Page = (): React.JSX.Element => {
      * 
      * @param FormEvent e 
      */
-    let saveWebsite = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    const saveWebsite = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
 
         // Reset the errors messages
@@ -596,25 +572,13 @@ const Page = (): React.JSX.Element => {
 
         try {
 
-            // Generate a new CSRF token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-            }
-
             // Set the bearer token
-            let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+            const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
             // Set the headers
-            let headers: typePostHeader = {
+            const headers: typePostHeader = {
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                    CsrfToken: csrfToken.token
+                    Authorization: `Bearer ${token}`
                 }
             };            
 
@@ -650,16 +614,16 @@ const Page = (): React.JSX.Element => {
                 } else {
 
                     // Keys container
-                    let keys: string[] = Object.keys(response.data);
+                    const keys: string[] = Object.keys(response.data);
 
                     // Count the keys
-                    let keysTotal: number = keys.length;
+                    const keysTotal: number = keys.length;
 
                     // Check if keys exists
                     if ( keysTotal > 0 ) {
 
                         // Errors container
-                        let errorsHolder: {[key: string]: string} = {};
+                        const errorsHolder: {[key: string]: string} = {};
 
                         // List the keys
                         for ( let e = 0; e < keysTotal; e++ ) {

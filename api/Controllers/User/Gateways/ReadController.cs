@@ -13,41 +13,21 @@
 // Namespace for User Gateways Controllers
 namespace FeChat.Controllers.User.Gateways {
 
-    // Use the Mvc classes
-    using Microsoft.AspNetCore.Mvc;
-
-    // Use the Cors feature to control the access
-    using Microsoft.AspNetCore.Cors;
-
-    // Use the Authorization feature to allow guests access
+    // System Namespaces
     using Microsoft.AspNetCore.Authorization;
-
-    // Use the Versioning to add version in url
+    using Microsoft.AspNetCore.Cors;
+    using Microsoft.AspNetCore.Mvc;
     using Asp.Versioning;
 
-    // Use the General Dtos
-    using FeChat.Models.Dtos;
-
-    // Use the Plans Dtos
-    using FeChat.Models.Dtos.Plans;
-
-    // Use the Subscriptions
-    using FeChat.Models.Dtos.Subscriptions;    
-
-    // Use the Plans Entities
-    using FeChat.Models.Entities.Plans;
-
-    // Use the General Utils
-    using FeChat.Utils.General;
-
-    // Gets the Settings Repositories
-    using FeChat.Utils.Interfaces.Repositories.Settings;
-
-    // Use the Plans Repositories
-    using FeChat.Utils.Interfaces.Repositories.Plans;
-
-    // Use the Subscriptions Repositories
-    using FeChat.Utils.Interfaces.Repositories.Subscriptions;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Plans;
+    using Models.Dtos.Subscriptions;
+    using Models.Entities.Plans;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Settings;
+    using Utils.Interfaces.Repositories.Plans;
+    using Utils.Interfaces.Repositories.Subscriptions;
 
     /// <summary>
     /// Gateways Read Controller

@@ -28,10 +28,10 @@ import { useQuery } from 'react-query';
 import SecureStorage from 'react-secure-storage';
 
 // Import the incs
-import { getIcon, getWord, getToken, unescapeRegexString } from '@/core/inc/incIndex';
+import { getIcon, getWord, unescapeRegexString } from '@/core/inc/incIndex';
 
 // Import the types
-import { typeToken, typePostHeader } from '@/core/types/typesIndex';
+import { typePostHeader } from '@/core/types/typesIndex';
 
 // Import the options for website and member
 import {MemberOptionsContext} from '@/core/contexts/OptionsContext';
@@ -44,44 +44,29 @@ import {MemberOptionsContext} from '@/core/contexts/OptionsContext';
 const PlansList = (props: {title: string}): React.JSX.Element => {
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
 
     // Plans list holder
-    let [plans, setPlans] = useState<React.ReactNode | null>(null);
+    const [plans, setPlans] = useState<React.ReactNode | null>(null);
 
     // Hook to fetch data with useQuery
-    let [fetchedData, setFetchedData] = useState(false);
+    const [fetchedData, setFetchedData] = useState(false);
 
     // Create the request for plans
-    let plansList = async (): Promise<any> => {
-
-        // Generate a new csrf token
-        let csrfToken: typeToken = await getToken();
-
-        // Check if csrf token is missing
-        if ( !csrfToken.success ) {
-
-            // Return error
-            return {
-                success: false,
-                message: getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language'])
-            };
-
-        }
+    const plansList = async (): Promise<any> => {
 
         // Set the bearer token
-        let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+        const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
         // Set the headers
-        let headers: typePostHeader = {
+        const headers: typePostHeader = {
             headers: {
-                Authorization: `Bearer ${token}`,
-                CsrfToken: csrfToken.token
+                Authorization: `Bearer ${token}`
             }
         };
 
         // Request the plans list
-        let response = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'api/v1/plans/list', headers);
+        const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'api/v1/plans/list', headers);
         
         // Process the response
         return response.data;
@@ -89,7 +74,7 @@ const PlansList = (props: {title: string}): React.JSX.Element => {
     };
 
     // Request the plans list
-    let { isLoading, error, data } = useQuery('plansList', plansList, {
+    const { isLoading, error, data } = useQuery('plansList', plansList, {
         enabled: !fetchedData
     });
 
@@ -116,7 +101,7 @@ const PlansList = (props: {title: string}): React.JSX.Element => {
             if (typeof memberOptions.SubscriptionExpiration !== 'undefined') {
 
                 // Get expiration time
-                let expirationTime = memberOptions.SubscriptionExpiration.split('/');
+                const expirationTime = memberOptions.SubscriptionExpiration.split('/');
 
                 // Verify if the subscription is expired
                 if ( Date.now() < (new Date(expirationTime[2].padStart(2, '0') + '/' + expirationTime[1].padStart(2, '0') + '/' + expirationTime[0]).getTime() + 86400000) ) {

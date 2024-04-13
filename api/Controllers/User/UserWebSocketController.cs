@@ -13,55 +13,26 @@
 // Namespace for Users Controllers
 namespace FeChat.Controllers.User {
 
-    // Use the classes to work with Websocket communications
+    // System Namespaces
     using System.Net.WebSockets;
-
-    // Use Text for Encoding
     using System.Text;
-
-    // Use Web encodings
     using System.Text.Encodings.Web;
-
-    // Use Json classes for json encoding
     using System.Text.Json;
-
-    // Use Net web classes for html sanitization
     using System.Web;
 
-    // Use the Cors feature to control the access
-    using Microsoft.AspNetCore.Cors;
-
-    // Use the MVC support for Controllers feature
-    using Microsoft.AspNetCore.Mvc;
-
-    // Use the versioning support to add version in url
-    using Asp.Versioning;
-
-    // Use General dto for responses
-    using FeChat.Models.Dtos;
-
-    // Use Members Dto
-    using FeChat.Models.Dtos.Members;
-
-    // Use Messages Dto
-    using FeChat.Models.Dtos.Messages;
-    
-    // Use General Utils for strings
-    using FeChat.Utils.General;
-
-    // Use interfaces for Members Repositories
-    using FeChat.Utils.Interfaces.Repositories.Members;
-    
-    // Use interfaces for Messages Repositories
-    using FeChat.Utils.Interfaces.Repositories.Messages;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Members;
+    using Models.Dtos.Messages;
+    using Utils.General;
+    using Utils.Interfaces;
+    using Utils.Interfaces.Repositories.Members;
+    using Utils.Interfaces.Repositories.Messages;
 
     /// <summary>
     /// Websocket Controller for User
     /// </summary>
-    [ApiController]
-    [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/user/websocket")]
-    public class UserWebSocketController: Controller {
+    public class UserWebSocketController: IWebSocketController {
 
         /// <summary>
         /// Websocket Status
@@ -75,10 +46,8 @@ namespace FeChat.Controllers.User {
         /// <param name="membersRepository">Instance for members repository</param>
         /// <param name="messagesRepository">Instance for messages repository</param>
         /// <returns>Empty result</returns>
-        [HttpGet]
-        [EnableCors("AllowOrigin")]
-        public async Task<IActionResult> QueueRequest(HttpContext context, IMembersRepository membersRepository, IMessagesRepository messagesRepository) {
-Console.WriteLine(1);
+        public async Task QueueRequest(HttpContext context, IMembersRepository membersRepository, IMessagesRepository messagesRepository) {
+
             // Accept an incoming WebSocket connection
             WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
 
@@ -99,7 +68,7 @@ Console.WriteLine(1);
                 
                 // Verify if access token exists
                 if ( !fields.ContainsKey("AccessToken") ) {
-Console.WriteLine(2);
+
                     // Prepare the response
                     byte[] response = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new {
                         success = false,
@@ -109,8 +78,8 @@ Console.WriteLine(2);
                     // Send the response
                     await webSocket.SendAsync(new ArraySegment<byte>(response), WebSocketMessageType.Text, true, CancellationToken.None);
 
-                    // Return empty result
-                    return new EmptyResult();
+                    // Close the websocket connection
+                    await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, new Strings().Get("ClosingWebSocketConnection"), CancellationToken.None);
                     
                 }
 
@@ -132,8 +101,8 @@ Console.WriteLine(2);
                         // Send the response
                         await webSocket.SendAsync(new ArraySegment<byte>(response), WebSocketMessageType.Text, true, CancellationToken.None);
 
-                        // Return empty result
-                        return new EmptyResult();
+                        // Close the websocket connection
+                        await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, new Strings().Get("ClosingWebSocketConnection"), CancellationToken.None);
 
                     }
 
@@ -152,8 +121,8 @@ Console.WriteLine(2);
                         // Send the response
                         await webSocket.SendAsync(new ArraySegment<byte>(response), WebSocketMessageType.Text, true, CancellationToken.None);
 
-                        // Return empty result
-                        return new EmptyResult();
+                        // Close the websocket connection
+                        await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, new Strings().Get("ClosingWebSocketConnection"), CancellationToken.None);
 
                     }
 
@@ -172,25 +141,8 @@ Console.WriteLine(2);
                         // Send the response
                         await webSocket.SendAsync(new ArraySegment<byte>(response), WebSocketMessageType.Text, true, CancellationToken.None);
 
-                        // Return empty result
-                        return new EmptyResult();
-
-                    }
-
-                    // Verify if member is not administrator
-                    if ( member.Result.Role != 1 ) {
-
-                        // Prepare the response
-                        byte[] response = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new {
-                            success = false,
-                            message = new Strings().Get("NoPermissionsForAction")
-                        }));
-
-                        // Send the response
-                        await webSocket.SendAsync(new ArraySegment<byte>(response), WebSocketMessageType.Text, true, CancellationToken.None);
-
-                        // Return empty result
-                        return new EmptyResult();
+                        // Close the websocket connection
+                        await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, new Strings().Get("ClosingWebSocketConnection"), CancellationToken.None);
 
                     }
 
@@ -244,7 +196,17 @@ Console.WriteLine(2);
 
                     } catch (Exception ex) {
 
-                        return BadRequest(ex.Message);
+                        // Prepare the response
+                        byte[] response = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new {
+                            success = false,
+                            message = ex.Message
+                        }));
+
+                        // Send the response
+                        await webSocket.SendAsync(new ArraySegment<byte>(response), WebSocketMessageType.Text, true, CancellationToken.None);
+
+                        // Close the websocket connection
+                        await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, new Strings().Get("ClosingWebSocketConnection"), CancellationToken.None);
 
                     } finally {
 
@@ -273,8 +235,8 @@ Console.WriteLine(2);
                         // Send the response
                         await webSocket.SendAsync(new ArraySegment<byte>(response), WebSocketMessageType.Text, true, CancellationToken.None);
 
-                        // Return empty result
-                        return new EmptyResult();
+                        // Close the websocket connection
+                        await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, new Strings().Get("ClosingWebSocketConnection"), CancellationToken.None);
 
                     }
 
@@ -293,8 +255,8 @@ Console.WriteLine(2);
                         // Send the response
                         await webSocket.SendAsync(new ArraySegment<byte>(response), WebSocketMessageType.Text, true, CancellationToken.None);
 
-                        // Return empty result
-                        return new EmptyResult();
+                        // Close the websocket connection
+                        await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, new Strings().Get("ClosingWebSocketConnection"), CancellationToken.None);
 
                     }
 
@@ -313,28 +275,10 @@ Console.WriteLine(2);
                         // Send the response
                         await webSocket.SendAsync(new ArraySegment<byte>(response), WebSocketMessageType.Text, true, CancellationToken.None);
 
-                        // Return empty result
-                        return new EmptyResult();
+                        // Close the websocket connection
+                        await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, new Strings().Get("ClosingWebSocketConnection"), CancellationToken.None);
 
                     }
-
-                    // Verify if member is not administrator
-                    if ( member.Result.Role != 1 ) {
-
-                        // Prepare the response
-                        byte[] response = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new {
-                            success = false,
-                            message = new Strings().Get("NoPermissionsForAction")
-                        }));
-
-                        // Send the response
-                        await webSocket.SendAsync(new ArraySegment<byte>(response), WebSocketMessageType.Text, true, CancellationToken.None);
-
-                        // Return empty result
-                        return new EmptyResult();
-
-                    }
-
                     // Get the thread's data
                     ResponseDto<ThreadDto> threadDto = await messagesRepository.GetThreadAsync(threadId, member.Result!.MemberId);
 
@@ -350,8 +294,8 @@ Console.WriteLine(2);
                         // Send the response
                         await webSocket.SendAsync(new ArraySegment<byte>(response), WebSocketMessageType.Text, true, CancellationToken.None);
 
-                        // Return empty result
-                        return new EmptyResult();
+                        // Close the websocket connection
+                        await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, new Strings().Get("ClosingWebSocketConnection"), CancellationToken.None);
 
                     }
 
@@ -430,7 +374,17 @@ Console.WriteLine(2);
 
                     } catch (Exception ex) {
 
-                        return BadRequest(ex.Message);
+                        // Prepare the response
+                        byte[] response = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new {
+                            success = false,
+                            message = ex.Message
+                        }));
+
+                        // Send the response
+                        await webSocket.SendAsync(new ArraySegment<byte>(response), WebSocketMessageType.Text, true, CancellationToken.None);
+
+                        // Close the websocket connection
+                        await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, new Strings().Get("ClosingWebSocketConnection"), CancellationToken.None);
 
                     } finally {
 
@@ -454,7 +408,8 @@ Console.WriteLine(2);
 
             }
 
-            return new EmptyResult();
+            // Close the websocket connection
+            await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, new Strings().Get("ClosingWebSocketConnection"), CancellationToken.None);
 
         }
 

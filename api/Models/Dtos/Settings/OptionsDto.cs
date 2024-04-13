@@ -13,20 +13,14 @@
 // Namespace for Settings Dtos
 namespace FeChat.Models.Dtos.Settings {
 
-    // Use the Annotations for attributes
+    // System Namespaces
     using System.ComponentModel.DataAnnotations;
-
-    // Use Web system for html sanitizing
-    using System.Web;
-
-    // Text Enconding for Javascript sanitizing
     using System.Text.Encodings.Web;
+    using System.Web;
     
-    // Use General for error messages
-    using FeChat.Utils.General;
-
-    // Use the custom validations
-    using FeChat.Utils.Validations;
+    // App Namespaces
+    using Utils.General;
+    using Utils.Validations;
 
     /// <summary>
     /// Options Data Transfer

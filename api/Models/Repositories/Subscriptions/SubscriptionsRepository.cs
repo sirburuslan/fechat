@@ -13,23 +13,15 @@
 // Namespace for Subscriptions Repositories
 namespace FeChat.Models.Repositories.Subscriptions {
 
-    // Use Memory catching
+    // System Namespaces
     using Microsoft.Extensions.Caching.Memory;
 
-    // Use General Dtos
-    using FeChat.Models.Dtos;
-
-    // Use Subscriptions Dtos
-    using FeChat.Models.Dtos.Subscriptions;
-
-    // Use Transactions Dtos
-    using FeChat.Models.Dtos.Transactions;
-
-    // Use the Configuration Utils
-    using FeChat.Utils.Configuration;
-
-    // Use the interfaces for Subscriptions Repositories
-    using FeChat.Utils.Interfaces.Repositories.Subscriptions;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Subscriptions;
+    using Models.Dtos.Transactions;
+    using Utils.Configuration;
+    using Utils.Interfaces.Repositories.Subscriptions;
 
     /// <summary>
     /// Subscriptions Repository
@@ -69,7 +61,7 @@ namespace FeChat.Models.Repositories.Subscriptions {
         public async Task<ResponseDto<SubscriptionDto>> CreateSubscriptionAsync(SubscriptionDto subscriptionDto) {
 
             // Init Create Repository
-            Subscriptions.CreateRepository createRepository = new(_memoryCache, _context);
+            Subscriptions.CreateRepository createRepository = new(_context);
 
             // Create a subscription and return the response
             return await createRepository.CreateSubscriptionAsync(subscriptionDto);

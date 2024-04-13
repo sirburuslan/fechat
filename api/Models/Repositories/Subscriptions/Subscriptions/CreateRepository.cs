@@ -13,33 +13,17 @@
 // Namespace for Subscriptions Repositories
 namespace FeChat.Models.Repositories.Subscriptions.Subscriptions {
 
-    // Use Memory catching
-    using Microsoft.Extensions.Caching.Memory;
-
-    // Use General Dtos
-    using FeChat.Models.Dtos;
-
-    // Use Subscriptions Dtos
-    using FeChat.Models.Dtos.Subscriptions;
-
-    // Use Subscriptions Entities
-    using FeChat.Models.Entities.Subscriptions;
-
-    // Use General Utils to access the strings
-    using FeChat.Utils.General;
-
-    // Use the Configuration Utils
-    using FeChat.Utils.Configuration;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Subscriptions;
+    using Models.Entities.Subscriptions;
+    using Utils.Configuration;
+    using Utils.General;
 
     /// <summary>
     /// Subscriptions Create Repository
     /// </summary>
     public class CreateRepository {
-
-        /// <summary>
-        /// Memory cache container
-        /// </summary>
-        private readonly IMemoryCache _memoryCache;
 
         /// <summary>
         /// Subscriptions table context container
@@ -49,12 +33,8 @@ namespace FeChat.Models.Repositories.Subscriptions.Subscriptions {
         /// <summary>
         /// Subscriptions Create Repository Constructor
         /// </summary>
-        /// <param name="memoryCache">Membery cache instance</param>
         /// <param name="db">Db connection instance</param>
-        public CreateRepository(IMemoryCache memoryCache, Db db) {
-
-            // Save the memory chache
-            _memoryCache = memoryCache;
+        public CreateRepository(Db db) {
 
             // Save the session
             _context = db;

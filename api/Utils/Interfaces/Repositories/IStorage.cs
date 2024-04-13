@@ -13,8 +13,9 @@
 // Namespace for general interfaces
 namespace FeChat.Utils.Interfaces {
 
-    // General Dtos to use the storage dto
-    using FeChat.Models.Dtos;
+    // App Namespaces
+    using Models.Dtos;
+    using Utils.Configuration;
 
     /// <summary>
     /// Interface for Storage
@@ -24,10 +25,10 @@ namespace FeChat.Utils.Interfaces {
         /// <summary>
         /// Upload the file on external storage
         /// </summary>
-        /// <param name="configuration">App configuration</param>
+        /// <param name="storageOptions">Selected storage options</param>
         /// <param name="file">Uploaded file</param>
         /// <returns>Url of the uploaded file or null</returns>
-        Task<ResponseDto<StorageDto>> UploadAsync(IConfiguration configuration, IFormFile file);
+        Task<ResponseDto<StorageDto>> UploadAsync(AppSettings.StorageFormat storageOptions, IFormFile file);
 
     }
 

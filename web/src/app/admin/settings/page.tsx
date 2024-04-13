@@ -29,10 +29,10 @@ import { useQuery } from 'react-query';
 import SecureStorage from 'react-secure-storage';
 
 // Import incs
-import { getWord, getIcon, getField, getToken, getOptions, showNotification, updateOptions } from '@/core/inc/incIndex';
+import { getWord, getIcon, getField, getOptions, showNotification, updateOptions } from '@/core/inc/incIndex';
 
 // Import types
-import { typeToken, typePostHeader, typeOptions } from '@/core/types/typesIndex';
+import { typePostHeader, typeOptions } from '@/core/types/typesIndex';
 
 // Import the options for website and member
 import {WebsiteOptionsContext, MemberOptionsContext} from '@/core/contexts/OptionsContext';
@@ -41,13 +41,13 @@ import {WebsiteOptionsContext, MemberOptionsContext} from '@/core/contexts/Optio
 const Page = () => {
 
     // Website options
-    let {websiteOptions, setWebsiteOptions} = useContext(WebsiteOptionsContext); 
+    const {websiteOptions, setWebsiteOptions} = useContext(WebsiteOptionsContext); 
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
 
     // Set a hook for fields value
-    let [fields, setFields] = useState({
+    const [fields, setFields] = useState({
         WebsiteName: '',
         HomePageLogo: '',
         SignInPageLogo: '',
@@ -86,10 +86,10 @@ const Page = () => {
     });
 
     // Set a hook for errors value
-    let [errors, setErrors] = useState({});  
+    const [errors, setErrors] = useState({});  
 
     // Hook to fetch data with useQuery
-    let [fetchedData, setFetchedData] = useState(false);
+    const [fetchedData, setFetchedData] = useState(false);
 
     // Check if document is defined
     if ( typeof document !== 'undefined' ) {
@@ -100,32 +100,20 @@ const Page = () => {
     }
 
     // Get all settings options which are hidden in the website's options
-    let getAllOptions = async (): Promise<any> => {
-
-        // Generate a new csrf token
-        let csrfToken: typeToken = await getToken();
-
-        // Check if csrf token is missing
-        if ( !csrfToken.success ) {
-
-            // Show error notification
-            throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-        }
+    const getAllOptions = async (): Promise<any> => {
 
         // Set the bearer token
-        let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+        const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
         // Set the headers
-        let headers: typePostHeader = {
+        const headers: typePostHeader = {
             headers: {
-                Authorization: `Bearer ${token}`,
-                CsrfToken: csrfToken.token
+                Authorization: `Bearer ${token}`
             }
         };            
 
         // Request the fields value
-        let response = await axios.post(process.env.NEXT_PUBLIC_API_URL + 'api/v1/admin/settings/list', null, headers);
+        const response = await axios.post(process.env.NEXT_PUBLIC_API_URL + 'api/v1/admin/settings/list', null, headers);
 
         // Process the response
         return response.data;
@@ -133,7 +121,7 @@ const Page = () => {
     }
 
     // Request the options
-    let { isLoading, error, data } = useQuery('optionsList', getAllOptions, {
+    const { isLoading, error, data } = useQuery('optionsList', getAllOptions, {
         enabled: !fetchedData
     });
 
@@ -168,10 +156,10 @@ const Page = () => {
         } else if (data) {
 
             // Received fields
-            let rFields: string[] = Object.keys(data.options as object);
+            const rFields: string[] = Object.keys(data.options as object);
 
             // Calculate fields length
-            let fieldsLength: number = rFields.length;
+            const fieldsLength: number = rFields.length;
 
             // List the options
             for ( let o = 0; o < fieldsLength; o++ ) {
@@ -193,20 +181,20 @@ const Page = () => {
      * 
      * @param Event e
      */
-    let trackClicks = (e: Event): void => {
+    const trackClicks = (e: Event): void => {
 
         // Get the target
-        let target = e.target;
+        const target = e.target;
         
         // Check if the click is inside dropdown
         if ( (target instanceof Element) && target.closest('.fc-settings-dropdown') && (target.nodeName === 'A') ) {
             e.preventDefault();
             
             // Get the element's ID
-            let elementId: string | null = target.getAttribute('data-id');
+            const elementId: string | null = target.getAttribute('data-id');
 
             // Get the element's text
-            let elementText: string | null = target.textContent;
+            const elementText: string | null = target.textContent;
 
             // Check if the click was done inside the payments gateways dropdown
             if ( target.closest('#fc-settings-uidropdown-gateways') ) {
@@ -222,19 +210,19 @@ const Page = () => {
             } else {
 
                 // Get the option
-                let option: string | null = target.closest('.fc-settings-option')!.getAttribute('data-option');
+                const option: string | null = target.closest('.fc-settings-option')!.getAttribute('data-option');
 
                 // Verify if option is not null
                 if ( option !== null ) {
 
                     // Get the fields list 
-                    let fieldsList: {[key: string]: string | number} = fields;
+                    const fieldsList: {[key: string]: string | number} = fields;
 
                     // Update the field
                     fieldsList[option] = elementId as string;
 
                     // Prepare the setFields to support fieldsList
-                    let setNewFields: Dispatch<SetStateAction<any>> = setFields;
+                    const setNewFields: Dispatch<SetStateAction<any>> = setFields;
 
                     // Update fields list
                     setNewFields(fieldsList);
@@ -258,11 +246,11 @@ const Page = () => {
      * 
      * @param Event e 
      */
-    let changeTab = (e: React.MouseEvent<Element>): void => {
+    const changeTab = (e: React.MouseEvent<Element>): void => {
         e.preventDefault();
 
         // Save target
-        let target = e.target as Element;
+        const target = e.target as Element;
 
         // Verify if tab exists
         if ( target.getAttribute('href') && document.querySelector(target.getAttribute('href')!) ) {
@@ -288,38 +276,26 @@ const Page = () => {
     }
 
     // Update the options
-    let optionsUpdate = async (e: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
+    const optionsUpdate = async (e: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
 
         // Reset the errors messages
         setErrors({});
 
         // Get the target
-        let target: HTMLButtonElement = e.currentTarget;
+        const target: HTMLButtonElement = e.currentTarget;
 
         // Add active class
         target.classList.add('fc-option-active-btn');
 
         try {
 
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-            }
-
             // Set the bearer token
-            let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+            const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
             // Prepare the headers
-            let headers: typePostHeader = {
+            const headers: typePostHeader = {
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                    CsrfToken: csrfToken.token
+                    Authorization: `Bearer ${token}`
                 }
             };
 
@@ -342,7 +318,7 @@ const Page = () => {
                     document.getElementsByClassName('fc-settings-actions')[0].classList.remove('fc-settings-actions-show');
 
                     // Request the options
-                    let optionsList: {success: boolean, options?: typeOptions} = await getOptions();
+                    const optionsList: {success: boolean, options?: typeOptions} = await getOptions();
 
                     // Update memberOptions
                     updateOptions(optionsList, setWebsiteOptions, setMemberOptions);
@@ -355,16 +331,16 @@ const Page = () => {
                 } else {
 
                     // Keys container
-                    let keys: string[] = Object.keys(response.data);
+                    const keys: string[] = Object.keys(response.data);
 
                     // Count the keys
-                    let keysTotal: number = keys.length;
+                    const keysTotal: number = keys.length;
 
                     // Check if keys exists
                     if ( keysTotal > 0 ) {
 
                         // Errors container
-                        let errorsHolder: {[key: string]: string} = {};
+                        const errorsHolder: {[key: string]: string} = {};
 
                         // List the keys
                         for ( let e = 0; e < keysTotal; e++ ) {

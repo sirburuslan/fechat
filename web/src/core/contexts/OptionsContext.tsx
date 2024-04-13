@@ -51,16 +51,16 @@ export const MemberOptionsContext = createContext<{ memberOptions: {[key: string
 export const OptionsProvider = ({ children }: {children: React.ReactNode}): React.JSX.Element => {
 
   // Create a state for website
-  let [websiteOptions, setWebsiteOptions] = useState(getWebsiteOptions());  
+  const [websiteOptions, setWebsiteOptions] = useState(getWebsiteOptions());  
   
   // Create a state for member
-  let [memberOptions, setMemberOptions] = useState(getMemberOptions());
+  const [memberOptions, setMemberOptions] = useState(getMemberOptions());
 
   // Get all options
-  let getOptionsAll = async (): Promise<void> => {
+  const getOptionsAll = async (): Promise<void> => {
 
     // Request the options
-    let optionsList: {success: boolean, options?: typeOptions} = await getOptions();
+    const optionsList: {success: boolean, options?: typeOptions} = await getOptions();
 
     // Update memberOptions
     updateOptions(optionsList, setWebsiteOptions, setMemberOptions);

@@ -31,10 +31,10 @@ import { useQuery } from 'react-query';
 import SecureStorage from 'react-secure-storage';
 
 // Import the incs
-import { getIcon, getWord, getToken, getOptions, getMonth, calculateTime, updateOptions, showNotification } from '@/core/inc/incIndex';
+import { getIcon, getWord, getOptions, getMonth, calculateTime, updateOptions, showNotification } from '@/core/inc/incIndex';
 
 // Import types
-import { typeToken, typePostHeader, typeOptions } from '@/core/types/typesIndex';
+import { typePostHeader, typeOptions } from '@/core/types/typesIndex';
 
 // Import the options for website and member
 import { WebsiteOptionsContext, MemberOptionsContext } from '@/core/contexts/OptionsContext';
@@ -49,13 +49,13 @@ import MemberData from "@/core/components/admin/members/MemberData";
 const Page = ({ params }: { params: { slug: string } }): React.JSX.Element => {
 
     // Website options
-    let {websiteOptions, setWebsiteOptions} = useContext(WebsiteOptionsContext); 
+    const {websiteOptions, setWebsiteOptions} = useContext(WebsiteOptionsContext); 
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext); 
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext); 
 
     // Set a hook for fields value
-    let [fields, setFields] = useState({
+    const [fields, setFields] = useState({
         MemberId: params.slug,
         ProfilePhoto: '',
         FirstName: '',
@@ -69,28 +69,28 @@ const Page = ({ params }: { params: { slug: string } }): React.JSX.Element => {
     });
 
     // Set a hook for error message if member can't be reached
-    let [memberError, setMemberError] = useState('');
+    const [memberError, setMemberError] = useState('');
 
     // Set a hook for events
-    let [events, setEvents] = useState<{list: Array<{[key: string]: string}>, time: number}>({
+    const [events, setEvents] = useState<{list: Array<{[key: string]: string}>, time: number}>({
         list: [],
         time: 0
     });
 
     // Register default value for year
-    let [iYear, setIYear] = useState(new Date().getFullYear());
+    const [iYear, setIYear] = useState(new Date().getFullYear());
 
     // Register default value for month
-    let [iMonth, setIMonth] = useState(new Date().getMonth()); 
+    const [iMonth, setIMonth] = useState(new Date().getMonth()); 
 
     // Register default value for date
-    let [iDate, setIDate] = useState(new Date().getDate()); 
+    const [iDate, setIDate] = useState(new Date().getDate()); 
 
     // Hook to fetch data for Member with useQuery
-    let [memberFetchedData, setMemberFetchedData] = useState(false);   
+    const [memberFetchedData, setMemberFetchedData] = useState(false);   
 
     // Init the reference for the calendar
-    let calendarBtn = useRef<HTMLDivElement>(null);
+    const calendarBtn = useRef<HTMLDivElement>(null);
 
     // Check if document is defined
     if ( typeof document !== 'undefined' ) {
@@ -101,35 +101,20 @@ const Page = ({ params }: { params: { slug: string } }): React.JSX.Element => {
     }
 
     // Get the member's information
-    let memberInfo = async (): Promise<any> => {
-
-        // Generate a new csrf token
-        let csrfToken: typeToken = await getToken();
-
-        // Check if csrf token is missing
-        if ( !csrfToken.success ) {
-
-            // Return error message
-            return {
-                success: false,
-                message: getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language'])
-            };
-
-        }
+    const memberInfo = async (): Promise<any> => {
 
         // Set the bearer token
-        let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+        const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
         // Set the headers
-        let headers: typePostHeader = {
+        const headers: typePostHeader = {
             headers: {
-                Authorization: `Bearer ${token}`,
-                CsrfToken: csrfToken.token
+                Authorization: `Bearer ${token}`
             }
         };            
 
         // Request the fields value
-        let response = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'api/v1/admin/members/' + params.slug, headers);
+        const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'api/v1/admin/members/' + params.slug, headers);
 
         // Process the response
         return response.data;
@@ -137,29 +122,17 @@ const Page = ({ params }: { params: { slug: string } }): React.JSX.Element => {
     };
 
     // Load events from the database
-    let eventsList = async (): Promise<void> => {
+    const eventsList = async (): Promise<void> => {
 
         try {
 
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-            }
-
             // Set the bearer token
-            let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+            const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
             // Prepare the headers
-            let headers: typePostHeader = {
+            const headers: typePostHeader = {
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                    CsrfToken: csrfToken.token
+                    Authorization: `Bearer ${token}`
                 }
             };
 
@@ -229,7 +202,7 @@ const Page = ({ params }: { params: { slug: string } }): React.JSX.Element => {
     };
 
     // Request the members info
-    let { isLoading, error, data } = useQuery('memberInfo-' + params.slug, memberInfo, {
+    const { isLoading, error, data } = useQuery('memberInfo-' + params.slug, memberInfo, {
         enabled: !memberFetchedData
     });
 
@@ -265,10 +238,10 @@ const Page = ({ params }: { params: { slug: string } }): React.JSX.Element => {
         } else if (data) {
 
             // Received fields
-            let rFields: string[] = Object.keys(data.member as object);
+            const rFields: string[] = Object.keys(data.member as object);
 
             // Calculate fields length
-            let fieldsLength: number = rFields.length;
+            const fieldsLength: number = rFields.length;
 
             // List the member infos
             for ( let o = 0; o < fieldsLength; o++ ) {
@@ -298,7 +271,7 @@ const Page = ({ params }: { params: { slug: string } }): React.JSX.Element => {
                     if ( parseInt(data.member!['Role']) === 1 ) {
 
                         // Get plan's button
-                        let planButton: Element | null = document.querySelector('#fc-option-dropdown-plan button');
+                        const planButton: Element | null = document.querySelector('#fc-option-dropdown-plan button');
 
                         // Verify if plan button exists
                         if ( planButton ) {
@@ -337,10 +310,10 @@ const Page = ({ params }: { params: { slug: string } }): React.JSX.Element => {
      * 
      * @param Event e
      */
-    let trackClicks = async (e: Event): Promise<void> => {
+    const trackClicks = async (e: Event): Promise<void> => {
 
         // Get the target
-        let target = e.target;
+        const target = e.target;
 
         // Check if the click is outside calendar
         if ( (target instanceof Element) && !target.closest('.fc-events-calendar') && calendarBtn.current ) {
@@ -351,7 +324,7 @@ const Page = ({ params }: { params: { slug: string } }): React.JSX.Element => {
         } else if ( (target instanceof Element) && target.closest('.fc-calendar-selected-date') && (target.nodeName === 'A') ) {
 
             // Get active date
-            let activeDate = new Date(target.getAttribute('data-date')!);
+            const activeDate = new Date(target.getAttribute('data-date')!);
             
             // Set date
             setIDate(activeDate.getDate());
@@ -369,10 +342,10 @@ const Page = ({ params }: { params: { slug: string } }): React.JSX.Element => {
     /**
      * Images uploader
      */
-    let uploadImage = async (e: React.ChangeEvent): Promise<void> => {
+    const uploadImage = async (e: React.ChangeEvent): Promise<void> => {
 
         // Select media
-        let mediaContainer: HTMLElement | null = e.currentTarget.closest('.fc-profile-photo-area');        
+        const mediaContainer: HTMLElement | null = e.currentTarget.closest('.fc-profile-photo-area');        
 
         try {
 
@@ -380,34 +353,22 @@ const Page = ({ params }: { params: { slug: string } }): React.JSX.Element => {
             mediaContainer!.classList.add('fc-uploading-active');
 
             // Set the bearer token
-            let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+            const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
             // Get the file
-            let file = (e.target as HTMLInputElement).files![0];
+            const file = (e.target as HTMLInputElement).files![0];
 
             // Create an instance for the form data
-            let form: FormData = new FormData();
+            const form: FormData = new FormData();
             
             // Set text input
-            form.append('file', file);   
-
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-            }
+            form.append('file', file); 
 
             // Upload the image on the server
             await axios.post(process.env.NEXT_PUBLIC_API_URL + 'api/v1/admin/members/image/' + params.slug, form, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${token}`,
-                    CsrfToken: csrfToken.token
+                    Authorization: `Bearer ${token}`
                 },
                 onUploadProgress: (progressEvent: AxiosProgressEvent) => {
 
@@ -415,7 +376,7 @@ const Page = ({ params }: { params: { slug: string } }): React.JSX.Element => {
                     if ( typeof progressEvent.total === 'number' ) {
 
                         // Calculate the progress percentage
-                        let progress: number = (progressEvent.loaded / progressEvent.total) * 100;
+                        const progress: number = (progressEvent.loaded / progressEvent.total) * 100;
 
                         // Set the progress percentage
                         mediaContainer!.style.cssText = `--width: ${progress.toFixed(2)}%`;
@@ -444,7 +405,7 @@ const Page = ({ params }: { params: { slug: string } }): React.JSX.Element => {
                     if ( parseInt(params.slug) === response.data.memberId ) {
 
                         // Request the options
-                        let optionsList: {success: boolean, options?: typeOptions} = await getOptions();
+                        const optionsList: {success: boolean, options?: typeOptions} = await getOptions();
 
                         // Update memberOptions
                         updateOptions(optionsList, setWebsiteOptions, setMemberOptions);
@@ -495,11 +456,11 @@ const Page = ({ params }: { params: { slug: string } }): React.JSX.Element => {
      * 
      * @param Event e
      */
-    let calendarButtonClick = (e: React.MouseEvent<Element>): void => {
+    const calendarButtonClick = (e: React.MouseEvent<Element>): void => {
         e.preventDefault();
 
         // Get the target
-        let target = e.target as HTMLElement;
+        const target = e.target as HTMLElement;
 
         // Verify if the calendar is open
         if ( target.closest('.fc-events-calendar')!.getAttribute('data-expand') === 'false' ) {
@@ -517,10 +478,10 @@ const Page = ({ params }: { params: { slug: string } }): React.JSX.Element => {
     };
 
     // Detect previous date click
-    let prevDate = (): void => {
+    const prevDate = (): void => {
         
         // Get next date
-        let nextDate = new Date(new Date((iMonth + 1) + '/' + iDate + '/' + iYear).getTime() - (86400 * 1000));
+        const nextDate = new Date(new Date((iMonth + 1) + '/' + iDate + '/' + iYear).getTime() - (86400 * 1000));
         
         // Set date
         setIDate(nextDate.getDate());
@@ -534,10 +495,10 @@ const Page = ({ params }: { params: { slug: string } }): React.JSX.Element => {
     };
 
     // Detect next date click
-    let nextDate = (): void => {
+    const nextDate = (): void => {
 
         // Get next date
-        let nextDate = new Date(new Date((iMonth + 1) + '/' + iDate + '/' + iYear).getTime() + (86400 * 1000));
+        const nextDate = new Date(new Date((iMonth + 1) + '/' + iDate + '/' + iYear).getTime() + (86400 * 1000));
         
         // Set date
         setIDate(nextDate.getDate());

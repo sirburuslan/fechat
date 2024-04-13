@@ -13,20 +13,14 @@
 // Namespace for Websites Dtos
 namespace FeChat.Models.Dtos.Websites {
 
-    // Use the data annotations for validation
+    // System Namespaces
     using System.ComponentModel.DataAnnotations;
-
-    // Use Web system for html sanitizing
+    using System.Text.Encodings.Web;
     using System.Web;
 
-    // Text Enconding for Javascript sanitizing
-    using System.Text.Encodings.Web;
-
-    // Use the General Utils for Error Messages
-    using FeChat.Utils.General;
-
-    // Use the custom validators
-    using FeChat.Utils.Validations;
+    // App Namespaces
+    using Utils.General;
+    using Utils.Validations;
 
     /// <summary>
     /// Dto for New Websites

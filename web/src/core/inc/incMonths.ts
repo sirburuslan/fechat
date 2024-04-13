@@ -23,7 +23,7 @@ import { getWord } from '@/core/inc/incIndex';
 const getMonth = (month: string, customLang?: string): string => {
 
     // Months list
-    let months: {[key: string]: string} = {
+    const months: {[key: string]: string} = {
         '01': getWord('default', 'default_jan', customLang),
         '02': getWord('default', 'default_feb', customLang),
         '03': getWord('default', 'default_mar', customLang),

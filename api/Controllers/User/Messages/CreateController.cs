@@ -13,35 +13,21 @@
 // Namespace for User Messages Controllers
 namespace FeChat.Controllers.User.Messages {
 
-    // Use the MVC features
-    using Microsoft.AspNetCore.Mvc;
-
-    // Use the Cors feature to control the access
-    using Microsoft.AspNetCore.Cors;
-
-    // Use the Authorization feature to allow guests access
+    // System Namespaces
     using Microsoft.AspNetCore.Authorization;
-
-    // Use the Versioning to add version in url
+    using Microsoft.AspNetCore.Cors;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Options;
     using Asp.Versioning;
 
-    // Use general dtos for responses
-    using FeChat.Models.Dtos;
-
-    // Use the Messages Dtos
-    using FeChat.Models.Dtos.Messages;
-
-    // Use the Websites Dtos
-    using FeChat.Models.Dtos.Websites;
-
-    // Use General utils for strings
-    using FeChat.Utils.General;
-
-    // Use the Messages Repositories
-    using FeChat.Utils.Interfaces.Repositories.Messages;
-
-    // Use the Websites Repositories
-    using FeChat.Utils.Interfaces.Repositories.Websites;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Messages;
+    using Models.Dtos.Websites;
+    using Utils.Configuration;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Messages;
+    using Utils.Interfaces.Repositories.Websites;
 
     /// <summary>
     /// Create Messages Controller
@@ -53,19 +39,20 @@ namespace FeChat.Controllers.User.Messages {
     public class CreateController: Controller {
 
         /// <summary>
-        /// Container for app's configuration
+        /// App Settings container.
         /// </summary>
-        private readonly IConfiguration _configuration;
+        private readonly AppSettings _options;
 
         /// <summary>
-        /// Constructor for this controller
+        /// Initializes a new instance of the <see cref="CreateController"/> class.
         /// </summary>
-        /// <param name="configuration">App configuration</param>
-        public CreateController(IConfiguration configuration) {
+        /// <param name="options">All App Options.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
+        public CreateController(IOptions<AppSettings> options) {
 
-            // Add configuration to the container
-            _configuration = configuration;
-
+            // Save the configuration
+            _options = options.Value ?? throw new ArgumentNullException(nameof(options), new Strings().Get("OptionsNotFound"));
+            
         }
 
         /// <summary>
@@ -79,17 +66,6 @@ namespace FeChat.Controllers.User.Messages {
         [HttpPost]
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> CreateMessage([FromBody] MessageDto messageDto, Member memberInfo, IWebsitesRepository websitesRepository, IMessagesRepository messagesRepository) {
-
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
 
             // Check if thread id exists
             if ( messageDto.ThreadId == 0 ) {
@@ -196,17 +172,6 @@ namespace FeChat.Controllers.User.Messages {
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> CreateMessageAttachments(List<IFormFile> files, int threadId, Member memberInfo, IWebsitesRepository websitesRepository, IMessagesRepository messagesRepository) {            
 
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
-
             // Verify if there are more than 3 files
             if ( files.Count > 3 ) {
 
@@ -267,7 +232,7 @@ namespace FeChat.Controllers.User.Messages {
             for ( int f = 0; f < totalFiles; f++ ) {
 
                 // Try to upload the file
-                ResponseDto<StorageDto> uploadImage = await new ImageUpload().UploadAsync(_configuration, files[f]);
+                ResponseDto<StorageDto> uploadImage = await new ImageUpload().UploadAsync(_options.Storage, files[f]);
 
                 // Check if the file was uploaded
                 if ( uploadImage.Result != null ) {

@@ -13,35 +13,19 @@
 // Namespace for Auth Controllers
 namespace FeChat.Controllers.Auth {
 
-    // Use Web system for html sanitizing
+    // System Namespaces
     using System.Web;
-
-    // Text Enconding for Javascript sanitizing
-    using System.Text.Encodings.Web;   
-
-    // Use the Mvc to get the controller
-    using Microsoft.AspNetCore.Mvc;
-
-    // Use the Cors to control the requests origins
-    using Microsoft.AspNetCore.Cors;
-
-    // Use the Authorization feature to allow guests access
+    using System.Text.Encodings.Web;
     using Microsoft.AspNetCore.Authorization;
-
-    // Use The Versioning namespace for api versioning
+    using Microsoft.AspNetCore.Cors;
+    using Microsoft.AspNetCore.Mvc;
     using Asp.Versioning;
 
-    // Use General Dto
-    using FeChat.Models.Dtos;
-
-    // Use Members dto to validate and hold member data
-    using FeChat.Models.Dtos.Members;
-
-    // Use the Repositories interface to get the member repository
-    using FeChat.Utils.Interfaces.Repositories.Members;
-
-    // Use the General utils classes
-    using FeChat.Utils.General;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Members;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Members;
 
     /// <summary>
     /// This controller creates a session
@@ -53,24 +37,6 @@ namespace FeChat.Controllers.Auth {
     public class ResetController : Controller {
 
         /// <summary>
-        /// App configuration container
-        /// </summary>
-        private readonly IConfiguration _configuration;
-
-        /// <summary>
-        /// Class Constructor
-        /// </summary>
-        /// <param name="configuration">
-        /// App configuration
-        /// </param>
-        public ResetController(IConfiguration configuration) {
-
-            // Save the configuration
-            _configuration = configuration;
-            
-        }
-
-        /// <summary>
         /// This method creates a reset code
         /// </summary>
         /// <param name="member">Data transfer object with member information</param>
@@ -79,17 +45,6 @@ namespace FeChat.Controllers.Auth {
         [HttpPost]
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> Reset([FromBody] MemberDto member, IMembersRepository membersRepository) {
-
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
 
             // Get the email
             ResponseDto<MemberDto> memberEmail = await membersRepository.GetMemberEmailAsync(member);
@@ -220,17 +175,6 @@ namespace FeChat.Controllers.Auth {
         [HttpPost("change-password")]
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> UpdateMemberPassword([FromBody] MemberDto memberDto, IMembersRepository membersRepository) {
-
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
 
             // Verify if memberDto.ResetCode exists
             if ( memberDto.ResetCode == null ) {

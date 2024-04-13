@@ -25,12 +25,12 @@ import { typeField } from '@/core/types/typesIndex';
 const FieldText = (params: typeField): React.JSX.Element => {
 
     // Generate unique id
-    let uniqueId: string = "fc-settings-text-input-" + params.name.toLowerCase();
+    const uniqueId: string = "fc-settings-text-input-" + params.name.toLowerCase();
 
     /**
      * Change value handler
      */
-    let changeValue = (): void => {
+    const changeValue = (): void => {
 
         // Change the input value
         params.hook.fields[params.name] = (document.querySelector(".fc-option-text #" + uniqueId) as HTMLInputElement).value;

@@ -13,7 +13,7 @@
 // Namespace for Transaction entities
 namespace FeChat.Models.Entities.Transactions {
 
-    // Use the DataAnnotations
+    // System Namespaces
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>

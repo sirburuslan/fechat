@@ -19,13 +19,13 @@ import {useEffect, useState} from 'react';
 const Loading = (): React.JSX.Element => {
 
     // Hook for loading
-    let [loading, hideLoading] = useState(1);
+    const [loading, hideLoading] = useState(1);
 
     // Set hook to run the code after content load
     useEffect((): () => void => {
 
         // Get looading animation
-        let loading: HTMLCollectionOf<Element> = document.getElementsByClassName('fc-page-loading');
+        const loading: HTMLCollectionOf<Element> = document.getElementsByClassName('fc-page-loading');
 
         // Verify if loading exists
         if ( loading.length > 0 ) {
@@ -37,7 +37,7 @@ const Loading = (): React.JSX.Element => {
             let c = 0;
 
             // Timer
-            let timer = setInterval(() => {
+            const timer = setInterval(() => {
 
                 // Verify if the limit was reached
                 if ( c === 100 ) {

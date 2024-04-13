@@ -28,10 +28,10 @@ import { useQuery } from 'react-query';
 import SecureStorage from 'react-secure-storage';
 
 // Import the incs
-import { getIcon, getWord, getToken, showNotification, calculateTime, unescapeRegexString } from '@/core/inc/incIndex';
+import { getIcon, getWord, showNotification, calculateTime } from '@/core/inc/incIndex';
 
 // Import the types
-import { typeToken, typePostHeader } from '@/core/types/typesIndex';
+import { typePostHeader } from '@/core/types/typesIndex';
 
 // Import the options for website and member
 import {MemberOptionsContext} from '@/core/contexts/OptionsContext';
@@ -43,19 +43,19 @@ import ChartLineWidget from '@/core/components/user/dashboard/ChartLineWidget';
 const Page = (): React.JSX.Element => {
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
 
     // Set a hook for error message if dashboard can't be reached
-    let [dashboardError, setDashboardError] = useState('');
+    const [dashboardError, setDashboardError] = useState('');
 
     // Set a hook for dashboard content
-    let [dashboardContent, setDashboardContent] = useState<{threads: Array<{[key: string]: string}>, messages: React.ReactNode | null}>({
+    const [dashboardContent, setDashboardContent] = useState<{threads: Array<{[key: string]: string}>, messages: React.ReactNode | null}>({
         threads: [],
         messages: null
     });
 
     // Hook to fetch data with useQuery
-    let [fetchedData, setFetchedData] = useState(false);
+    const [fetchedData, setFetchedData] = useState(false);
 
     // Check if document is defined
     if ( typeof document !== 'undefined' ) {
@@ -69,7 +69,7 @@ const Page = (): React.JSX.Element => {
     if ( (typeof document !== 'undefined') && (typeof memberOptions.ThreadsChartTime === 'string') ) {
 
         // Get the dropown link
-        let dropdownLink: Node | null = document.querySelector('#fc-threads-chart-menu a[data-id="' + memberOptions.ThreadsChartTime + '"]');
+        const dropdownLink: Node | null = document.querySelector('#fc-threads-chart-menu a[data-id="' + memberOptions.ThreadsChartTime + '"]');
 
         // Check if dropdown link exists
         if ( dropdownLink ) {
@@ -82,35 +82,20 @@ const Page = (): React.JSX.Element => {
     };
 
     // Get the last updated threads
-    let lastUpdatedThreads = async (): Promise<any> => {
-
-        // Generate a new CSRF token
-        let csrfToken: typeToken = await getToken();
-
-        // Check if csrf token is missing
-        if ( !csrfToken.success ) {
-
-            // Return error
-            return {
-                success: false,
-                message: getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language'])
-            };
-
-        }
+    const lastUpdatedThreads = async (): Promise<any> => {
 
         // Set the bearer token
-        let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+        const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
         // Set the headers
-        let headers: typePostHeader = {
+        const headers: typePostHeader = {
             headers: {
-                Authorization: `Bearer ${token}`,
-                CsrfToken: csrfToken.token
+                Authorization: `Bearer ${token}`
             }
         };  
 
         // Get the list with updated threads
-        let response = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'api/v1/user/threads/last', headers);
+        const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'api/v1/user/threads/last', headers);
 
         // Process the response
         return response.data;
@@ -118,32 +103,20 @@ const Page = (): React.JSX.Element => {
     };
 
     // Create the data sets for chart
-    let datasets: string[] = [getWord('user', 'user_threads', memberOptions['Language'])];
+    const datasets: string[] = [getWord('user', 'user_threads', memberOptions['Language'])];
 
     // Get content for dashboard
-    let dashboardData = async (): Promise<void> => {
+    const dashboardData = async (): Promise<void> => {
 
         try {
 
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-            }
-
             // Set the bearer token
-            let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+            const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
             // Set the headers
-            let headers: typePostHeader = {
+            const headers: typePostHeader = {
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                    CsrfToken: csrfToken.token
+                    Authorization: `Bearer ${token}`
                 }
             };
 
@@ -209,29 +182,17 @@ const Page = (): React.JSX.Element => {
     };
 
     // Get threads when the user changes the time preferences
-    let dashboardThreads = async (): Promise<void> => {
+    const dashboardThreads = async (): Promise<void> => {
 
         try {
 
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-            }
-
             // Set the bearer token
-            let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+            const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
             // Set the headers
-            let headers: typePostHeader = {
+            const headers: typePostHeader = {
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                    CsrfToken: csrfToken.token
+                    Authorization: `Bearer ${token}`
                 }
             };
 
@@ -297,7 +258,7 @@ const Page = (): React.JSX.Element => {
     };
 
     // Request the threads list
-    let { isLoading, error, data } = useQuery('threadsListHot', lastUpdatedThreads, {
+    const { isLoading, error, data } = useQuery('threadsListHot', lastUpdatedThreads, {
         enabled: !fetchedData
     });
 
@@ -406,10 +367,10 @@ const Page = (): React.JSX.Element => {
      * 
      * @param Event e
      */
-    let trackClicks = async (e: Event): Promise<void> => {
+    const trackClicks = async (e: Event): Promise<void> => {
 
         // Get the target
-        let target = e.target;
+        const target = e.target;
 
         // Check if the click is inside dropdown
         if ( (target instanceof Element) && target.closest('#fc-threads-chart-menu') && (target.nodeName === 'A') ) {
@@ -431,31 +392,19 @@ const Page = (): React.JSX.Element => {
             try {
 
                 // Set the bearer token
-                let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
-    
-                // Generate a new csrf token
-                let csrfToken: typeToken = await getToken();
-    
-                // Check if csrf token is missing
-                if ( !csrfToken.success ) {
-    
-                    // Show error notification
-                    throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-    
-                }
+                const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
     
                 // Set the post's fields
-                let fields: {
+                const fields: {
                     [key: string]: string | number | null
                 } = {
                     ThreadsChartTime: target.getAttribute('data-id')
                 };
     
                 // Set the headers
-                let headers: typePostHeader = {
+                const headers: typePostHeader = {
                     headers: {
-                        Authorization: `Bearer ${token}`,
-                        CsrfToken: csrfToken.token
+                        Authorization: `Bearer ${token}`
                     }
                 };
     

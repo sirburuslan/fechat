@@ -10,13 +10,11 @@
  * This class is used remove urls without a version
  */
 
-// The General Utils Namespace
-namespace FeChat.Utils.General {
+// Namespace for Extensions
+namespace FeChat.Utils.Extensions {
 
-    // Use the OpenApi classes for Swagger
+    // System Namespaces
     using Microsoft.OpenApi.Models;
-
-    // Use the Swagger feature to implement IDocumentFilter interface
     using Swashbuckle.AspNetCore.SwaggerGen;
 
     /// <summary>

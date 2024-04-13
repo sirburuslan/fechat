@@ -13,14 +13,14 @@
 // Namespace for Storage utilis
 namespace FeChat.Utils.Storage {
 
-    // Use the Json library to parse a json string
+    // System Namespaces
     using Newtonsoft.Json.Linq;
 
-    // General Dtos to use the storage dto
-    using FeChat.Models.Dtos;
-
-    // Use general interfaces
-    using FeChat.Utils.Interfaces;
+    // App Namespaces
+    using Models.Dtos;
+    using Utils.Configuration;
+    using Utils.General;    
+    using Utils.Interfaces;
 
     /// <summary>
     /// Imgur Uploader
@@ -30,13 +30,30 @@ namespace FeChat.Utils.Storage {
         /// <summary>
         /// Upload the file on external storage
         /// </summary>
-        /// <param name="configuration">App configuration</param>
+        /// <param name="storageOptions">Selected storage options</param>
         /// <param name="file">Uploaded file</param>
         /// <returns>Url of the uploaded file or null</returns>
-        public async Task<ResponseDto<StorageDto>> UploadAsync(IConfiguration configuration, IFormFile file) {
+        public async Task<ResponseDto<StorageDto>> UploadAsync(AppSettings.StorageFormat storageOptions, IFormFile file) {
+
+            // Add storage options to the App Settings
+            AppSettings.StorageFormat storageFormat = storageOptions;
+
+            // Get the Client Id
+            storageFormat.List.TryGetValue("Imgur", out AppSettings.StorageOptions? storageOptions1);
+
+            // Verify if Imgur exists
+            if ( storageOptions1 == null ) {
+
+                // Return the message
+                return new ResponseDto<StorageDto> {
+                    Result = null,
+                    Message = new Strings().Get("StorageNotFound")
+                };
+
+            }
 
             // Set the Imgur's Client ID
-            string authorizationHeader = "Client-ID " + configuration.GetSection("Storage:List:Imgur:ClientId").Value;
+            string authorizationHeader = "Client-ID " + storageOptions1.ClientId;
 
             try {
 

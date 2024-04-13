@@ -22,10 +22,10 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import SecureStorage from 'react-secure-storage';
 
 // Import the incs
-import { getIcon, getWord, getLanguages, getToken, getField, getOptions, updateOptions, showNotification } from '@/core/inc/incIndex';
+import { getIcon, getWord, getLanguages, getField, getOptions, updateOptions, showNotification } from '@/core/inc/incIndex';
 
 // Import types
-import { typeToken, typePostHeader, typeOptions } from '@/core/types/typesIndex';
+import { typePostHeader, typeOptions } from '@/core/types/typesIndex';
 
 // Import the options for website and member
 import { WebsiteOptionsContext, MemberOptionsContext } from '@/core/contexts/OptionsContext';
@@ -34,35 +34,23 @@ import { WebsiteOptionsContext, MemberOptionsContext } from '@/core/contexts/Opt
 const MemberData: React.FC<{memberId: string, fields: {[key: string]: string | number}, setFields: Dispatch<SetStateAction<any>>}> = ({memberId, fields, setFields}): React.JSX.Element => {
 
     // Website options
-    let {websiteOptions, setWebsiteOptions} = useContext(WebsiteOptionsContext); 
+    const {websiteOptions, setWebsiteOptions} = useContext(WebsiteOptionsContext); 
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);   
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);   
 
     // Get the plans
-    let plansList = async (): Promise<void> => {
+    const plansList = async (): Promise<void> => {
 
         try {
 
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-            }
-
             // Set the bearer token
-            let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+            const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
             // Set the headers
-            let headers: typePostHeader = {
+            const headers: typePostHeader = {
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                    CsrfToken: csrfToken.token
+                    Authorization: `Bearer ${token}`
                 }
             };
 
@@ -93,7 +81,7 @@ const MemberData: React.FC<{memberId: string, fields: {[key: string]: string | n
                     let plans: string = '';
 
                     // List the plans
-                    for ( let plan of response.data.result.elements ) {
+                    for ( const plan of response.data.result.elements ) {
 
                         // Add plan to the list
                         plans += '<li>'
@@ -176,20 +164,20 @@ const MemberData: React.FC<{memberId: string, fields: {[key: string]: string | n
      * 
      * @param Event e
      */
-    let trackClicks = (e: Event): void => {
+    const trackClicks = (e: Event): void => {
 
         // Get the target
-        let target = e.target;
+        const target = e.target;
         
         // Check if the click is inside dropdown
         if ( (target instanceof Element) && target.closest('.fc-option-dropdown') && !target.closest('#fc-option-dropdown-plan') && (target.nodeName === 'A') ) {
             e.preventDefault();
             
             // Get the element's ID
-            let elementId: string | null = target.getAttribute('data-id');
+            const elementId: string | null = target.getAttribute('data-id');
 
             // Get the option
-            let option: string | null = target.closest('.fc-extra-option')!.getAttribute('data-option');
+            const option: string | null = target.closest('.fc-extra-option')!.getAttribute('data-option');
 
             // Verify if option is not null
             if ( option !== null ) {
@@ -215,13 +203,13 @@ const MemberData: React.FC<{memberId: string, fields: {[key: string]: string | n
             e.preventDefault();
 
             // Get the element's ID
-            let elementId: string | null = target.getAttribute('data-id');
+            const elementId: string | null = target.getAttribute('data-id');
 
             // Get the element's text
-            let elementText: string | null = target.textContent;            
+            const elementText: string | null = target.textContent;            
 
             // Get button
-            let button: HTMLButtonElement | null = document.querySelector('#fc-option-dropdown-plan button');
+            const button: HTMLButtonElement | null = document.querySelector('#fc-option-dropdown-plan button');
 
             // Set button id
             button!.setAttribute('data-id', elementId!);
@@ -238,10 +226,10 @@ const MemberData: React.FC<{memberId: string, fields: {[key: string]: string | n
      * 
      * @param Event e
      */
-    let trackInputs = (e: Event): void => {
+    const trackInputs = (e: Event): void => {
 
         // Get the target
-        let target = e.target;
+        const target = e.target;
         
         // Check if the input is inside dropdown
         if ( (target instanceof Element) && target.closest('#fc-option-dropdown-plan') ) {
@@ -259,36 +247,24 @@ const MemberData: React.FC<{memberId: string, fields: {[key: string]: string | n
      * 
      * @param FormEvent e 
      */
-    let passwordUpdate = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    const passwordUpdate = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
 
         // Get the target
-        let target: Element = e.currentTarget;
+        const target: Element = e.currentTarget;
 
         // Add active class
         target.classList.add('fc-option-active-btn');
 
         try {
 
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-            }
-
             // Set the bearer token
-            let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+            const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
             // Prepare the headers
-            let headers: typePostHeader = {
+            const headers: typePostHeader = {
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                    CsrfToken: csrfToken.token
+                    Authorization: `Bearer ${token}`
                 }
             };
 
@@ -315,7 +291,7 @@ const MemberData: React.FC<{memberId: string, fields: {[key: string]: string | n
                 } else {
 
                     // Keys container
-                    let keys: string[] = Object.keys(response.data);
+                    const keys: string[] = Object.keys(response.data);
 
                     // Run error notification
                     throw new Error(response.data[keys[0]][0]);                    
@@ -372,36 +348,24 @@ const MemberData: React.FC<{memberId: string, fields: {[key: string]: string | n
      * 
      * @param FormEvent e 
      */
-    let memberUpdate = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    const memberUpdate = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
 
         // Get the target
-        let target: Element = e.currentTarget;
+        const target: Element = e.currentTarget;
 
         // Add active class
         target.classList.add('fc-option-active-btn');
 
         try {
 
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-            }
-
             // Set the bearer token
-            let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+            const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
             // Prepare the headers
-            let headers: typePostHeader = {
+            const headers: typePostHeader = {
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                    CsrfToken: csrfToken.token
+                    Authorization: `Bearer ${token}`
                 }
             };
 
@@ -430,7 +394,7 @@ const MemberData: React.FC<{memberId: string, fields: {[key: string]: string | n
                     if ( memberId === memberOptions.MemberId ) {
 
                         // Request the options
-                        let optionsList: {success: boolean, options?: typeOptions} = await getOptions();
+                        const optionsList: {success: boolean, options?: typeOptions} = await getOptions();
 
                         // Update memberOptions
                         updateOptions(optionsList, setWebsiteOptions, setMemberOptions);
@@ -445,7 +409,7 @@ const MemberData: React.FC<{memberId: string, fields: {[key: string]: string | n
                 } else {
 
                     // Keys container
-                    let keys: string[] = Object.keys(response.data);
+                    const keys: string[] = Object.keys(response.data);
 
                     // Run error notification
                     throw new Error(response.data[keys[0]][0]);                    

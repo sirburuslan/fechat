@@ -13,41 +13,23 @@
 // Namespace for Auth Controllers
 namespace FeChat.Controllers.Auth {
 
-    // Use the Claims for member saving information
+    // System Namespaces
+    using System.IdentityModel.Tokens.Jwt; 
     using System.Security.Claims;
-
-    // Use the Text namespace for key encoding
     using System.Text;
-
-    // Use the Jwt namespace for JWT tokens creation
-    using System.IdentityModel.Tokens.Jwt;    
-
-    // Use the Mvc to get the controller
-    using Microsoft.AspNetCore.Mvc;
-
-    // Use the Tokens library for tokens creation
-    using Microsoft.IdentityModel.Tokens;
-
-    // Use the Cors to control the requests origins
-    using Microsoft.AspNetCore.Cors;
-
-    // Use the Authorization feature to allow guests access
     using Microsoft.AspNetCore.Authorization;
-
-    // Use The Versioning namespace for api versioning
+    using Microsoft.AspNetCore.Cors;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Options;
+    using Microsoft.IdentityModel.Tokens;
     using Asp.Versioning;
 
-    // Use General Dto
-    using FeChat.Models.Dtos;
-
-    // Use Members dto to validate and hold member data
-    using FeChat.Models.Dtos.Members;
-
-    // Use General Utils
-    using FeChat.Utils.General;
-
-    // Use the Repositories interface to get the member repository
-    using FeChat.Utils.Interfaces.Repositories.Members;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Members;
+    using Utils.Configuration;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Members;
 
     /// <summary>
     /// This controller creates a session
@@ -59,20 +41,19 @@ namespace FeChat.Controllers.Auth {
     public class SignInController : Controller {
 
         /// <summary>
-        /// App configuration container
+        /// App Settings container.
         /// </summary>
-        private readonly IConfiguration _configuration;
+        private readonly AppSettings _options;
 
         /// <summary>
-        /// Class Constructor
+        /// Initializes a new instance of the <see cref="SignInController"/> class.
         /// </summary>
-        /// <param name="configuration">
-        /// App configuration
-        /// </param>
-        public SignInController(IConfiguration configuration) {
+        /// <param name="options">All App Options.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
+        public SignInController(IOptions<AppSettings> options) {
 
             // Save the configuration
-            _configuration = configuration;
+            _options = options.Value ?? throw new ArgumentNullException(nameof(options), new Strings().Get("OptionsNotFound"));
             
         }
 
@@ -85,17 +66,6 @@ namespace FeChat.Controllers.Auth {
         [HttpPost]
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> SignIn([FromBody] MemberDto member, IMembersRepository membersRepository) {
-
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
 
             // Get all members
             ResponseDto<ElementsDto<MemberDto>> membersList = await membersRepository.GetMembersAsync(new SearchDto {
@@ -125,7 +95,7 @@ namespace FeChat.Controllers.Auth {
             if ( memberDto.Result != null ) {
 
                 // Prepare and define the secret key
-                var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"] ?? string.Empty));
+                var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.JwtSettings.Key ?? string.Empty));
 
                 // Create aa signature with the key
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -139,8 +109,8 @@ namespace FeChat.Controllers.Auth {
 
                 // Create the token
                 var token = new JwtSecurityToken(
-                    issuer: _configuration["AppDomain"],
-                    audience: _configuration["AppDomain"],
+                    issuer: _options.JwtSettings.Issuer,
+                    audience: _options.JwtSettings.Audience,
                     claims: claims,
                     expires: DateTime.UtcNow.AddHours(720),
                     signingCredentials: credentials

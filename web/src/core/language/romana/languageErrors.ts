@@ -17,7 +17,6 @@ const words = (): object => {
         error_errors_session_expired: 'Sesiune a expirat',
         error_your_session_expired: 'Sesiunea dvs. a expirat.',
         error_go_home: 'Mergi acasă',
-        error_csrf_token_not_generated: 'Jetonul CSRF nu a fost generat cu succes.',
         error_confirmation_button_not_configured: 'Butonul de confirmare nu este configurat corect.',
         errors_only_3_images_allowed: 'Un mesaj poate avea până la 3 imagini atașate.',
         error_an_unknown_error_occurred: 'A apărut o eroare necunoscută'

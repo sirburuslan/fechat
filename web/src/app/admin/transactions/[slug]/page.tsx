@@ -16,7 +16,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 
 // Import axios module
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import axios from 'axios';
 
 // Import the UseQuery hook
 import { useQuery } from 'react-query';
@@ -25,10 +25,10 @@ import { useQuery } from 'react-query';
 import SecureStorage from 'react-secure-storage';
 
 // Import the incs
-import { getIcon, getWord, getToken, calculateTime, unescapeRegexString } from '@/core/inc/incIndex';
+import { getIcon, getWord, calculateTime, unescapeRegexString } from '@/core/inc/incIndex';
 
 // Import the types
-import { typeToken, typePostHeader } from '@/core/types/typesIndex';
+import { typePostHeader } from '@/core/types/typesIndex';
 
 // Import the options for website and member
 import { MemberOptionsContext } from '@/core/contexts/OptionsContext';
@@ -37,16 +37,16 @@ import { MemberOptionsContext } from '@/core/contexts/OptionsContext';
 const Page = ({params}: {params: { slug: string }}) => {
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);  
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);  
 
     // Hook for transaction's details
-    let [transactionDetails, setTransactionDetails] = useState<React.JSX.Element[]>([]);
+    const [transactionDetails, setTransactionDetails] = useState<React.JSX.Element[]>([]);
 
     // Set a hook for error message if transaction can't be reached
-    let [transactionError, setTransactionError] = useState('');
+    const [transactionError, setTransactionError] = useState('');
 
     // Hook to fetch data with useQuery
-    let [fetchedData, setFetchedData] = useState(false);
+    const [fetchedData, setFetchedData] = useState(false);
 
     // Check if document is defined
     if ( typeof document !== 'undefined' ) {
@@ -57,35 +57,20 @@ const Page = ({params}: {params: { slug: string }}) => {
     }
 
     // Get the transaction's information
-    let transactionInfo = async (): Promise<any> => {
-
-        // Generate a new csrf token
-        let csrfToken: typeToken = await getToken();
-
-        // Check if csrf token is missing
-        if ( !csrfToken.success ) {
-
-            // Show error notification
-            return {
-                success: false,
-                message: getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language'])
-            };
-
-        }
+    const transactionInfo = async (): Promise<any> => {
 
         // Set the bearer token
-        let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+        const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
         // Set the headers
-        let headers: typePostHeader = {
+        const headers: typePostHeader = {
             headers: {
-                Authorization: `Bearer ${token}`,
-                CsrfToken: csrfToken.token
+                Authorization: `Bearer ${token}`
             }
         };            
 
         // Request the fields value
-        let response = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'api/v1/admin/transactions/' + params.slug, headers);
+        const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'api/v1/admin/transactions/' + params.slug, headers);
 
         // Process the response
         return response.data;
@@ -93,7 +78,7 @@ const Page = ({params}: {params: { slug: string }}) => {
     };
 
     // Request the transaction's information
-    let { isLoading, error, data } = useQuery('transactionInfo-' + params.slug, transactionInfo, {
+    const { isLoading, error, data } = useQuery('transactionInfo-' + params.slug, transactionInfo, {
         enabled: !fetchedData
     });
 

@@ -37,13 +37,13 @@ import GatewaysList from "@/core/components/user/gateways/GatewaysList";
 const UserLayout = ({children}: {children: React.ReactNode}): React.JSX.Element => {
 
     // Get the router
-    let router = useRouter();
+    const router = useRouter();
 
     // Get the current path name
-    let pathname: string = usePathname();
+    const pathname: string = usePathname();
 
     // Member options
-    let {memberOptions} = useContext(MemberOptionsContext);
+    const {memberOptions} = useContext(MemberOptionsContext);
 
     // Verify if the member is logged in
     if ( (memberOptions.Default === '0') && (parseInt(memberOptions.MemberId) < 1) ) {
@@ -59,7 +59,7 @@ const UserLayout = ({children}: {children: React.ReactNode}): React.JSX.Element 
     } else if ( (memberOptions.Default === '0') && (typeof memberOptions.SubscriptionExpiration !== 'undefined') ) {
 
         // Get expiration time
-        let expirationTime = memberOptions.SubscriptionExpiration.split('/');
+        const expirationTime = memberOptions.SubscriptionExpiration.split('/');
 
         // Verify if the subscription is expired
         if ( Date.now() > (new Date(expirationTime[2].padStart(2, '0') + '/' + expirationTime[1].padStart(2, '0') + '/' + expirationTime[0]).getTime() + 86400000) ) {

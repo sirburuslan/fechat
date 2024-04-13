@@ -13,37 +13,42 @@
 // Namespace for Configuration Utils
 namespace FeChat.Utils.Configuration {
 
-    // Use the Entity Framework Core for the DbContext class
+    // System Namespaces
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Options;
 
-    // Use the Settings Entities
-    using FeChat.Models.Entities.Settings;
-
-    // Use the Events Entities
-    using FeChat.Models.Entities.Events;    
-
-    // Use the Members Entities
-    using FeChat.Models.Entities.Members;
-
-    // Use the Messages Entities
-    using FeChat.Models.Entities.Messages;
-
-    // Use the Plans Entities
-    using FeChat.Models.Entities.Plans;
-
-    // Use Subscriptions Entities
-    using FeChat.Models.Entities.Subscriptions;
-
-    // Use the Transactions Entities
-    using FeChat.Models.Entities.Transactions;    
-
-    // Use the Websites Entities
-    using FeChat.Models.Entities.Websites;
+    // App Namespaces
+    using Models.Entities.Events;
+    using Models.Entities.Members;
+    using Models.Entities.Messages;
+    using Models.Entities.Plans;
+    using Models.Entities.Subscriptions;
+    using Models.Entities.Settings;
+    using Models.Entities.Transactions;
+    using Models.Entities.Websites;
+    using Utils.General;
 
     /// <summary>
     /// Database connection
     /// </summary>
     public class Db: DbContext {
+
+        /// <summary>
+        /// App Settings container.
+        /// </summary>
+        private readonly AppSettings _options;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Db"/> class.
+        /// </summary>
+        /// <param name="options">All App Options.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
+        public Db(IOptions<AppSettings> options) {
+
+            // Save the configuration
+            _options = options.Value ?? throw new ArgumentNullException(nameof(options), new Strings().Get("OptionsNotFound"));
+            
+        }
 
         /// <summary>
         /// Set the entity for Attachments
@@ -128,24 +133,7 @@ namespace FeChat.Utils.Configuration {
         /// <summary>
         /// Set the entity for Websites
         /// </summary>
-        public DbSet<WebsiteEntity> Websites { get; set; }        
-
-        /// <summary>
-        /// Configuration container
-        /// </summary>
-        private readonly IConfiguration _configuration;
-
-        /// <summary>
-        /// Class Constructor
-        /// </summary>
-        /// <param name="options">The entity framework settings</param>
-        /// <param name="configuration">Contains the configuration settongs</param>
-        public Db(DbContextOptions<Db> options, IConfiguration configuration): base(options) {
-
-            // Set the app's configuration
-            _configuration = configuration;
-
-        }
+        public DbSet<WebsiteEntity> Websites { get; set; }   
 
         /// <summary>
         /// Members table connection
@@ -154,7 +142,7 @@ namespace FeChat.Utils.Configuration {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
 
             // Get the connection string
-            string? connectionString = _configuration.GetConnectionString("DefaultConnection");
+            string connectionString = _options.ConnectionStrings.DefaultConnection ?? throw new ArgumentNullException(new Strings().Get("OptionsNotFound"));
 
             // Set the connection string and connect the database
             optionsBuilder.UseNpgsql(connectionString);

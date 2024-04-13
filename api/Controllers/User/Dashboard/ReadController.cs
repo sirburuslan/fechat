@@ -13,35 +13,19 @@
 // Namespace for User Dashboard Controllers
 namespace FeChat.Controllers.User.Dashboard {
 
-    // Use LINQ
+    // System Namespaces
     using System.Linq;
-
-    // Use the MVC to add controllers support
-    using Microsoft.AspNetCore.Mvc;
-
-    // Use the Authorization to restrict access for guests
     using Microsoft.AspNetCore.Authorization;
-
-    // Use the Cors feature to control the access
     using Microsoft.AspNetCore.Cors;
-
-    // Use the Versioning to add version in url
+    using Microsoft.AspNetCore.Mvc;
     using Asp.Versioning;
 
-    // Use the General Dto classes
-    using FeChat.Models.Dtos;
-
-    // Use the Member Dto classes
-    using FeChat.Models.Dtos.Members;
-
-    // Use General utils
-    using FeChat.Utils.General;
-    
-    // Use the Members repositories
-    using FeChat.Utils.Interfaces.Repositories.Members;
-
-    // Use the Messages repositories
-    using FeChat.Utils.Interfaces.Repositories.Messages;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Members;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Members;
+    using Utils.Interfaces.Repositories.Messages;
 
     /// <summary>
     /// Read Controller for Dashboard

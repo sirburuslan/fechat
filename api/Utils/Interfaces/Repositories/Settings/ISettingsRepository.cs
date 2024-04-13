@@ -13,14 +13,10 @@
 // Namespace for the Utilis Interfaces Settings Repositories
 namespace FeChat.Utils.Interfaces.Repositories.Settings {
 
-    // Use genera dtos
-    using FeChat.Models.Dtos;
-
-    // Use settings dtos
-    using FeChat.Models.Dtos.Settings;
-
-    // Use the Settings entities
-    using FeChat.Models.Entities.Settings;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Settings;
+    using Models.Entities.Settings;
 
     /// <summary>
     /// Interface for Settings Repository

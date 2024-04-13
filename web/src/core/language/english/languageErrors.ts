@@ -17,7 +17,6 @@ const words = (): object => {
         error_errors_session_expired: 'Session Expired',
         error_your_session_expired: 'Your session has been expired.',
         error_go_home: 'Go Home',
-        error_csrf_token_not_generated: 'The CSRF token was not generated successfully.',
         error_confirmation_button_not_configured: 'Confirmation button not configured correctly.',
         errors_only_3_images_allowed: 'A message could have up to 3 images attached.',
         error_an_unknown_error_occurred: 'An unknown error occurred.'

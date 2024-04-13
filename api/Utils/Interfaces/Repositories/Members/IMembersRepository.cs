@@ -13,14 +13,10 @@
 // Namespace for the Utilis Interfaces Members Repositories
 namespace FeChat.Utils.Interfaces.Repositories.Members {
 
-    // Use the Dtos for response
-    using FeChat.Models.Dtos;
-
-    // Use Dtos for Members
-    using FeChat.Models.Dtos.Members;
-
-    // Use Entity for Members
-    using FeChat.Models.Entities.Members;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Members;
+    using Models.Entities.Members;
 
     /// <summary>
     /// Members Interface

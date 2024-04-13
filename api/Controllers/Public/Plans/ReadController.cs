@@ -13,26 +13,16 @@
 // Namespace for Public Plans Controllers
 namespace FeChat.Controllers.Public.Plans {
 
-    // Use the Mvc classes
-    using Microsoft.AspNetCore.Mvc;
-
-    // Use the Cors feature to control the access
-    using Microsoft.AspNetCore.Cors;
-
-    // Use the Authorization feature to allow guests access
+    // System Namespaces
     using Microsoft.AspNetCore.Authorization;
-
-    // Use the Versioning to add version in url
+    using Microsoft.AspNetCore.Cors;
+    using Microsoft.AspNetCore.Mvc;
     using Asp.Versioning;
 
-    // Use General Dtos
-    using FeChat.Models.Dtos;
-
-    // Use Plans Dtos
-    using FeChat.Models.Dtos.Plans;
-
-    // Use the Plans repository
-    using FeChat.Utils.Interfaces.Repositories.Plans;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Plans;
+    using Utils.Interfaces.Repositories.Plans;
 
     /// <summary>
     /// Plans Read Controller

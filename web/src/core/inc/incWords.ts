@@ -28,7 +28,7 @@ import { typeList } from '@/core/types/typesIndex';
 const getWord = (section: string, wordName: string, customLang?: string): string => {
 
     // Default language if none is selected
-    let language: string | undefined = (customLang)?customLang:process.env.NEXT_PUBLIC_LANGUAGE;
+    const language: string | undefined = (customLang)?customLang:process.env.NEXT_PUBLIC_LANGUAGE;
 
     // Verify if language exists
     if ( typeof language === 'undefined' ) {
@@ -36,10 +36,10 @@ const getWord = (section: string, wordName: string, customLang?: string): string
     }
 
     // Get language
-    let lang: {[key: string]: object} = words[language];
+    const lang: {[key: string]: object} = words[language];
 
     // Get the word
-    let word: {[key: string]: string} = (lang[section] as {default(): { [key: string]: string;}} ).default();
+    const word: {[key: string]: string} = (lang[section] as {default(): { [key: string]: string;}} ).default();
 
     // Check if word name exists
     if ( typeof word[wordName] !== 'string' ) {

@@ -13,20 +13,14 @@
 // Namespace for Plans Repositories
 namespace FeChat.Models.Repositories.Plans.Plans {
 
-    // Use the Memory Cache to story the data in cache
+    // System Namespaces
     using Microsoft.Extensions.Caching.Memory;
     
-    // Use General Dtos classes
-    using FeChat.Models.Dtos;
-
-    // Use the Plans Entities
-    using FeChat.Models.Entities.Plans;
-
-    // Use the Configuration for database connection
-    using FeChat.Utils.Configuration;
-    
-    // Use the General Utils
-    using FeChat.Utils.General;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Entities.Plans;
+    using Utils.Configuration;
+    using Utils.General;
 
     /// <summary>
     /// Plans Repository

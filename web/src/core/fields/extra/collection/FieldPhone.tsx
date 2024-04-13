@@ -26,15 +26,15 @@ import { MemberOptionsContext } from '@/core/contexts/OptionsContext';
 const FieldPhone = (params: typeField): React.JSX.Element => {
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);   
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);   
 
     // Generate unique id
-    let uniqueId: string = "fc-settings-phone-input-" + params.name;
+    const uniqueId: string = "fc-settings-phone-input-" + params.name;
 
     /**
      * Change value handler
      */
-    let changeValue = (): void => {
+    const changeValue = (): void => {
 
         // Change the input value
         params.hook.fields[params.name] = (document.querySelector(".fc-option-number #" + uniqueId) as HTMLInputElement).value;
@@ -47,7 +47,7 @@ const FieldPhone = (params: typeField): React.JSX.Element => {
     /**
      * Copy phone handler
      */
-    let copyPhone = (): void => {
+    const copyPhone = (): void => {
 
         // Verify if field is undefined
         if ( typeof params.hook.fields[params.name] === 'undefined' ) {

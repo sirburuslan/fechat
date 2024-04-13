@@ -13,11 +13,11 @@
 // Namespace for PayPal Products
 namespace FeChat.Utils.Gateways.PayPal.Products {
 
-    // Use Text encoding
+    // System Namespaces
     using System.Text;
 
-    // Use General Dtos
-    using FeChat.Models.Dtos;
+    // App Namespaces
+    using Models.Dtos;
 
     /// <summary>
     /// Create Products Class

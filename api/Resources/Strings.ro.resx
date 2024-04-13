@@ -114,9 +114,6 @@
     <data name="ImageTooBig" xml:space="preserve">
         <value>Dimensiunea imaginii este prea mare.</value>
     </data>
-    <data name="CSRFNotGenerated" xml:space="preserve">
-        <value>Un token anti-csrf nu a fost generat cu succes.</value>
-    </data>
     <data name="AnalyticsCodeLong" xml:space="preserve">
         <value>Codul de analiză este prea lung.</value>
     </data>
@@ -491,23 +488,32 @@
     </data>   
     <data name="AccessCodeNotGenerated" xml:space="preserve">
         <value>Codul de acces nu a fost generat.</value>
-    </data> 
-    <data name="InvalidCsrfToken" xml:space="preserve">
-        <value>Codul CSRF nu este valabil.</value>
-    </data>   
+    </data>
     <data name="WelcomeToSite" xml:space="preserve">
-         <value>Bine ați venit la Fechat</value>
-     </data>
-     <data name="LoginCredentials" xml:space="preserve">
-         <value>Mai jos sunt datele dvs. de conectare</value>
-     </data>
-     <data name="BestRegards" xml:space="preserve">
-         <value>Cu stima.</value>
-     </data>
-     <data name="E-mail" xml:space="preserve">
-         <value>E-mail</value>
-     </data>
-     <data name="Parola" xml:space="preserve">
-         <value>Parolă</value>
-     </data>                                                    
+        <value>Bine ați venit la Fechat</value>
+    </data>
+    <data name="LoginCredentials" xml:space="preserve">
+        <value>Mai jos sunt datele dvs. de conectare</value>
+    </data>
+    <data name="BestRegards" xml:space="preserve">
+        <value>Cu stima.</value>
+    </data>
+    <data name="E-mail" xml:space="preserve">
+        <value>E-mail</value>
+    </data>
+    <data name="Parola" xml:space="preserve">
+        <value>Parolă</value>
+    </data> 
+    <data name="NewUnreadMessage" xml:space="preserve">
+        <value>Aveți mesaj necitit</value>
+    </data>
+    <data name="YouHaveNewUnreadMessage" xml:space="preserve">
+        <value>Ați primit un mesaj nou pe FeChat.</value>
+    </data>  
+    <data name="ClosingWebSocketConnection" xml:space="preserve">
+        <value>Închiderea conexiunii WebSocket</value>
+    </data>   
+    <data name="OptionsNotFound" xml:space="preserve">
+        <value>Optiunile aplicatiei nu au fost gasite</value>
+    </data>                                                    
 </root>

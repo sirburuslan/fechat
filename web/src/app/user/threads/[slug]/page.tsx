@@ -28,10 +28,10 @@ import { useQuery } from 'react-query';
 import SecureStorage from 'react-secure-storage';
 
 // Import the incs
-import { getIcon, getWord, getToken, getMonth, showNotification, unescapeRegexString } from '@/core/inc/incIndex';
+import { getIcon, getWord, getMonth, showNotification } from '@/core/inc/incIndex';
 
 // Import types
-import { typeToken, typePostHeader } from '@/core/types/typesIndex';
+import { typePostHeader } from '@/core/types/typesIndex';
 
 // Import the options for website and member
 import {WebsiteOptionsContext, MemberOptionsContext} from '@/core/contexts/OptionsContext';
@@ -43,19 +43,19 @@ import IconPerson from '@/core/icons/collection/IconPerson.ts';
 const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
 
     // Website options
-    let {websiteOptions} = useContext(WebsiteOptionsContext); 
+    const {websiteOptions} = useContext(WebsiteOptionsContext); 
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
 
     // Set a hook for error message if thread can't be reached
-    let [threadError, setThreadError] = useState<string>();
+    const [threadError, setThreadError] = useState<string>();
 
     // Hook for messages
-    let [htmlMessages, setHtmlMessages] = useState('');
+    const [htmlMessages, setHtmlMessages] = useState('');
 
     // Hook for guest's information
-    let [guestInfo, setGuestInfo] = useState({
+    const [guestInfo, setGuestInfo] = useState({
         GuestId: '',
         Name: '',
         Email: '',
@@ -65,27 +65,27 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
     });    
 
     // Hook for new message
-    let [message, setMessage] = useState('');
+    const [message, setMessage] = useState('');
 
     // Set a hook for pagination parameters
-    let [pagination, setPagination] = useState({
+    const [pagination, setPagination] = useState({
         Page: 1
     });  
 
     // Set a hook for message input
-    let [inputPause, updateInputPause] = useState(0);  
+    const [inputPause, updateInputPause] = useState(0);  
 
     // Hook to fetch data with useQuery
-    let [fetchedData, setFetchedData] = useState(false);
+    const [fetchedData, setFetchedData] = useState(false);
 
     // Messages ids container
-    let messagesIds = useRef<string[]>([]);
+    const messagesIds = useRef<string[]>([]);
 
     // Temporary dates container
-    let tempDates = useRef<{[key: string]: number}>({});
+    const tempDates = useRef<{[key: string]: number}>({});
 
     // Typing active container
-    let typingActive = useRef<NodeJS.Timeout>();
+    const typingActive = useRef<NodeJS.Timeout>();
 
     /*
      * Schedule animation
@@ -93,7 +93,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
      * @param funcion fun contains the function
      * @param integer interval contains time
      */
-    let scheduleAnimation = ($fun: () => void, interval: number): void => {
+    const scheduleAnimation = ($fun: () => void, interval: number): void => {
 
         // Verify if an event was already scheduled
         if (typingActive.current) {
@@ -109,35 +109,20 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
     };
 
     // Get the thread's information
-    let threadInfo = async (): Promise<any> => {
-
-        // Generate a new csrf token
-        let csrfToken: typeToken = await getToken();
-
-        // Check if csrf token is missing
-        if ( !csrfToken.success ) {
-
-            // Return error response
-            return {
-                success: false,
-                message: getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language'])
-            };
-
-        }
+    const threadInfo = async (): Promise<any> => {
 
         // Set the bearer token
-        let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+        const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
         // Set the headers
-        let headers: typePostHeader = {
+        const headers: typePostHeader = {
             headers: {
-                Authorization: `Bearer ${token}`,
-                CsrfToken: csrfToken.token
+                Authorization: `Bearer ${token}`
             }
         };            
 
         // Request the fields value
-        let response = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'api/v1/user/threads/' + params.slug, headers);
+        const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'api/v1/user/threads/' + params.slug, headers);
 
         // Process the response
         return response.data;
@@ -145,29 +130,17 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
     };
 
     // Get the thread's messages
-    let threadMessages = async (): Promise<void> => {
+    const threadMessages = async (): Promise<void> => {
 
         try {
 
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-            }
-
             // Set the bearer token
-            let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+            const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
             // Set the headers
-            let headers: typePostHeader = {
+            const headers: typePostHeader = {
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                    CsrfToken: csrfToken.token
+                    Authorization: `Bearer ${token}`
                 }
             };            
 
@@ -224,31 +197,31 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
      * 
      * @param object messages
      */
-    let elementsList = (messages: any): void => {
+    const elementsList = (messages: any): void => {
 
         // Initial chat height
         let initChatHeight = 0;
 
         // Reverse the messages
-        let elements = messages.elements.reverse();
+        const elements = messages.elements.reverse();
 
         // Verify if temporary dates missing
         if ( Object.keys(tempDates.current).length > 0 ) {
 
             // Parse data
-            let created = new Date(elements[0].created * 1000);
+            const created = new Date(elements[0].created * 1000);
 
             // Extrate the date
-            let date: string = created.getDate().toString().padStart(2, '0');
+            const date: string = created.getDate().toString().padStart(2, '0');
 
             // Extrate the month
-            let month: string = (created.getMonth() + 1).toString().padStart(2, '0');   
+            const month: string = (created.getMonth() + 1).toString().padStart(2, '0');   
             
             // Extrate the year
-            let year: string = created.getFullYear().toString();   
+            const year: string = created.getFullYear().toString();   
             
             // Select the added date in the chat
-            let dateHeader = document.querySelector('.fc-date[data-date="' + date + '-' + month + '-' + year + '"]');
+            const dateHeader = document.querySelector('.fc-date[data-date="' + date + '-' + month + '-' + year + '"]');
             
             // Verify if date exists already
             if ( dateHeader ) {
@@ -270,7 +243,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
         let messagesList: string = '';
 
         // List the messages
-        for ( let element of elements ) {
+        for ( const element of elements ) {
 
             // Verify if the message is already displayed
             if ( messagesIds.current.includes(element.messageId) ) {
@@ -278,16 +251,16 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
             }
 
             // Parse data
-            let created = new Date(element.created * 1000);
+            const created = new Date(element.created * 1000);
 
             // Extrate the date
-            let date: string = created.getDate().toString().padStart(2, '0');
+            const date: string = created.getDate().toString().padStart(2, '0');
 
             // Extrate the month
-            let month: string = (created.getMonth() + 1).toString().padStart(2, '0');   
+            const month: string = (created.getMonth() + 1).toString().padStart(2, '0');   
             
             // Extrate the year
-            let year: string = created.getFullYear().toString();
+            const year: string = created.getFullYear().toString();
 
             // Message date container
             let messageDate: string = '';
@@ -320,7 +293,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
             } else if ( element.attachments.length > 0 ) {
 
                 // List attached files
-                for ( let attachment of element.attachments ) {
+                for ( const attachment of element.attachments ) {
 
                     // Append image
                     content += `<a href="${attachment}" target="_blank">
@@ -397,7 +370,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
         }
 
         // Select the chat body
-        let chatBody: Element = document.getElementsByClassName('fc-thread-chat-body')[0];
+        const chatBody: Element = document.getElementsByClassName('fc-thread-chat-body')[0];
 
         // Check if the div is scrolled up to the bottom
         if ( (((chatBody as HTMLElement).offsetHeight + chatBody.scrollTop) >= chatBody.scrollHeight) || (chatBody.scrollHeight < 200) ) {
@@ -406,7 +379,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
             setTimeout((): void => {
 
                 // Select the chat body
-                let chatBody: Element = document.getElementsByClassName('fc-thread-chat-body')[0];
+                const chatBody: Element = document.getElementsByClassName('fc-thread-chat-body')[0];
 
                 // Scroll the messages to the bottom
                 chatBody.scrollTop = chatBody.scrollHeight;
@@ -419,7 +392,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
             setTimeout((): void => {
 
                 // Select the chat body
-                let chatBody: Element = document.getElementsByClassName('fc-thread-chat-body')[0];
+                const chatBody: Element = document.getElementsByClassName('fc-thread-chat-body')[0];
 
                 // Scroll the messages to the bottom
                 chatBody.scrollTop = chatBody.scrollHeight - initChatHeight - 44;
@@ -444,7 +417,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
     };
 
     // Get the guest map
-    let guestMap = (guestInfo: any): React.JSX.Element => {
+    const guestMap = (guestInfo: any): React.JSX.Element => {
 
         // Verify if google map is configured
         if ( (websiteOptions.GoogleMapsEnabled !== '1') || (websiteOptions.GoogleMapsKey === '') ) {
@@ -471,7 +444,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
     };
 
     // Request the thread information
-    let { isLoading, error, data } = useQuery('threadInfo-' + params.slug, threadInfo, {
+    const { isLoading, error, data } = useQuery('threadInfo-' + params.slug, threadInfo, {
         enabled: !fetchedData
     });
 
@@ -479,10 +452,10 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
     useEffect((): () => void => {
 
         // Set the bearer token
-        let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+        const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
         // Create a Web Socket connection
-        let socket = new WebSocket(process.env.NEXT_PUBLIC_API_URL?.replace('http', 'ws') + 'api/v1/user/websocket');
+        const socket = new WebSocket(process.env.NEXT_PUBLIC_API_URL?.replace('http', 'ws') + 'api/v1/user/websocket');
 
         // Check if has occurred an error
         if ( error ) {
@@ -550,7 +523,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
                     socket.onopen = (event: Event): void => {
 
                         // Prepare the data to send
-                        let fields = {
+                        const fields = {
                             AccessToken: token,
                             ThreadId: params.slug
                         };
@@ -564,13 +537,13 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
                     socket.onmessage = (event: MessageEvent<any>): void => {
 
                         // Decode the event data
-                        let eventData = JSON.parse(event.data);
+                        const eventData = JSON.parse(event.data);
 
                         // Check if unseen messages exists
                         if ( typeof eventData.unseen !== 'undefined' ) {
 
                             // Select the chat body
-                            let chatBody: Element = document.getElementsByClassName('fc-thread-chat-body')[0];
+                            const chatBody: Element = document.getElementsByClassName('fc-thread-chat-body')[0];
 
                             // Check if the div is scrolled up to the bottom
                             if ( (((chatBody as HTMLElement).offsetHeight + chatBody.scrollTop) >= chatBody.scrollHeight) || (chatBody.scrollHeight < 200) ) {
@@ -642,17 +615,17 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
      * 
      * @param Event e
      */
-    let trackClicks = async (e: Event): Promise<void> => {
+    const trackClicks = async (e: Event): Promise<void> => {
 
         // Get the target
-        let target = e.target;
+        const target = e.target;
 
         // Check if the click is inside dropdown
         if ( (target instanceof Element) && target.classList && target.classList.contains('fc-chat-unseen-messages') ) {
             e.preventDefault();
 
             // Select the chat body
-            let chatBody: Element = document.getElementsByClassName('fc-chat-body')[0];
+            const chatBody: Element = document.getElementsByClassName('fc-chat-body')[0];
 
             // Scroll the messages to the bottom
             chatBody.scrollTop = chatBody.scrollHeight;
@@ -664,7 +637,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
             e.preventDefault();
 
             // Get the page
-            let page: string | null = target.getAttribute('data-page');
+            const page: string | null = target.getAttribute('data-page');
 
             // Set pagination's page
             pagination.Page = parseInt(page!);
@@ -684,7 +657,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
      * 
      * @param Event e 
      */
-    let handleChange: React.FormEventHandler<HTMLTextAreaElement> = async (e): Promise<void> => {
+    const handleChange: React.FormEventHandler<HTMLTextAreaElement> = async (e): Promise<void> => {
 
         // Update the message value
         setMessage(e.currentTarget.value);
@@ -694,25 +667,13 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
 
             try {
 
-                // Generate a new csrf token
-                let csrfToken: typeToken = await getToken();
-
-                // Check if csrf token is missing
-                if ( !csrfToken.success ) {
-
-                    // Show error notification
-                    throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-                }
-
                 // Set the bearer token
-                let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+                const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
                 // Set the headers
-                let headers: typePostHeader = {
+                const headers: typePostHeader = {
                     headers: {
-                        Authorization: `Bearer ${token}`,
-                        CsrfToken: csrfToken.token
+                        Authorization: `Bearer ${token}`
                     }
                 };            
 
@@ -758,10 +719,10 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
      * 
      * @param event e
      */
-    let uploadImages = async (e: React.ChangeEvent): Promise<void> => {
+    const uploadImages = async (e: React.ChangeEvent): Promise<void> => {
 
         // Select progress bar
-        let progressBar = e.currentTarget.closest('.fc-thread-chat-footer')!.getElementsByClassName('fc-progress-bar')[0] as HTMLElement;
+        const progressBar = e.currentTarget.closest('.fc-thread-chat-footer')!.getElementsByClassName('fc-progress-bar')[0] as HTMLElement;
         
         // Show progress box
         progressBar.closest('.fc-chat-uploading-attachments')!.classList.add('fc-chat-uploading-attachments-show');
@@ -777,39 +738,27 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
             }
 
             // Get the files
-            let files: FileList | null = (e.target as HTMLInputElement).files;
+            const files: FileList | null = (e.target as HTMLInputElement).files;
 
             // Create an instance for the form data
-            let form: FormData = new FormData();
+            const form: FormData = new FormData();
 
             // List the files
-            for ( let file of files! ) {
+            for ( const file of files! ) {
 
                 // Append the file
                 form.append('files', file); 
 
-            }  
-
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated'));
-
             }
 
             // Set the bearer token
-            let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+            const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
             // Upload the images on the server
             await axios.post(process.env.NEXT_PUBLIC_API_URL + 'api/v1/user/messages/attachments/' + params.slug, form, {
                 headers: {
                     ContentType: `multipart/form-data`,
-                    Authorization: `Bearer ${token}`,
-                    CsrfToken: csrfToken.token
+                    Authorization: `Bearer ${token}`
                 },
                 onUploadProgress: (progressEvent: AxiosProgressEvent) => {
 
@@ -817,7 +766,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
                     if ( typeof progressEvent.total === 'number' ) {
 
                         // Calculate the progress percentage
-                        let progress: number = (progressEvent.loaded / progressEvent.total) * 100;
+                        const progress: number = (progressEvent.loaded / progressEvent.total) * 100;
 
                         // Set the progress percentage
                         progressBar!.style.width = `${progress.toFixed(2)}%`;
@@ -912,30 +861,18 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
     };
 
     // Handle the form submit
-    let formSubmit: React.FormEventHandler = async (e): Promise<void> => {
+    const formSubmit: React.FormEventHandler = async (e): Promise<void> => {
         e.preventDefault();
 
         try {
 
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated'));
-
-            }
-
             // Set the bearer token
-            let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+            const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
             // Set the headers
-            let headers: typePostHeader = {
+            const headers: typePostHeader = {
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                    CsrfToken: csrfToken.token
+                    Authorization: `Bearer ${token}`
                 }
             };  
 

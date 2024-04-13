@@ -22,10 +22,7 @@ import Link from 'next/link';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
 // Import the incs
-import { getWord, getIcon, getToken, unescapeRegexString } from '@/core/inc/incIndex';
-
-// Import the types
-import { typeToken, typePostHeader } from '@/core/types/typesIndex';
+import { getWord, getIcon, unescapeRegexString } from '@/core/inc/incIndex';
 
 // Import the options for website and member
 import { WebsiteOptionsContext, MemberOptionsContext } from '@/core/contexts/OptionsContext';
@@ -34,39 +31,21 @@ import { WebsiteOptionsContext, MemberOptionsContext } from '@/core/contexts/Opt
 const Plans = (): React.JSX.Element => {
 
     // Website options
-    let {websiteOptions} = useContext(WebsiteOptionsContext);
+    const {websiteOptions} = useContext(WebsiteOptionsContext);
 
     // Member options
-    let {memberOptions} = useContext(MemberOptionsContext);
+    const {memberOptions} = useContext(MemberOptionsContext);
 
     // Plans list holder
-    let [plans, setPlans] = useState<React.ReactNode | null>(null);
+    const [plans, setPlans] = useState<React.ReactNode | null>(null);
 
     // Create the request for plans
-    let plansListRequest = async (): Promise<void> => {
+    const plansListRequest = async (): Promise<void> => {
 
         try {
 
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-            }
-
-            // Set the headers
-            let headers: typePostHeader = {
-                headers: {
-                    CsrfToken: csrfToken.token
-                }
-            };
-
             // Request the plans list
-            await axios.get(process.env.NEXT_PUBLIC_API_URL + 'api/v1/plans/list', headers)
+            await axios.get(process.env.NEXT_PUBLIC_API_URL + 'api/v1/plans/list')
             
             // Process the response
             .then((response: AxiosResponse): void => {

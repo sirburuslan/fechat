@@ -13,7 +13,7 @@
 // Namespace for Settings Entity
 namespace FeChat.Models.Entities.Settings {
 
-    // Use the Adnnotations for attributes
+    // System Namespaces
     using System.ComponentModel.DataAnnotations; 
 
     /// <summary>

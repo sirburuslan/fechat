@@ -13,14 +13,13 @@
 // General Utils namespace
 namespace FeChat.Utils.General {
 
-    // Use Reflection to use the Assembly
+    // System Namespaces
     using System.Reflection;
 
-    // Use general dtos
-    using FeChat.Models.Dtos;
-
-    // Load Storage
-    using FeChat.Utils.Interfaces;
+    // App Namespaces
+    using Models.Dtos;
+    using Utils.Configuration;
+    using Utils.Interfaces;
 
     /// <summary>
     /// This class has the scope to upload images for both users and administrators
@@ -30,13 +29,13 @@ namespace FeChat.Utils.General {
         /// <summary>
         /// Upload the image
         /// </summary>
-        /// <param name="configuration">App configuration</param>
+        /// <param name="storageOptions">Selected storage options</param>
         /// <param name="file">Uploaded file</param>
         /// <returns>Url of the uploaded file or null</returns>
-        public async Task<ResponseDto<StorageDto>> UploadAsync(IConfiguration configuration, IFormFile file) {
+        public async Task<ResponseDto<StorageDto>> UploadAsync(AppSettings.StorageFormat storageOptions, IFormFile file) {
 
             // Get the default selected storage
-            string defaultStorage = configuration.GetSection("Storage:Default").Value ?? string.Empty;
+            string defaultStorage = storageOptions.Default;
 
             // Check if storage is not selected
             if ( defaultStorage == null ) {
@@ -148,7 +147,7 @@ namespace FeChat.Utils.General {
             IStorage instance = (IStorage)Activator.CreateInstance(type)!;
 
             // Try to upload the file
-            ResponseDto<StorageDto> uploadImage = await instance!.UploadAsync(configuration, file);
+            ResponseDto<StorageDto> uploadImage = await instance!.UploadAsync(storageOptions, file);
 
             // Check if the file was uploaded
             if ( uploadImage.Result != null ) {

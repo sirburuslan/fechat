@@ -25,10 +25,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 // Import the incs
-import { getIcon, getWord, getToken } from '@/core/inc/incIndex';
-
-// Import the types
-import { typeToken, typePostHeader } from '@/core/types/typesIndex';
+import { getIcon, getWord } from '@/core/inc/incIndex';
 
 // Import the useFormChange hook
 import useFormChange from '@/core/hooks/auth/reset/useFormChange';
@@ -37,28 +34,28 @@ import useFormChange from '@/core/hooks/auth/reset/useFormChange';
 const Page = ({params}: {params: { slug: string }}): React.JSX.Element => {
 
     // Get the router
-    let router = useRouter()
+    const router = useRouter()
 
     // Define the fields values
-    let [values, setValues] = useState({
+    const [values, setValues] = useState({
         password: '',
         repeatPassword: ''
     });
 
     // Define the state of the password input
-    let [passwordInputType, setPasswordInputType] = useState('password');
+    const [passwordInputType, setPasswordInputType] = useState('password');
 
     // Define the state of the repeat password input
-    let [repeatPasswordInputType, setRepeatPasswordInputType] = useState('password');    
+    const [repeatPasswordInputType, setRepeatPasswordInputType] = useState('password');    
 
     // Error for code
-    let [error, setCodeError] = useState('');    
+    const [error, setCodeError] = useState('');    
 
     // Message state
-    let message = useRef<HTMLDivElement>(null);
+    const message = useRef<HTMLDivElement>(null);
 
     // Monitor the values
-    let {password, repeatPassword} = useFormChange(values);
+    const {password, repeatPassword} = useFormChange(values);
 
     // Check if document is defined
     if ( typeof document !== 'undefined' ) {
@@ -69,7 +66,7 @@ const Page = ({params}: {params: { slug: string }}): React.JSX.Element => {
     };
 
     // Validate a reset code
-    let validateResetCode = async (): Promise<void> => {
+    const validateResetCode = async (): Promise<void> => {
 
         try {
 
@@ -80,7 +77,7 @@ const Page = ({params}: {params: { slug: string }}): React.JSX.Element => {
             .then((response: AxiosResponse): void => {
 
                 // Get data
-                let data: {success?: boolean, message?: string, Email?: string, Password?: string} = response.data;
+                const data: {success?: boolean, message?: string, Email?: string, Password?: string} = response.data;
 
                 // Verify if the user has been logged in successfully
                 if ( data.success ) {
@@ -111,7 +108,7 @@ const Page = ({params}: {params: { slug: string }}): React.JSX.Element => {
             if ( error instanceof Error ) {
 
                 // Create error message
-                let messageAlert: string = `<div class="flex items-center px-4 py-3 fc-auth-main-form-alert-error fc-auth-main-form-alert-error-static" role="alert">
+                const messageAlert: string = `<div class="flex items-center px-4 py-3 fc-auth-main-form-alert-error fc-auth-main-form-alert-error-static" role="alert">
                     ${ getIcon('Iconexclamation', {className: 'fc-auth-main-form-alert-error-icon'}) }
                     <p>${error.message}</p>
                 </div>`;
@@ -131,54 +128,36 @@ const Page = ({params}: {params: { slug: string }}): React.JSX.Element => {
     };
 
     // Handle form submit for password change
-    let submitPasswordChange = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    const submitPasswordChange = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
 
         // Reset alert
         message.current!.innerHTML = '';
 
         // Get target
-        let target = e.target as Element;
+        const target = e.target as Element;
 
         // Add the fc-auth-main-form-submit-active-btn class
         target.getElementsByClassName('fc-auth-main-form-submit-btn')[0].classList.add('fc-auth-main-form-submit-active-btn');
 
         try {
 
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Throw error message
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated'));
-
-            }
-
-            // Set the headers
-            let headers: typePostHeader = {
-                headers: {
-                    CsrfToken: csrfToken.token
-                }
-            };
-
             // Submit the request
             await axios.post(process.env.NEXT_PUBLIC_API_URL + 'api/v1/auth/reset/change-password', {
                 ResetCode: params.slug,
                 Password: values.password,
                 RepeatPassword: values.repeatPassword
-            }, headers)
+            })
             .then((response: AxiosResponse): void => {
 
                 // Get data
-                let data: {success?: boolean, message?: string, Password?: string, RepeatPassword?: string} = response.data;
+                const data: {success?: boolean, message?: string, Password?: string, RepeatPassword?: string} = response.data;
 
                 // Verify if the user has been logged in successfully
                 if ( data.success ) {
 
                     // Create success message
-                    let messageAlert: string = `<div class="flex items-center px-4 py-3 mb-4 fc-auth-main-form-alert-success" role="alert">
+                    const messageAlert: string = `<div class="flex items-center px-4 py-3 mb-4 fc-auth-main-form-alert-success" role="alert">
                         ${ getIcon('Iconinformation', {className: 'fc-auth-main-form-alert-success-icon'}) }
                         <p>${data.message}</p>
                     </div>`;
@@ -203,7 +182,7 @@ const Page = ({params}: {params: { slug: string }}): React.JSX.Element => {
                 } else if ( (!data.success && data.message) || data.Password || data.RepeatPassword ) {
 
                     // Set message
-                    let messageError: string | undefined = data.message || data.Password || data.RepeatPassword;
+                    const messageError: string | undefined = data.message || data.Password || data.RepeatPassword;
 
                     // Verify if message is not undefined
                     if ( typeof messageError !== 'undefined' ) {
@@ -232,7 +211,7 @@ const Page = ({params}: {params: { slug: string }}): React.JSX.Element => {
             if ( error instanceof Error ) {
 
                 // Create error message
-                let messageAlert: string = `<div class="flex items-center px-4 py-3 fc-auth-main-form-alert-error" role="alert">
+                const messageAlert: string = `<div class="flex items-center px-4 py-3 fc-auth-main-form-alert-error" role="alert">
                     ${ getIcon('Iconexclamation', {className: 'fc-auth-main-form-alert-error-icon'}) }
                     <p>${error.message}</p>
                 </div>`;
@@ -263,10 +242,10 @@ const Page = ({params}: {params: { slug: string }}): React.JSX.Element => {
     }, []);
 
     // Detect when the password input type should be changed
-    let handleChangePasswordInput: MouseEventHandler<HTMLButtonElement> = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+    const handleChangePasswordInput: MouseEventHandler<HTMLButtonElement> = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
 
         // Get target
-        let target = e.target as Element;
+        const target = e.target as Element;
 
         // Check if the password input has the text type
         if (passwordInputType === 'text') {
@@ -290,10 +269,10 @@ const Page = ({params}: {params: { slug: string }}): React.JSX.Element => {
     };
 
     // Detect when the password input type should be changed
-    let handleChangeRepeatPasswordInput: MouseEventHandler<HTMLButtonElement> = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+    const handleChangeRepeatPasswordInput: MouseEventHandler<HTMLButtonElement> = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
 
         // Get target
-        let target = e.target as Element;
+        const target = e.target as Element;
 
         // Check if the password input has the text type
         if (repeatPasswordInputType === 'text') {

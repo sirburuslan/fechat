@@ -20,13 +20,13 @@ import { typeField } from '@/core/types/typesIndex';
 const FieldDynamicList = (params: typeField): React.JSX.Element => {
 
     // Dynamic list container
-    let dynamic_list: Array<{id: string | number, text: string, url: string}> = [];
+    const dynamic_list: Array<{id: string | number, text: string, url: string}> = [];
 
     // Button container
-    let button: string = params.label;
+    const button: string = params.label;
 
     // Dropdown items
-    let dropdown_items: Array<{text: string, url: string}> = dynamic_list;
+    const dropdown_items: Array<{text: string, url: string}> = dynamic_list;
 
     return (
         <li className="fc-extra-option" data-option={ params.name }>

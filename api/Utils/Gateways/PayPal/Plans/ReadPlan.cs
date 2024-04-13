@@ -13,8 +13,8 @@
 // Namespace for PayPal Plans
 namespace FeChat.Utils.Gateways.PayPal.Plans {
 
-    // Use General Dtos
-    using FeChat.Models.Dtos;
+    // App Namespaces
+    using Models.Dtos;
 
     /// <summary>
     /// Read Plans Class

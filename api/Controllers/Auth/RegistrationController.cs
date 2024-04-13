@@ -13,29 +13,17 @@
 // Namespace for Auth Controllers
 namespace FeChat.Controllers.Auth {
 
-    // Use the Mvc to get the controller
+    // System Namespaces
     using Microsoft.AspNetCore.Mvc;
-
-    // Import the Versioning library
     using Asp.Versioning;
 
-    // Use the Dtos for response
-    using FeChat.Models.Dtos;
-
-    // Use Dtos for Members
-    using FeChat.Models.Dtos.Members;
-
-    // Use General Utils
-    using FeChat.Utils.General;
-
-    // Use the Events Repositories
-    using FeChat.Utils.Interfaces.Repositories.Events;
-
-    // Use the Members Repositories
-    using FeChat.Utils.Interfaces.Repositories.Members;
-
-    // Use the Settings Repositories
-    using FeChat.Utils.Interfaces.Repositories.Settings;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Members;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Events;
+    using Utils.Interfaces.Repositories.Members;
+    using Utils.Interfaces.Repositories.Settings;
 
     /// <summary>
     /// This controller is used to create new accounts
@@ -44,24 +32,6 @@ namespace FeChat.Controllers.Auth {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/auth/[controller]")]
     public class RegistrationController : Controller {
-
-        /// <summary>
-        /// App configuration container
-        /// </summary>
-        private readonly IConfiguration _configuration;
-
-        /// <summary>
-        /// Class Constructor
-        /// </summary>
-        /// <param name="configuration">
-        /// App configuration
-        /// </param>
-        public RegistrationController(IConfiguration configuration) {
-
-            // Save the configuration
-            _configuration = configuration;
-            
-        }
 
         /// <summary>
         /// This method validates the member's data and creates an account
@@ -73,17 +43,6 @@ namespace FeChat.Controllers.Auth {
         /// <returns>Success or error message</returns>
         [HttpPost]
         public async Task<IActionResult> Registration([FromBody] NewMemberDto newMemberDto, ISettingsRepository settingsRepository, IMembersRepository membersRepository, IEventsRepository eventsRepository) {
-
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
 
             // Get the options saved in the database
             ResponseDto<List<Models.Dtos.Settings.OptionDto>> savedOptions = await settingsRepository.OptionsListAsync();

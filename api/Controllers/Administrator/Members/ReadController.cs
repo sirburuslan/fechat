@@ -13,41 +13,21 @@
 // Namespace for Administrator Members Read Controllers
 namespace FeChat.Controllers.Administrator.Members {
 
-    // Use the Asp MVC for Controllers
-    using Microsoft.AspNetCore.Mvc;
-
-    // Use the Authorization to restrict access for guests
+    // System Namespaces
     using Microsoft.AspNetCore.Authorization;
-
-    // Use the Cors feature to control the access
     using Microsoft.AspNetCore.Cors;
-
-    // Use the Versioning to add version in url
+    using Microsoft.AspNetCore.Mvc;
     using Asp.Versioning;
     
-    // Use the General Dtos
-    using FeChat.Models.Dtos;
-
-    // Use the Members Dtos
-    using FeChat.Models.Dtos.Members;
-
-    // Use the Plans dtos
-    using FeChat.Models.Dtos.Plans;
-
-    // Use the Subscriptions Dtos
-    using FeChat.Models.Dtos.Subscriptions;
-
-    // Use the General Utils classes for Strings
-    using FeChat.Utils.General;    
-
-    // Use the Repositories for Members
-    using FeChat.Utils.Interfaces.Repositories.Members;
-    
-    // Use the Repositories for Plans
-    using FeChat.Utils.Interfaces.Repositories.Plans;
-
-    // Use the Repositories for Subscriptions
-    using FeChat.Utils.Interfaces.Repositories.Subscriptions;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Members;
+    using Models.Dtos.Plans;
+    using Models.Dtos.Subscriptions;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Members;
+    using Utils.Interfaces.Repositories.Plans;
+    using Utils.Interfaces.Repositories.Subscriptions;
 
     /// <summary>
     /// Members Read Controller
@@ -56,22 +36,6 @@ namespace FeChat.Controllers.Administrator.Members {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/admin/members")]
     public class ReadController: Controller {
-
-        /// <summary>
-        /// Container for app's configuration
-        /// </summary>
-        private readonly IConfiguration _configuration;
-
-        /// <summary>
-        /// Constructor for this controller
-        /// </summary>
-        /// <param name="configuration">App configuration</param>
-        public ReadController(IConfiguration configuration) {
-
-            // Add configuration to the container
-            _configuration = configuration;
-
-        }
 
         /// <summary>
         /// Get the list with members
@@ -83,17 +47,6 @@ namespace FeChat.Controllers.Administrator.Members {
         [HttpPost("list")]
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> List([FromBody] SearchDto searchDto, IMembersRepository membersRepository) {
-
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
 
             // Get all members
             ResponseDto<ElementsDto<MemberDto>> membersList = await membersRepository.GetMembersAsync(searchDto);
@@ -129,17 +82,6 @@ namespace FeChat.Controllers.Administrator.Members {
         [HttpPost("export")]
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> Export(IMembersRepository membersRepository) {
-
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
 
             // Get all members
             ResponseDto<List<MemberDto>> membersList = await membersRepository.GetMembersForExportAsync();
@@ -177,17 +119,6 @@ namespace FeChat.Controllers.Administrator.Members {
         [HttpGet("{MemberId}")]
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> Member(int MemberId, IMembersRepository membersRepository, ISubscriptionsRepository subscriptionsRepository, IPlansRepository plansRepository) {
-
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
 
             // Get the member's data
             ResponseDto<MemberDto> Member = await membersRepository.GetMemberAsync(MemberId);

@@ -26,15 +26,15 @@ import { MemberOptionsContext } from '@/core/contexts/OptionsContext';
 const FieldTextarea = (params: typeField): React.JSX.Element => {
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);  
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);  
 
     // Generate unique id
-    let uniqueId: string = "fc-settings-textarea-input-" + params.name;
+    const uniqueId: string = "fc-settings-textarea-input-" + params.name;
 
     /**
      * Change value handler
      */
-    let changeValue = (): void => {
+    const changeValue = (): void => {
 
         // Change the input value
         params.hook.fields[params.name] = (document.querySelector(".fc-option-textarea #" + uniqueId) as HTMLInputElement).value;
@@ -47,7 +47,7 @@ const FieldTextarea = (params: typeField): React.JSX.Element => {
     /**
      * Copy textarea vaue handler
      */
-    let copyValue = (): void => {
+    const copyValue = (): void => {
 
         // Verify if field is undefined
         if ( typeof params.hook.fields[params.name] === 'undefined' ) {

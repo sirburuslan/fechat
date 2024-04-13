@@ -28,7 +28,7 @@ import {WebsiteOptionsContext} from '@/core/contexts/OptionsContext';
 export default function Template({ children }: { children: React.ReactNode }) {
 
     // Website options
-    let {websiteOptions, setWebsiteOptions} = useContext(WebsiteOptionsContext); 
+    const {websiteOptions, setWebsiteOptions} = useContext(WebsiteOptionsContext); 
 
     return (
     <>

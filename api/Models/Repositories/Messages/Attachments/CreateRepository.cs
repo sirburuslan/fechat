@@ -13,20 +13,12 @@
 // Namespace for Messages Attachments Repositories
 namespace FeChat.Models.Repositories.Messages.Attachments {
 
-    // Use the General Dtos
-    using FeChat.Models.Dtos;
-
-    // Use the Messages Dtos
-    using FeChat.Models.Dtos.Messages;
-
-    // Use The Entities for Messages
-    using FeChat.Models.Entities.Messages;
-
-    // Use the Configuration Utils
-    using FeChat.Utils.Configuration;
-
-    // Use the General Utils for strings
-    using FeChat.Utils.General;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Messages;
+    using Models.Entities.Messages;
+    using Utils.Configuration;
+    using Utils.General;
 
     /// <summary>
     /// Attachments Create Repository

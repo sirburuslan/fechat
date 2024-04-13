@@ -65,7 +65,7 @@ const getAllOptions = async (): Promise<typeOptions> => {
             let headers = {};  
 
             // Set the bearer token
-            let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');    
+            const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');    
 
             // Verify if token exists
             if ( token !== null ) {
@@ -80,13 +80,13 @@ const getAllOptions = async (): Promise<typeOptions> => {
             }
 
             // Get the options for website and member
-            let optionsResponse: AxiosResponse = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'api/v1/settings', headers); 
+            const optionsResponse: AxiosResponse = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'api/v1/settings', headers); 
 
             // Check if response is successfully
             if ( optionsResponse.data.success ) {
 
                 // Options list
-                let optionsList: typeOptions = {
+                const optionsList: typeOptions = {
                     website: getWebsiteOptions(),
                     member: getMemberOptions()
                 };

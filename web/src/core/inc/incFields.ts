@@ -37,7 +37,7 @@ const getField = (fieldType: string, fieldName: string, params: typeField): stri
         if ( generalFields.hasOwnProperty(fieldName) ) {
 
             // Get field
-            let fieldObj: PropertyDescriptor | undefined = Object.getOwnPropertyDescriptor(generalFields, fieldName);
+            const fieldObj: PropertyDescriptor | undefined = Object.getOwnPropertyDescriptor(generalFields, fieldName);
 
             // Check if fieldObj exists and has the value property
             if (fieldObj && fieldObj.value && typeof fieldObj.value === 'function') {
@@ -64,7 +64,7 @@ const getField = (fieldType: string, fieldName: string, params: typeField): stri
         if ( extraFields.hasOwnProperty(fieldName) ) {
 
             // Get field
-            let fieldObj: PropertyDescriptor | undefined = Object.getOwnPropertyDescriptor(extraFields, fieldName);
+            const fieldObj: PropertyDescriptor | undefined = Object.getOwnPropertyDescriptor(extraFields, fieldName);
 
             // Check if fieldObj exists and has the value property
             if (fieldObj && fieldObj.value && typeof fieldObj.value === 'function') {

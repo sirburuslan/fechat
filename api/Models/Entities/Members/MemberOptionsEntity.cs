@@ -13,7 +13,7 @@
 // Define the entities models namespace
 namespace FeChat.Models.Entities.Members {
 
-    // Import the Annotations for attributes
+    // System Namespaces
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>

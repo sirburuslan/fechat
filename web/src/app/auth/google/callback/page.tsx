@@ -25,10 +25,10 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import SecureStorage from 'react-secure-storage';
 
 // Import the incs
-import { getWord, getOptions, getToken, updateOptions } from '@/core/inc/incIndex';
+import { getWord, getOptions, updateOptions } from '@/core/inc/incIndex';
 
 // Import the types
-import { typeOptions, typeToken, typePostHeader } from '@/core/types/typesIndex';
+import { typeOptions, typePostHeader } from '@/core/types/typesIndex';
 
 // Import the options for website and member
 import {WebsiteOptionsContext, MemberOptionsContext} from '@/core/contexts/OptionsContext';
@@ -37,25 +37,25 @@ import {WebsiteOptionsContext, MemberOptionsContext} from '@/core/contexts/Optio
 const Page = (): React.JSX.Element => {
 
     // Get the router
-    let router = useRouter();
+    const router = useRouter();
 
     // Gets the search params
-    let searchParams = useSearchParams();
+    const searchParams = useSearchParams();
     
     // Message container
-    let [message, setMessage] = useState('');
+    const [message, setMessage] = useState('');
 
     // Website options
-    let {websiteOptions, setWebsiteOptions} = useContext(WebsiteOptionsContext); 
+    const {websiteOptions, setWebsiteOptions} = useContext(WebsiteOptionsContext); 
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
 
     // Get all options
-    let getOptionsAll = async (): Promise<void> => {
+    const getOptionsAll = async (): Promise<void> => {
 
         // Request the options
-        let optionsList: {success: boolean, options?: typeOptions} = await getOptions();
+        const optionsList: {success: boolean, options?: typeOptions} = await getOptions();
 
         // Update memberOptions
         updateOptions(optionsList, setWebsiteOptions, setMemberOptions);
@@ -77,35 +77,17 @@ const Page = (): React.JSX.Element => {
             } else if ( message === '' ) {
 
                 // Get the code from url
-                let code: string | null = searchParams.get('code');
+                const code: string | null = searchParams.get('code');
 
                 // Change the code to access token and sign up
                 (async (): Promise<void> => {
 
                     try {
-
-                        // Generate a new csrf token
-                        let csrfToken: typeToken = await getToken();
-            
-                        // Check if csrf token is missing
-                        if ( !csrfToken.success ) {
-            
-                            // Show error notification
-                            throw new Error(getWord('errors', 'error_csrf_token_not_generated'));
-            
-                        }
-            
-                        // Prepare the headers
-                        let headers: typePostHeader = {
-                            headers: {
-                                CsrfToken: csrfToken.token
-                            }
-                        };
             
                         // Update the fields
                         await axios.post(process.env.NEXT_PUBLIC_API_URL + 'api/v1/auth/google', {
                             code: code
-                        }, headers)
+                        })
             
                         // Process the response
                         .then(async (response: AxiosResponse) => {
@@ -151,7 +133,7 @@ const Page = (): React.JSX.Element => {
                             } else {
             
                                 // Keys container
-                                let keys: string[] = Object.keys(response.data);
+                                const keys: string[] = Object.keys(response.data);
             
                                 // Throw error message
                                 throw new Error(response.data[keys[0]][0]);                    

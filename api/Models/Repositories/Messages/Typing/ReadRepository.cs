@@ -13,20 +13,13 @@
 // Namespace for Messages Typing Repositories
 namespace FeChat.Models.Repositories.Messages.Typing {
 
-    // Use the Entity Framework
+    // System Namespaces
     using Microsoft.EntityFrameworkCore;
 
-    // Use the catching memory
-    using Microsoft.Extensions.Caching.Memory;
-
-    // Use the general Dtos for Response
-    using FeChat.Models.Dtos;
-
-    // Use the Dtos for messages
-    using FeChat.Models.Dtos.Messages;
-
-    // Use the Configuration utils for Db connector
-    using FeChat.Utils.Configuration;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Messages;
+    using Utils.Configuration;
 
     /// <summary>
     /// Typing Read Repository

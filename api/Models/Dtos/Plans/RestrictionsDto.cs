@@ -13,17 +13,12 @@
 // Namespace for the plans restrictions
 namespace FeChat.Models.Dtos.Plans {
 
-    // Use the net annotations
-    using System.ComponentModel.DataAnnotations;
-
-    // Use the Mvc features
+    // System Namespaces
     using Microsoft.AspNetCore.Mvc;
 
-    // Use the Binders
-    using FeChat.Models.Binders;
-
-    // Use the custom validations
-    using FeChat.Utils.Validations;
+    // App Namespaces
+    using Models.Binders;
+    using Utils.Validations;
 
     /// <summary>
     /// Dto for Plans Restrictions

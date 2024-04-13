@@ -13,14 +13,12 @@
 // Namespace for Members Options Repositories model
 namespace FeChat.Models.Repositories.Members.Options {
     
-    // Use Cache to store the quries
+    // System Namespaces
     using Microsoft.Extensions.Caching.Memory;
 
-    // Use the entities
-    using FeChat.Models.Entities.Members;
-    
-    // Use the configuration for Db instance
-    using FeChat.Utils.Configuration;
+    // App Namespaces
+    using Models.Entities.Members;
+    using Utils.Configuration;
 
     /// <summary>
     /// Members Options Update Repository

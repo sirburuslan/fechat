@@ -20,7 +20,7 @@ import { typeField } from '@/core/types/typesIndex';
 const FieldStaticList = (params: typeField): React.JSX.Element => {
 
     // Static list container
-    let static_list: Array<{id: string | number, text: string, url: string}> = [];
+    const static_list: Array<{id: string | number, text: string, url: string}> = [];
 
     // Button container
     let button: string = params.label;
@@ -29,7 +29,7 @@ const FieldStaticList = (params: typeField): React.JSX.Element => {
     if ( params.data.list!.length > 0 ) {
 
         // List the items
-        for ( let item of params.data.list! ) {
+        for ( const item of params.data.list! ) {
 
             // Check if the item is selected
             if ( item.itemId === params.hook.fields[params.name] ) {
@@ -51,7 +51,7 @@ const FieldStaticList = (params: typeField): React.JSX.Element => {
     }
 
     // Dropdown items
-    let dropdown_items: Array<{text: string, url: string}> = static_list;
+    const dropdown_items: Array<{text: string, url: string}> = static_list;
 
     return (
         <li className="fc-extra-option" data-option={ params.name }>

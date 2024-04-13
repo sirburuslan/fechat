@@ -13,8 +13,8 @@
 // Namespace for PayPal Read Subscription
 namespace FeChat.Utils.Gateways.PayPal.Subscriptions {
 
-    // Use General Dtos
-    using FeChat.Models.Dtos;
+    // App Namespaces
+    using Models.Dtos;
 
     /// <summary>
     /// PayPal Read Subscription

@@ -34,10 +34,10 @@ import SecureStorage from 'react-secure-storage';
 import ChartLineWidget from '@/core/components/admin/dashboard/ChartLineWidget';
 
 // Import the incs
-import { getIcon, getWord, getToken, getMonth, getOptions, updateOptions, showNotification, calculateTime, unescapeRegexString } from '@/core/inc/incIndex';
+import { getIcon, getWord, getMonth, getOptions, updateOptions, showNotification, calculateTime, unescapeRegexString } from '@/core/inc/incIndex';
 
 // Import the types
-import { typeToken, typePostHeader, typeOptions } from '@/core/types/typesIndex';
+import { typePostHeader, typeOptions } from '@/core/types/typesIndex';
 
 // Import the options for website and member
 import {WebsiteOptionsContext, MemberOptionsContext} from '@/core/contexts/OptionsContext';
@@ -49,16 +49,16 @@ import {UiCalendar} from '@/core/components/general/ui/UiIndex';
 const Page = (): React.JSX.Element => {
 
     // Website options
-    let {websiteOptions, setWebsiteOptions} = useContext(WebsiteOptionsContext); 
+    const {websiteOptions, setWebsiteOptions} = useContext(WebsiteOptionsContext); 
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
 
     // Set a hook for error message if dashboard can't be reached
-    let [dashboardError, setDashboardError] = useState('');
+    const [dashboardError, setDashboardError] = useState('');
 
     // Set a hook for dashboard content
-    let [dashboardContent, setDashboardContent] = useState<{events: Array<{[key: string]: string}>, members: Array<{[key: string]: string}>, transactions: Array<{[key: string]: string}>, time: number}>({
+    const [dashboardContent, setDashboardContent] = useState<{events: Array<{[key: string]: string}>, members: Array<{[key: string]: string}>, transactions: Array<{[key: string]: string}>, time: number}>({
         events: [],
         members: [],
         transactions: [],
@@ -66,19 +66,19 @@ const Page = (): React.JSX.Element => {
     });
 
     // Register default value for year
-    let [iYear, setIYear] = useState(new Date().getFullYear());
+    const [iYear, setIYear] = useState(new Date().getFullYear());
 
     // Register default value for month
-    let [iMonth, setIMonth] = useState(new Date().getMonth()); 
+    const [iMonth, setIMonth] = useState(new Date().getMonth()); 
 
     // Register default value for date
-    let [iDate, setIDate] = useState(new Date().getDate()); 
+    const [iDate, setIDate] = useState(new Date().getDate()); 
 
     // Hook to fetch data with useQuery
-    let [fetchedData, setFetchedData] = useState(false);
+    const [fetchedData, setFetchedData] = useState(false);
 
     // Init the reference for the calendar
-    let calendarBtn = useRef<HTMLDivElement>(null);
+    const calendarBtn = useRef<HTMLDivElement>(null);
 
     // Check if document is defined
     if ( typeof document !== 'undefined' ) {
@@ -92,7 +92,7 @@ const Page = (): React.JSX.Element => {
     if ( (typeof document !== 'undefined') && (typeof memberOptions.MembersChartTime === 'string') ) {
 
         // Get the dropown link
-        let dropdownLink: Node | null = document.querySelector('#fc-member-members-chart-menu a[data-id="' + memberOptions.MembersChartTime + '"]');
+        const dropdownLink: Node | null = document.querySelector('#fc-member-members-chart-menu a[data-id="' + memberOptions.MembersChartTime + '"]');
 
         // Check if dropdown link exists
         if ( dropdownLink ) {
@@ -108,35 +108,20 @@ const Page = (): React.JSX.Element => {
     let datasets: string[] = [getWord('admin', 'admin_members', memberOptions['Language'])];
 
     // Get content for dashboard
-    let dashboardData = async (): Promise<any> => {
-
-        // Generate a new csrf token
-        let csrfToken: typeToken = await getToken();
-
-        // Check if csrf token is missing
-        if ( !csrfToken.success ) {
-
-            // Show error notification
-            return {
-                success: false,
-                message: getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language'])
-            };
-
-        }
+    const dashboardData = async (): Promise<any> => {
 
         // Set the bearer token
-        let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+        const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
         // Set the headers
-        let headers: typePostHeader = {
+        const headers: typePostHeader = {
             headers: {
-                Authorization: `Bearer ${token}`,
-                CsrfToken: csrfToken.token
+                Authorization: `Bearer ${token}`
             }
         };
 
         // Request the plans list
-        let response = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'api/v1/admin/dashboard', headers);
+        const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'api/v1/admin/dashboard', headers);
         
         // Process the response
         return response.data;
@@ -144,29 +129,17 @@ const Page = (): React.JSX.Element => {
     };
 
     // Load events from the database
-    let eventsList = async (): Promise<void> => {
+    const eventsList = async (): Promise<void> => {
 
         try {
 
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-            }
-
             // Set the bearer token
-            let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+            const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
             // Prepare the headers
-            let headers: typePostHeader = {
+            const headers: typePostHeader = {
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                    CsrfToken: csrfToken.token
+                    Authorization: `Bearer ${token}`
                 }
             };
 
@@ -235,29 +208,17 @@ const Page = (): React.JSX.Element => {
     };
 
     // Get members when the administrator changes the time preferences
-    let dashboardMembers = async (): Promise<void> => {
+    const dashboardMembers = async (): Promise<void> => {
 
         try {
 
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-            }
-
             // Set the bearer token
-            let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+            const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
             // Set the headers
-            let headers: typePostHeader = {
+            const headers: typePostHeader = {
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                    CsrfToken: csrfToken.token
+                    Authorization: `Bearer ${token}`
                 }
             };
 
@@ -323,7 +284,7 @@ const Page = (): React.JSX.Element => {
     };
 
     // Request the dashboard content
-    let { isLoading, error, data } = useQuery('dashboardData', dashboardData, {
+    const { isLoading, error, data } = useQuery('dashboardData', dashboardData, {
         enabled: !fetchedData
     });
 
@@ -417,46 +378,31 @@ const Page = (): React.JSX.Element => {
      * 
      * @param Event e
      */
-    let trackClicks = async (e: Event): Promise<void> => {
+    const trackClicks = async (e: Event): Promise<void> => {
 
         // Get the target
-        let target = e.target;
+        const target = e.target;
 
         // Check if the click is inside dropdown
         if ( (target instanceof Element) && target.closest('#fc-member-members-chart-menu') && (target.nodeName === 'A') ) {
             e.preventDefault();
 
-            // Get menu item text
-            let menuText = target.textContent;
-
             try {
 
                 // Set the bearer token
-                let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
-    
-                // Generate a new csrf token
-                let csrfToken: typeToken = await getToken();
-    
-                // Check if csrf token is missing
-                if ( !csrfToken.success ) {
-    
-                    // Show error notification
-                    throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-    
-                }
+                const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
     
                 // Set the post's fields
-                let fields: {
+                const fields: {
                     [key: string]: string | number | null
                 } = {
                     MembersChartTime: target.getAttribute('data-id')
                 };
     
                 // Set the headers
-                let headers: typePostHeader = {
+                const headers: typePostHeader = {
                     headers: {
-                        Authorization: `Bearer ${token}`,
-                        CsrfToken: csrfToken.token
+                        Authorization: `Bearer ${token}`
                     }
                 };
     
@@ -476,7 +422,7 @@ const Page = (): React.JSX.Element => {
                         setTimeout(async (): Promise<void> => {
 
                             // Request the options
-                            let optionsList: {success: boolean, options?: typeOptions} = await getOptions();
+                            const optionsList: {success: boolean, options?: typeOptions} = await getOptions();
 
                             // Update memberOptions
                             updateOptions(optionsList, setWebsiteOptions, setMemberOptions);
@@ -528,7 +474,7 @@ const Page = (): React.JSX.Element => {
         } else if ( (target instanceof Element) && target.closest('.fc-calendar-selected-date') && (target.nodeName === 'A') ) {
 
             // Get active date
-            let activeDate = new Date(target.getAttribute('data-date')!);
+            const activeDate = new Date(target.getAttribute('data-date')!);
             
             // Set date
             setIDate(activeDate.getDate());
@@ -548,11 +494,11 @@ const Page = (): React.JSX.Element => {
      * 
      * @param Event e
      */
-    let calendarButtonClick = (e: React.MouseEvent<Element>): void => {
+    const calendarButtonClick = (e: React.MouseEvent<Element>): void => {
         e.preventDefault();
 
         // Get the target
-        let target = e.target as HTMLElement;
+        const target = e.target as HTMLElement;
 
         // Verify if the calendar is open
         if ( target.closest('.fc-events-calendar')!.getAttribute('data-expand') === 'false' ) {
@@ -570,10 +516,10 @@ const Page = (): React.JSX.Element => {
     };
 
     // Detect previous date click
-    let prevDate = (): void => {
+    const prevDate = (): void => {
         
         // Get next date
-        let nextDate = new Date(new Date((iMonth + 1) + '/' + iDate + '/' + iYear).getTime() - (86400 * 1000));
+        const nextDate = new Date(new Date((iMonth + 1) + '/' + iDate + '/' + iYear).getTime() - (86400 * 1000));
         
         // Set date
         setIDate(nextDate.getDate());
@@ -587,10 +533,10 @@ const Page = (): React.JSX.Element => {
     };
 
     // Detect next date click
-    let nextDate = (): void => {
+    const nextDate = (): void => {
 
         // Get next date
-        let nextDate = new Date(new Date((iMonth + 1) + '/' + iDate + '/' + iYear).getTime() + (86400 * 1000));
+        const nextDate = new Date(new Date((iMonth + 1) + '/' + iDate + '/' + iYear).getTime() + (86400 * 1000));
         
         // Set date
         setIDate(nextDate.getDate());

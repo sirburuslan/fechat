@@ -13,11 +13,9 @@
 // Namespace for the plans features
 namespace FeChat.Models.Dtos.Plans {
 
-    // Use Web system for html sanitizing
-    using System.Web;
-
-    // Text Enconding for Javascript sanitizing
+    // System Namespaces
     using System.Text.Encodings.Web;
+    using System.Web;
 
     /// <summary>
     /// Dto for Plans Feature

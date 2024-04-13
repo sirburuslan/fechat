@@ -13,14 +13,8 @@
 // Namespace for Members Dtos
 namespace FeChat.Models.Dtos.Members {
 
-    // Use the DataAnotations library to add support for attributes
-    using System.ComponentModel.DataAnnotations;
-
-    // Use General for error messages
-    using FeChat.Utils.General;
-
-    // Use the custom validations
-    using FeChat.Utils.Validations;
+    // System Namespaces
+    using Utils.Validations;
 
     /// <summary>
     /// Dto for Member

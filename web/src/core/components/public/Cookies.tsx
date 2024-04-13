@@ -31,13 +31,13 @@ import { WebsiteOptionsContext, MemberOptionsContext } from '@/core/contexts/Opt
 const Cookies = (): React.JSX.Element => {
 
     // Website options
-    let {websiteOptions} = useContext(WebsiteOptionsContext);
+    const {websiteOptions} = useContext(WebsiteOptionsContext);
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
     
     // Hook for show cookies modal
-    let [showCookiesModal, hideCookiesModal] = useState(0);
+    const [showCookiesModal, hideCookiesModal] = useState(0);
     
     // Run code after component load
     useEffect((): void => {

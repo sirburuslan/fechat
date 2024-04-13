@@ -13,29 +13,17 @@
 // Namespace for the Administrator Plans Controllers
 namespace FeChat.Controllers.Administrator.Plans {
 
-    // Used Mvc to get the Controller feature
-    using Microsoft.AspNetCore.Mvc;
-
-    // Use the Cors feature to control the access
+    // System Namespaces
     using Microsoft.AspNetCore.Cors;
-
-    // Use the Versioning to add version in url
+    using Microsoft.AspNetCore.Mvc;
     using Asp.Versioning;
 
-    // Use the General Utils classes for Strings
-    using FeChat.Utils.General;
-    
-    // Use General dtos classes
-    using FeChat.Models.Dtos;
-
-    // Use the Dtos for subscriptions
-    using FeChat.Models.Dtos.Subscriptions;
-
-    // Use the Plans Repositories
-    using FeChat.Utils.Interfaces.Repositories.Plans;
-
-    // Use the Subscriptions Repositories
-    using FeChat.Utils.Interfaces.Repositories.Subscriptions;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Subscriptions;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Plans;
+    using Utils.Interfaces.Repositories.Subscriptions;
 
     /// <summary>
     /// Plans Delete Controller
@@ -44,22 +32,6 @@ namespace FeChat.Controllers.Administrator.Plans {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/admin/plans")]
     public class DeleteController: Controller {
-
-        /// <summary>
-        /// Container for app's configuration
-        /// </summary>
-        private readonly IConfiguration _configuration;
-
-        /// <summary>
-        /// Constructor for this controller
-        /// </summary>
-        /// <param name="configuration">App configuration</param>
-        public DeleteController(IConfiguration configuration) {
-
-            // Add configuration to the container
-            _configuration = configuration;
-
-        }
 
         /// <summary>
         /// Delete a plan
@@ -71,17 +43,6 @@ namespace FeChat.Controllers.Administrator.Plans {
         [HttpDelete("{planId}")]
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> DeletePlan(int planId, IPlansRepository plansRepository, ISubscriptionsRepository subscriptionsRepository) {
-
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
 
             // Get the subscriptions by plan id
             ResponseDto<List<SubscriptionDto>> subscriptions = await subscriptionsRepository.GetSubscriptionsByPlanIdAsync(planId);

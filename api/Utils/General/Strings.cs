@@ -13,7 +13,7 @@
 // General Utils namespace
 namespace FeChat.Utils.General {
 
-    // Use the Resources to access the Resources Manager
+    // System Namespaces
     using System.Resources;
 
     /// <summary>

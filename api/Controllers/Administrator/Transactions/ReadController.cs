@@ -13,29 +13,17 @@
 // Namespace for Administrator Transactions Controllers
 namespace FeChat.Controllers.Administrator.Transactions {
 
-    // Used Mvc to get the Controller feature
+    // System Namespaces
     using Microsoft.AspNetCore.Mvc;
-
-    // Use the Authorization to restrict access for guests
     using Microsoft.AspNetCore.Authorization;
-
-    // Use the Cors feature to control the access
     using Microsoft.AspNetCore.Cors;
-
-    // Use the Versioning to add version in url
     using Asp.Versioning;
     
-    // Use General dtos classes
-    using FeChat.Models.Dtos;
-
-    // Use Transactions dtos classes
-    using FeChat.Models.Dtos.Transactions;
-    
-    // Use the General Utils classes for Strings
-    using FeChat.Utils.General;
-
-    // Use the Transactions Repositories
-    using FeChat.Utils.Interfaces.Repositories.Subscriptions;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Transactions;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Subscriptions;
 
     /// <summary>
     /// Transactions Read Controller
@@ -44,22 +32,6 @@ namespace FeChat.Controllers.Administrator.Transactions {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/admin/transactions")]
     public class ReadController: Controller {
-
-        /// <summary>
-        /// Container for app's configuration
-        /// </summary>
-        private readonly IConfiguration _configuration;
-
-        /// <summary>
-        /// Constructor for this controller
-        /// </summary>
-        /// <param name="configuration">App configuration</param>
-        public ReadController(IConfiguration configuration) {
-
-            // Add configuration to the container
-            _configuration = configuration;
-
-        }
 
         /// <summary>
         /// Get the list with transactions
@@ -72,17 +44,6 @@ namespace FeChat.Controllers.Administrator.Transactions {
         [HttpPost("list/{planId?}")]
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> TransactionsList([FromBody] SearchDto searchDto, int? planId, ISubscriptionsRepository subscriptionsRepository) {
-
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
 
             // Get the transactions
             ResponseDto<ElementsDto<TransactionDetailsDto>> transactionsList = await subscriptionsRepository.GetTransactionsByPageAsync(searchDto, planId);

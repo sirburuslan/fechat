@@ -32,47 +32,47 @@ type Date = {
 const UiCalendar: React.FC<Date> = ({date, month, year}): React.JSX.Element => {
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);   
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);   
 
     // Register default value for calendar
-    let [calendar, updateCalendar] = useState('');
+    const [calendar, updateCalendar] = useState('');
 
     // Register default value for year
-    let [iYear, setIYear] = useState(parseInt(year));
+    const [iYear, setIYear] = useState(parseInt(year));
 
     // Register default value for month
-    let [iMonth, setIMonth] = useState(parseInt(month)); 
+    const [iMonth, setIMonth] = useState(parseInt(month)); 
 
     // Register default value for selected date
-    let [selectedDate, updateSelectedDate] = useState(''); 
+    const [selectedDate, updateSelectedDate] = useState(''); 
 
     // Create a reference for the calendar
-    let calendarRef = useRef<HTMLDivElement>(null);
+    const calendarRef = useRef<HTMLDivElement>(null);
 
     /**
      * Generate calendar
      * 
      * @returns string with calendar
      */
-    let get_calendar = (): string => {
+    const get_calendar = (): string => {
 
         // Get year
-        let year: number = iYear;
+        const year: number = iYear;
 
         // Get month
-        let month: number = iMonth;
+        const month: number = iMonth;
 
         // Set current date
-        let current = new Date();
+        const current = new Date();
 
         // Get day
-        let day: string = current.getDate().toString().padStart(2, '0');
+        const day: string = current.getDate().toString().padStart(2, '0');
 
         // Set day
-        let d = new Date(year, month, 0);
+        const d = new Date(year, month, 0);
 
         // Get time
-        let e = new Date(d.getFullYear(), d.getMonth(), 1);
+        const e = new Date(d.getFullYear(), d.getMonth(), 1);
         
         // Current day
         let fday = e.getDay();
@@ -127,10 +127,10 @@ const UiCalendar: React.FC<Date> = ({date, month, year}): React.JSX.Element => {
             if ( fday <= s ) {
 
                 // Prepare the month
-                let this_month: string = month.toString().padStart(2, '0');
+                const this_month: string = month.toString().padStart(2, '0');
 
                 // Prepare the date
-                let this_date: string = show.toString().padStart(2, '0');
+                const this_date: string = show.toString().padStart(2, '0');
 
                 // Selected date container
                 let selected_date: string = '';
@@ -156,7 +156,7 @@ const UiCalendar: React.FC<Date> = ({date, month, year}): React.JSX.Element => {
                 } else {
 
                     // Selected date class
-                    let selected_date_class: string = selected_date?' class="' + selected_date + '"':'';
+                    const selected_date_class: string = selected_date?' class="' + selected_date + '"':'';
 
                     // Add a date
                     calendar += '<td>'
@@ -238,17 +238,17 @@ const UiCalendar: React.FC<Date> = ({date, month, year}): React.JSX.Element => {
      * 
      * @param MouseEvent e 
      */
-    let trackClicks = (e: MouseEvent): void => {
+    const trackClicks = (e: MouseEvent): void => {
 
         // Save the target
-        let target = e.target as HTMLElement;
+        const target = e.target as HTMLElement;
 
         // Verify if the click is inside the calendar
         if ( target.closest('.fc-calendar') && (target.nodeName === 'A') ) {
             e.preventDefault();
 
             // Get the calendar box
-            let calendarBox = calendarRef.current;
+            const calendarBox = calendarRef.current;
             
             // Verify if calendarBox exists
             if ( calendarBox ) {
@@ -268,10 +268,10 @@ const UiCalendar: React.FC<Date> = ({date, month, year}): React.JSX.Element => {
     };
 
     // Get the previous month in the calendar
-    let previousMonth = (): void => {
+    const previousMonth = (): void => {
 
         // Get the calendar box
-        let calendarBox = calendarRef.current;
+        const calendarBox = calendarRef.current;
         
         // Verify if calendarBox exists
         if ( calendarBox ) {
@@ -305,10 +305,10 @@ const UiCalendar: React.FC<Date> = ({date, month, year}): React.JSX.Element => {
     };
 
     // Get the next month in the calendar
-    let nextMonth = (): void => {
+    const nextMonth = (): void => {
 
         // Get the calendar box
-        let calendarBox = calendarRef.current;
+        const calendarBox = calendarRef.current;
         
         // Verify if calendarBox exists
         if ( calendarBox ) {

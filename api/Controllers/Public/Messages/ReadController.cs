@@ -13,35 +13,19 @@
 // Namespace for Public Messages Controllers
 namespace FeChat.Controllers.Public.Messages {
 
-    // Use the MVC features
-    using Microsoft.AspNetCore.Mvc;
-
-    // Use the Cors feature to control the access
-    using Microsoft.AspNetCore.Cors;
-
-    // Use the Authorization feature to allow guests access
+    // System Namespaces
     using Microsoft.AspNetCore.Authorization;
-
-    // Use the Versioning to add version in url
+    using Microsoft.AspNetCore.Cors;
+    using Microsoft.AspNetCore.Mvc;
     using Asp.Versioning;
 
-    // Use general dtos for responses
-    using FeChat.Models.Dtos;
-
-    // Use the Messages Dtos
-    using FeChat.Models.Dtos.Messages;
-
-    // Use Websites Dtos
-    using FeChat.Models.Dtos.Websites;
-
-    // Use General utils for strings
-    using FeChat.Utils.General;
-
-    // Use the Messages Repositories
-    using FeChat.Utils.Interfaces.Repositories.Messages;
-
-    // Use the Repositories for Websites
-    using FeChat.Utils.Interfaces.Repositories.Websites;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Messages;
+    using Models.Dtos.Websites;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Messages;
+    using Utils.Interfaces.Repositories.Websites;
 
     /// <summary>
     /// Create Messages Controller
@@ -53,22 +37,6 @@ namespace FeChat.Controllers.Public.Messages {
     public class ReadController: Controller {
 
         /// <summary>
-        /// Container for app's configuration
-        /// </summary>
-        private readonly IConfiguration _configuration;
-
-        /// <summary>
-        /// Constructor for this controller
-        /// </summary>
-        /// <param name="configuration">App configuration</param>
-        public ReadController(IConfiguration configuration) {
-
-            // Add configuration to the container
-            _configuration = configuration;
-
-        }
-
-        /// <summary>
         /// Gets the messages
         /// </summary>
         /// <param name="messagesListDto">Parameters to list the messages</param>
@@ -78,17 +46,6 @@ namespace FeChat.Controllers.Public.Messages {
         [HttpPost("list")]
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> MessagesList([FromBody] MessagesListDto messagesListDto, IWebsitesRepository websitesRepository, IMessagesRepository messagesRepository) {
-
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
 
             // Check if website id exists
             if ( messagesListDto.WebsiteId == 0 ) {

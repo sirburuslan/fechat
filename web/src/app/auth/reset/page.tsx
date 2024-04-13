@@ -22,10 +22,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import Link from 'next/link';
 
 // Import the incs
-import { getIcon, getWord, getToken } from '@/core/inc/incIndex';
-
-// Import the types
-import { typeToken, typePostHeader } from '@/core/types/typesIndex';
+import { getIcon, getWord } from '@/core/inc/incIndex';
 
 // Import the options for website and member
 import {WebsiteOptionsContext} from '@/core/contexts/OptionsContext';
@@ -37,18 +34,18 @@ import useFormReset from '@/core/hooks/auth/reset/useFormReset';
 const Page = (): React.JSX.Element => {
 
     // Website options
-    let {websiteOptions} = useContext(WebsiteOptionsContext);
+    const {websiteOptions} = useContext(WebsiteOptionsContext);
 
     // Define the fields values
-    let [values, setValues] = useState({
+    const [values, setValues] = useState({
         email: ''
     });
 
     // Message state
-    let message = useRef<HTMLDivElement>(null);
+    const message = useRef<HTMLDivElement>(null);
 
     // Monitor the values
-    let {email} = useFormReset(values);
+    const {email} = useFormReset(values);
 
     // Check if document is defined
     if ( typeof document !== 'undefined' ) {
@@ -59,52 +56,34 @@ const Page = (): React.JSX.Element => {
     };
  
     // Handle form submit for password reset
-    let submitReset = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    const submitReset = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
 
         // Reset alert
         message.current!.innerHTML = '';
 
         // Get target
-        let target = e.target as Element;
+        const target = e.target as Element;
 
         // Add the fc-auth-main-form-submit-active-btn class
         target.getElementsByClassName('fc-auth-main-form-submit-btn')[0].classList.add('fc-auth-main-form-submit-active-btn');
 
         try {
 
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Throw error message
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated'));
-
-            }
-
-            // Set the headers
-            let headers: typePostHeader = {
-                headers: {
-                    CsrfToken: csrfToken.token
-                }
-            };
-
             // Submit the request
             await axios.post(process.env.NEXT_PUBLIC_API_URL + 'api/v1/auth/reset', {
                 email: values.email
-            }, headers)
+            })
             .then((response: AxiosResponse): void => {
 
                 // Get data
-                let data: {success?: boolean, message?: string, Email?: string} = response.data;
+                const data: {success?: boolean, message?: string, Email?: string} = response.data;
 
                 // Verify if the user has been logged in successfully
                 if ( data.success ) {
 
                     // Create success message
-                    let messageAlert: string = `<div class="flex items-center px-4 py-3 mb-4 fc-auth-main-form-alert-success" role="alert">
+                    const messageAlert: string = `<div class="flex items-center px-4 py-3 mb-4 fc-auth-main-form-alert-success" role="alert">
                         ${ getIcon('Iconinformation', {className: 'fc-auth-main-form-alert-success-icon'}) }
                         <p>${data.message}</p>
                     </div>`;
@@ -120,7 +99,7 @@ const Page = (): React.JSX.Element => {
                 } else if ( (!data.success && data.message) || data.Email ) {
 
                     // Set message
-                    let messageError: string | undefined = data.message || data.Email;
+                    const messageError: string | undefined = data.message || data.Email;
 
                     // Verify if message is not undefined
                     if ( typeof messageError !== 'undefined' ) {
@@ -149,7 +128,7 @@ const Page = (): React.JSX.Element => {
             if ( error instanceof Error ) {
 
                 // Create error message
-                let messageAlert: string = `<div class="flex items-center px-4 py-3 fc-auth-main-form-alert-error" role="alert">
+                const messageAlert: string = `<div class="flex items-center px-4 py-3 fc-auth-main-form-alert-error" role="alert">
                     ${ getIcon('Iconexclamation', {className: 'fc-auth-main-form-alert-error-icon'}) }
                     <p>${error.message}</p>
                 </div>`;

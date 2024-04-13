@@ -13,44 +13,22 @@
 // Namespace for User Subsciptions Controllers
 namespace FeChat.Controllers.User.Subscriptions {
 
-    // Use the Mvc classes
-    using Microsoft.AspNetCore.Mvc;
-
-    // Use the Cors feature to control the access
-    using Microsoft.AspNetCore.Cors;
-
-    // Use the Authorization feature to allow guests access
+    // System Namespaces
     using Microsoft.AspNetCore.Authorization;
-
-    // Use the Versioning to add version in url
+    using Microsoft.AspNetCore.Cors;
+    using Microsoft.AspNetCore.Mvc;
     using Asp.Versioning;
 
-    // Use Subscriptions Dtos
-    using FeChat.Models.Dtos.Subscriptions;
-
-    // Use General Dtos
-    using FeChat.Models.Dtos;
-
-    // Use Plans Dtos
-    using FeChat.Models.Dtos.Plans;
-
-    // Use Transactions Dtos
-    using FeChat.Models.Dtos.Transactions;
-
-    // Use General Utils
-    using FeChat.Utils.General;
-
-    // Use the Events Repositories
-    using FeChat.Utils.Interfaces.Repositories.Events;
-
-    // Use the Plans Repositories
-    using FeChat.Utils.Interfaces.Repositories.Plans;
-
-    // Gets the Settings Repositories
-    using FeChat.Utils.Interfaces.Repositories.Settings;
-
-    // Use the Subscriptions Repositories
-    using FeChat.Utils.Interfaces.Repositories.Subscriptions;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Plans;
+    using Models.Dtos.Subscriptions;
+    using Models.Dtos.Transactions;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Events;
+    using Utils.Interfaces.Repositories.Plans;
+    using Utils.Interfaces.Repositories.Settings;
+    using Utils.Interfaces.Repositories.Subscriptions;
 
     /// <summary>
     /// Create Subscription Controller
@@ -60,23 +38,6 @@ namespace FeChat.Controllers.User.Subscriptions {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/user/subscriptions")]
     public class CreateController: Controller {
-
-        /// <summary>
-        /// Container for app's configuration
-        /// </summary>
-        private readonly IConfiguration _configuration;
-
-        /// <summary>
-        /// Constructor for this controller
-        /// </summary>
-        /// <param name="configuration">App configuration</param>
-        public CreateController(IConfiguration configuration) {
-
-            // Add configuration to the container
-            _configuration = configuration;
-
-        }
-
 
         /// <summary>
         /// Create Subscriptions
@@ -91,17 +52,6 @@ namespace FeChat.Controllers.User.Subscriptions {
         [HttpPost]
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> Create([FromBody] NewSubscriptionDto newSubscriptionDto, Member memberInfo, ISettingsRepository settingsRepository, IPlansRepository plansRepository, ISubscriptionsRepository subscriptionsRepository, IEventsRepository eventsRepository) {
-
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
 
             try {
 

@@ -13,32 +13,18 @@
 // Namespace for Administrator Plans Controllers
 namespace FeChat.Controllers.Administrator.Plans {
 
-    // Used Mvc to get the Controller feature
-    using Microsoft.AspNetCore.Mvc;
-
-    // Use the Authorization to restrict access for guests
+    // System Namespaces
     using Microsoft.AspNetCore.Authorization;
-
-    // Use the Cors feature to control the access
     using Microsoft.AspNetCore.Cors;
-
-    // Use the Versioning to add version in url
+    using Microsoft.AspNetCore.Mvc;
     using Asp.Versioning;
 
-    // Use the General Utils classes for Strings
-    using FeChat.Utils.General;
-    
-    // Use General dtos classes
-    using FeChat.Models.Dtos;
-
-    // Use Plans dtos classes
-    using FeChat.Models.Dtos.Plans;
-
-    // Use the Plans Repositories
-    using FeChat.Utils.Interfaces.Repositories.Plans;
-
-    // Use the Members Repositories
-    using FeChat.Utils.Interfaces.Repositories.Members;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Plans;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Plans;
+    using Utils.Interfaces.Repositories.Members;
 
     /// <summary>
     /// Plans Read Controller
@@ -47,22 +33,6 @@ namespace FeChat.Controllers.Administrator.Plans {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/admin/plans")]
     public class ReadController: Controller {
-
-        /// <summary>
-        /// Container for app's configuration
-        /// </summary>
-        private readonly IConfiguration _configuration;
-
-        /// <summary>
-        /// Constructor for this controller
-        /// </summary>
-        /// <param name="configuration">App configuration</param>
-        public ReadController(IConfiguration configuration) {
-
-            // Add configuration to the container
-            _configuration = configuration;
-
-        }
 
         /// <summary>
         /// Get the list with plans
@@ -75,17 +45,6 @@ namespace FeChat.Controllers.Administrator.Plans {
         [HttpPost("list")]
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> PlansList([FromBody] SearchDto searchDto, IMembersRepository membersRepository, IPlansRepository plansRepository) {
-
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
 
             // Get all plans
             ResponseDto<ElementsDto<PlanDto>> plansList = await plansRepository.GetPlansByPageAsync(searchDto);

@@ -13,14 +13,12 @@
 // Namespace for General Utils
 namespace FeChat.Utils.General {
 
-    // Use classes for working with network protocols
+    // System Namespaces
     using System.Net;
-
-    // Use classes for sending email messages with SMTP
     using System.Net.Mail; 
 
     /// <summary>
-    /// Antiforgery Validator
+    /// Mail Sender
     /// </summary>
     public class Sender {
 

@@ -13,7 +13,7 @@
 // Namespace for General Utils
 namespace FeChat.Utils.General {
 
-    // Use the RegularExpressions for Regex usage
+    // System Namespaces
     using System.Text.RegularExpressions;
 
     /// <summary>

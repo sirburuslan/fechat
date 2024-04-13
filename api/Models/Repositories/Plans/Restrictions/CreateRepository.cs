@@ -13,14 +13,12 @@
 // Namespace for Plans Restrictions Repositories
 namespace FeChat.Models.Repositories.Plans.Restrictions {
 
-    // Use the Memory Cache to story the data in cache
+    // System Namespaces
     using Microsoft.Extensions.Caching.Memory;
 
-    // Use the Plans Entities
-    using FeChat.Models.Entities.Plans;
-
-    // Use the Configuration for database connection
-    using FeChat.Utils.Configuration;
+    // App Namespaces
+    using Models.Entities.Plans;
+    using Utils.Configuration;
 
     /// <summary>
     /// Plans Restrictions Create Repository

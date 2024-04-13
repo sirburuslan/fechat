@@ -12,7 +12,6 @@
 
 // Import the types
 import {typeList, typeField} from "@/core/types/collection/typeField";
-import typeToken from "@/core/types/collection/typeToken";
 import typeOptions from "@/core/types/collection/typeOptions";
 import { typePostHeader } from "@/core/types/collection/typeHeaders";
 
@@ -20,7 +19,6 @@ import { typePostHeader } from "@/core/types/collection/typeHeaders";
 export type {
     typeList,
     typeField,
-    typeToken,
     typeOptions,
     typePostHeader
 };

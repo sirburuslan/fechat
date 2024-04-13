@@ -13,23 +13,14 @@
 // Namespace for Messages Repositories
 namespace FeChat.Models.Repositories.Messages {
 
-    // Using catching memory extension
+    // System Namespaces
     using Microsoft.Extensions.Caching.Memory;
 
-    // Use general dtos
-    using FeChat.Models.Dtos;
-
-    // Use dtos for messages
-    using FeChat.Models.Dtos.Messages;
-
-    // Use dtos for members
-    using FeChat.Models.Dtos.Members;
-
-    // Use configuration
-    using FeChat.Utils.Configuration;
-
-    // Use the messages interface for repository
-    using FeChat.Utils.Interfaces.Repositories.Messages;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Messages;
+    using Utils.Configuration;
+    using Utils.Interfaces.Repositories.Messages;
 
     /// <summary>
     /// Messages Repository
@@ -144,7 +135,7 @@ namespace FeChat.Models.Repositories.Messages {
         public async Task<ResponseDto<GuestDto>> CreateGuestAsync(GuestDto guestDto) {
 
             // Init Create Repository
-            Guests.CreateRepository createRepository = new(_memoryCache, _context);
+            Guests.CreateRepository createRepository = new(_context);
 
             // Create a guest and return the response
             return await createRepository.CreateGuestAsync(guestDto);
@@ -270,7 +261,7 @@ namespace FeChat.Models.Repositories.Messages {
         public async Task SaveTypingAsync(int threadId, int memberId) {
 
             // Init Create Repository
-            Typing.CreateRepository createRepository = new(_memoryCache, _context);
+            Typing.CreateRepository createRepository = new(_context);
 
             // Create typing
             await createRepository.SaveTypingAsync(threadId, memberId);

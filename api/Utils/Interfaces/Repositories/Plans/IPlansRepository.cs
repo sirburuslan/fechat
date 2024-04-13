@@ -13,14 +13,10 @@
 // Namespace for Plans Interfaces
 namespace FeChat.Utils.Interfaces.Repositories.Plans {
 
-    // Use General Dtos classes
-    using FeChat.Models.Dtos;
-
-    // Use the Plans Dtos classes
-    using FeChat.Models.Dtos.Plans;
-
-    // Use the Plans Entities
-    using FeChat.Models.Entities.Plans;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Plans;
+    using Models.Entities.Plans;
 
     /// <summary>
     /// Repository for Plans

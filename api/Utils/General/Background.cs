@@ -13,17 +13,11 @@
 // Namespace for General Utils
 namespace FeChat.Utils.General {
 
-    // Use the General Dtos
-    using FeChat.Models.Dtos;
-
-    // Use the Messages Dtos
-    using FeChat.Models.Dtos.Messages;
-
-    // Use the Messages Repository
-    using FeChat.Utils.Interfaces.Repositories.Messages;
-
-    // Use the Settings Repository
-    using FeChat.Utils.Interfaces.Repositories.Settings;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Messages;
+    using Utils.Interfaces.Repositories.Messages;
+    using Utils.Interfaces.Repositories.Settings;
 
     /// <summary>
     /// Background Service Class

@@ -34,13 +34,13 @@ import { WebsiteOptionsContext, MemberOptionsContext } from '@/core/contexts/Opt
 const TopBar = (): React.JSX.Element => {
 
     // Website options
-    let {websiteOptions} = useContext(WebsiteOptionsContext);
+    const {websiteOptions} = useContext(WebsiteOptionsContext);
 
     // Member options
-    let {memberOptions} = useContext(MemberOptionsContext);
+    const {memberOptions} = useContext(MemberOptionsContext);
 
     // Hook for auth links
-    let [authLinks, updateAuthLinks] = useState(0);
+    const [authLinks, updateAuthLinks] = useState(0);
 
     // Check if document is defined
     if ( typeof document !== 'undefined' ) {
@@ -68,14 +68,14 @@ const TopBar = (): React.JSX.Element => {
      * 
      * @param Event e 
      */
-    let scrollPage = (e: React.MouseEvent): void => {
+    const scrollPage = (e: React.MouseEvent): void => {
         e.preventDefault();
 
         // Check if href is features
         if ( e.currentTarget.getAttribute('href') === '#features' ) {
 
             // Get features position from top
-            let featuresTopPosition = (document.getElementsByClassName('fc-features')[0] as HTMLElement).offsetTop;
+            const featuresTopPosition = (document.getElementsByClassName('fc-features')[0] as HTMLElement).offsetTop;
 
             // Scroll the page
             window.scrollTo({ top: featuresTopPosition, behavior: 'smooth' });
@@ -83,7 +83,7 @@ const TopBar = (): React.JSX.Element => {
         } else if ( e.currentTarget.getAttribute('href') === '#pricing' ) {
 
             // Get plans position from top
-            let plansTopPosition = (document.getElementsByClassName('fc-plans')[0] as HTMLElement).offsetTop;
+            const plansTopPosition = (document.getElementsByClassName('fc-plans')[0] as HTMLElement).offsetTop;
 
             // Scroll the page
             window.scrollTo({ top: plansTopPosition, behavior: 'smooth' });
@@ -91,7 +91,7 @@ const TopBar = (): React.JSX.Element => {
         } else if ( e.currentTarget.getAttribute('href') === '#faq' ) {
 
             // Get faq position from top
-            let faqTopPosition = (document.getElementsByClassName('fc-faq')[0] as HTMLElement).offsetTop;
+            const faqTopPosition = (document.getElementsByClassName('fc-faq')[0] as HTMLElement).offsetTop;
 
             // Scroll the page
             window.scrollTo({ top: faqTopPosition, behavior: 'smooth' });

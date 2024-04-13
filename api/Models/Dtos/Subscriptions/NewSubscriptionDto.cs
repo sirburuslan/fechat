@@ -13,17 +13,13 @@
 // Namespace for Subscriptions dtos
 namespace FeChat.Models.Dtos.Subscriptions {
 
-    // Use the Data Annotations classes
+    // System Namespaces
     using System.ComponentModel.DataAnnotations;
-
-    // Use Web system for html sanitizing
+    using System.Text.Encodings.Web;
     using System.Web;
 
-    // Text Enconding for Javascript sanitizing
-    using System.Text.Encodings.Web;
-
-    // Use General utils for errors messages
-    using FeChat.Utils.General;
+    // App Namespaces
+    using Utils.General;
 
     /// <summary>
     /// New Subscription Dto

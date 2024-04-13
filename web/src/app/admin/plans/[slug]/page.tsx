@@ -25,10 +25,10 @@ import { useQuery } from 'react-query';
 import SecureStorage from 'react-secure-storage';
 
 // Import the incs
-import { getWord, getIcon, getToken, showNotification, unescapeRegexString } from '@/core/inc/incIndex';
+import { getWord, getIcon, showNotification, unescapeRegexString } from '@/core/inc/incIndex';
 
 // Import types
-import { typeToken, typePostHeader } from '@/core/types/typesIndex';
+import { typePostHeader } from '@/core/types/typesIndex';
 
 // Import the options for website and member
 import { MemberOptionsContext } from '@/core/contexts/OptionsContext';
@@ -46,13 +46,13 @@ import TransactionsList from "@/core/components/admin/transactions/TransactionsL
 const Page = ({params}: {params: { slug: string }}): React.JSX.Element => {
 
     // Member options
-    let {memberOptions} = useContext(MemberOptionsContext); 
+    const {memberOptions} = useContext(MemberOptionsContext); 
 
     // Modal status
-    let [modalStatus, setModalStatus] = useState('');
+    const [modalStatus, setModalStatus] = useState('');
 
     // Set a hook for fields value
-    let [fields, setFields] = useState({
+    const [fields, setFields] = useState({
         Name: '',
         Price: '0.00',
         Currency: 'USD',
@@ -61,13 +61,13 @@ const Page = ({params}: {params: { slug: string }}): React.JSX.Element => {
     });
 
     // Set a hook for features value
-    let [features, setFeatures] = useState<string[]>([]);
+    const [features, setFeatures] = useState<string[]>([]);
 
     // Set a hook for error message if plan can't be reached
-    let [planError, setPlanError] = useState('');
+    const [planError, setPlanError] = useState('');
 
     // Hook to fetch data with useQuery
-    let [fetchedData, setFetchedData] = useState(false);
+    const [fetchedData, setFetchedData] = useState(false);
 
     // Check if document is defined
     if ( typeof document !== 'undefined' ) {
@@ -78,35 +78,20 @@ const Page = ({params}: {params: { slug: string }}): React.JSX.Element => {
     }
 
     // Get the plan's information
-    let planInfo = async (): Promise<any> => {
-
-        // Generate a new csrf token
-        let csrfToken: typeToken = await getToken();
-
-        // Check if csrf token is missing
-        if ( !csrfToken.success ) {
-
-            // Return error message
-            return {
-                success: false,
-                message: getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language'])
-            };
-
-        }
+    const planInfo = async (): Promise<any> => {
 
         // Set the bearer token
-        let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+        const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
         // Set the headers
-        let headers: typePostHeader = {
+        const headers: typePostHeader = {
             headers: {
-                Authorization: `Bearer ${token}`,
-                CsrfToken: csrfToken.token
+                Authorization: `Bearer ${token}`
             }
         };            
 
         // Request the fields value
-        let response = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'api/v1/admin/plans/' + params.slug, headers)
+        const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'api/v1/admin/plans/' + params.slug, headers)
 
         // Process the response
         return response.data;
@@ -114,7 +99,7 @@ const Page = ({params}: {params: { slug: string }}): React.JSX.Element => {
     };
 
     // New feture modal information
-    let newFeature = (): React.JSX.Element => {
+    const newFeature = (): React.JSX.Element => {
 
         return (
             <form id="fc-create-member-form" onSubmit={newFeatureSave}>            
@@ -150,7 +135,7 @@ const Page = ({params}: {params: { slug: string }}): React.JSX.Element => {
     };
 
     // Request the plan info
-    let { isLoading, error, data } = useQuery('planInfo-' + params.slug, planInfo, {
+    const { isLoading, error, data } = useQuery('planInfo-' + params.slug, planInfo, {
         enabled: !fetchedData
     });
 
@@ -192,10 +177,10 @@ const Page = ({params}: {params: { slug: string }}): React.JSX.Element => {
             }));
 
             // Received fields
-            let rFields: string[] = Object.keys(data.plan as object);
+            const rFields: string[] = Object.keys(data.plan as object);
 
             // Calculate fields length
-            let fieldsLength: number = rFields.length;
+            const fieldsLength: number = rFields.length;
 
             // List the plan infos
             for ( let o = 0; o < fieldsLength; o++ ) {
@@ -207,13 +192,13 @@ const Page = ({params}: {params: { slug: string }}): React.JSX.Element => {
                     if ( data.plan![rFields[o]].length > 0 ) {
 
                         // New list with features
-                        let newList: string[] = [];
+                        const newList: string[] = [];
 
                         // Features container 
                         let featuresList: string = '';
 
                         // List all features
-                        for ( let feature of data.plan![rFields[o]] ) {
+                        for ( const feature of data.plan![rFields[o]] ) {
 
                             // Add feature to the list
                             featuresList += '<li class="flex justify-between">'
@@ -267,7 +252,7 @@ const Page = ({params}: {params: { slug: string }}): React.JSX.Element => {
             let featuresList: string = '';
 
             // List all features
-            for ( let feature of features ) {
+            for ( const feature of features ) {
 
                 // Add feature to the list
                 featuresList += '<li class="flex justify-between">'
@@ -298,10 +283,10 @@ const Page = ({params}: {params: { slug: string }}): React.JSX.Element => {
      * 
      * @param Event e
      */
-    let trackClicks = (e: Event): void => {
+    const trackClicks = (e: Event): void => {
 
         // Get the target
-        let target = e.target;
+        const target = e.target;
 
         // Check if the click is inside dropdown
         if ( (target instanceof Element) && target.classList && target.classList.contains('fc-option-list-manager-new-item') ) {
@@ -314,13 +299,13 @@ const Page = ({params}: {params: { slug: string }}): React.JSX.Element => {
             e.preventDefault();
 
             // Get all items
-            let allItems: NodeListOf<Element> = document.querySelectorAll('.fc-option-list-manager ul > li > span');
+            const allItems: NodeListOf<Element> = document.querySelectorAll('.fc-option-list-manager ul > li > span');
 
             // New list with features
-            let newList: string[] = [];
+            const newList: string[] = [];
 
             // List the items
-            for ( let item of allItems ) {
+            for ( const item of allItems ) {
 
                 // Verify if is not the deleted item
                 if ( !target.closest('li')!.isSameNode(item.closest('li')) ) {
@@ -340,7 +325,7 @@ const Page = ({params}: {params: { slug: string }}): React.JSX.Element => {
     };  
     
     // New feature form handler
-    let newFeatureSave = (e: React.FormEvent<HTMLFormElement>): void => {
+    const newFeatureSave = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
 
         // Check if there are more than 9 features
@@ -353,7 +338,7 @@ const Page = ({params}: {params: { slug: string }}): React.JSX.Element => {
         }
 
         // Get the feature
-        let feature = e.currentTarget.getElementsByClassName('fc-modal-form-input')[0] as HTMLInputElement;
+        const feature = e.currentTarget.getElementsByClassName('fc-modal-form-input')[0] as HTMLInputElement;
 
         // Update features
         setFeatures([...features, feature.value]);

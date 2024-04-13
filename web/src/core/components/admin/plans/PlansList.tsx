@@ -28,10 +28,10 @@ import SecureStorage from 'react-secure-storage';
 import { useQuery } from 'react-query';
 
 // Import the incs
-import { getIcon, getToken, getWord, showNotification, unescapeRegexString } from '@/core/inc/incIndex';
+import { getIcon, getWord, showNotification, unescapeRegexString } from '@/core/inc/incIndex';
 
 // Import the types
-import { typeToken, typePostHeader } from '@/core/types/typesIndex';
+import { typePostHeader } from '@/core/types/typesIndex';
 
 // Import the options for website and member
 import { MemberOptionsContext } from '@/core/contexts/OptionsContext';
@@ -46,27 +46,27 @@ import Confirmation from '@/core/components/general/Confirmation';
 const PlansList = (): React.JSX.Element => {
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);  
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);  
 
     // Modal status
-    let [modalStatus, setModalStatus] = useState('');
+    const [modalStatus, setModalStatus] = useState('');
 
     // New plan fields
-    let [plan, setPlan] = useState({
+    const [plan, setPlan] = useState({
         name: ''
     });
 
     // Set a hook for errors value
-    let [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState({});
     
     // Set a hook for search parameters
-    let [search, setSearch] = useState({
+    const [search, setSearch] = useState({
         Search: '',
         Page: 1
     });   
     
     // Set a hook for navigation
-    let [navigation, setNavigation] = useState({
+    const [navigation, setNavigation] = useState({
         scope: 'plans',
         page: 0,
         total: 0,
@@ -74,13 +74,13 @@ const PlansList = (): React.JSX.Element => {
     });  
 
     // Plans list holder
-    let [plans, setPlans] = useState<React.ReactNode | null>(null);
+    const [plans, setPlans] = useState<React.ReactNode | null>(null);
 
     // Hook to fetch data with useQuery
-    let [fetchedData, setFetchedData] = useState(false);
+    const [fetchedData, setFetchedData] = useState(false);
 
     // Search pause container
-    let searchPause = useRef<NodeJS.Timeout>();
+    const searchPause = useRef<NodeJS.Timeout>();
 
     /*
      * Schedule a search
@@ -88,7 +88,7 @@ const PlansList = (): React.JSX.Element => {
      * @param funcion fun contains the function
      * @param integer interval contains time
      */
-    let scheduleSearch = ($fun: () => void, interval: number): void => {
+    const scheduleSearch = ($fun: () => void, interval: number): void => {
 
         // Verify if an event was already scheduled
         if (searchPause.current) {
@@ -104,38 +104,23 @@ const PlansList = (): React.JSX.Element => {
     };
 
     // Create the request for plans
-    let plansListRequest = async (): Promise<any> => {
+    const plansListRequest = async (): Promise<any> => {
 
         // Hide the navigation box
         document.getElementsByClassName('fc-navigation')[0].classList.remove('block');
 
-        // Generate a new csrf token
-        let csrfToken: typeToken = await getToken();
-
-        // Check if csrf token is missing
-        if ( !csrfToken.success ) {
-
-            // Return error
-            return {
-                success: false,
-                message: getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language'])
-            };
-
-        }
-
         // Set the bearer token
-        let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+        const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
         // Set the headers
-        let headers: typePostHeader = {
+        const headers: typePostHeader = {
             headers: {
-                Authorization: `Bearer ${token}`,
-                CsrfToken: csrfToken.token
+                Authorization: `Bearer ${token}`
             }
         };
 
         // Request the plans list
-        let response = await axios.post(process.env.NEXT_PUBLIC_API_URL + 'api/v1/admin/plans/list', search, headers);
+        const response = await axios.post(process.env.NEXT_PUBLIC_API_URL + 'api/v1/admin/plans/list', search, headers);
         
         // Process the response
         return response.data;
@@ -143,7 +128,7 @@ const PlansList = (): React.JSX.Element => {
     };
 
     // content for the New Plan modal
-    let newPlan = (): React.JSX.Element => {
+    const newPlan = (): React.JSX.Element => {
 
         return (
             <form onSubmit={createPlan} id="fc-create-plan-form">            
@@ -183,7 +168,7 @@ const PlansList = (): React.JSX.Element => {
     };
 
     // Request the plans list
-    let { isLoading, error, data } = useQuery('plansList', plansListRequest, {
+    const { isLoading, error, data } = useQuery('plansList', plansListRequest, {
         enabled: !fetchedData
     });
 
@@ -233,7 +218,7 @@ const PlansList = (): React.JSX.Element => {
             setPlans(data.result.elements.map((plan: any, index: number) => {
 
                 // Dropdown items
-                let dropdownItems: Array<{text: string, url: string, id: string}> = [{
+                const dropdownItems: Array<{text: string, url: string, id: string}> = [{
                     text: getWord('default', 'default_edit', memberOptions['Language']),
                     url: '/admin/plans/' + plan.planId,
                     id: 'edit-plan'
@@ -267,7 +252,7 @@ const PlansList = (): React.JSX.Element => {
             }));
 
             // Set limit
-            let limit: number = ((data.result.page * 10) < data.result.total)?(data.result.page * 10):data.result.total;
+            const limit: number = ((data.result.page * 10) < data.result.total)?(data.result.page * 10):data.result.total;
 
             // Set text
             document.querySelector('#fc-navigation-plans h3')!.innerHTML = (((data.result.page - 1) * 10) + 1) + '-' + limit + ' ' + getWord('default', 'default_of', memberOptions['Language']) + ' ' + data.result.total + ' ' + getWord('default', 'default_results', memberOptions['Language']);
@@ -296,20 +281,20 @@ const PlansList = (): React.JSX.Element => {
      * 
      * @param Event e
      */
-    let trackClicks = async (e: Event): Promise<void> => {
+    const trackClicks = async (e: Event): Promise<void> => {
 
         // Get the target
-        let target = e.target;
+        const target = e.target;
 
         // Check if the click is inside dropdown
         if ( (target instanceof Element) && target.closest('.fc-dropdown-menu') && (target.nodeName === 'A') && (target.getAttribute('data-id') === 'delete-plan') ) {
             e.preventDefault();
 
             // Get the plan's ID
-            let planId: string | null = target.closest('.fc-plan')!.getAttribute('data-plan');
+            const planId: string | null = target.closest('.fc-plan')!.getAttribute('data-plan');
 
             // Create a link
-            let newLink: HTMLAnchorElement = document.createElement('a');
+            const newLink: HTMLAnchorElement = document.createElement('a');
 
             // Set the plan's ID
             newLink.setAttribute('data-id', planId!);
@@ -337,7 +322,7 @@ const PlansList = (): React.JSX.Element => {
             e.preventDefault();
 
             // Get the page
-            let page: string | null = target.getAttribute('data-page');
+            const page: string | null = target.getAttribute('data-page');
 
             // Set search value
             search.Page = parseInt(page!);
@@ -353,14 +338,14 @@ const PlansList = (): React.JSX.Element => {
     };
 
     // Create the function which will handle the plan's menu click
-    let planDropdown = (e: React.MouseEvent<HTMLElement>): void => {
+    const planDropdown = (e: React.MouseEvent<HTMLElement>): void => {
         e.preventDefault();
 
         // Get target
-        let target = e.target as HTMLElement;
+        const target = e.target as HTMLElement;
 
         // Select a dropdown
-        let dropdown: HTMLCollectionOf<Element> = target.closest('div')!.getElementsByClassName('fc-dropdown');
+        const dropdown: HTMLCollectionOf<Element> = target.closest('div')!.getElementsByClassName('fc-dropdown');
 
         // Verify if the dropdown is open
         if ( dropdown[0].getAttribute('data-expand') === 'false' ) {
@@ -369,13 +354,13 @@ const PlansList = (): React.JSX.Element => {
             dropdown[0].setAttribute('data-expand', 'true');
 
             // Get menu
-            let menu: Element = dropdown[0]!.getElementsByClassName('fc-dropdown-menu')[0];
+            const menu: Element = dropdown[0]!.getElementsByClassName('fc-dropdown-menu')[0];
 
             // Get the height
-            let height: number = menu.clientHeight;
+            const height: number = menu.clientHeight;
 
             // Calculate the height of the button
-            let button_height: number = target.offsetHeight;
+            const button_height: number = target.offsetHeight;
 
             // Set transformation
             (menu as HTMLElement).style.transform = `translate3d(0, -${button_height + height}px, 0)`;
@@ -394,7 +379,7 @@ const PlansList = (): React.JSX.Element => {
      * 
      * @param FormEvent e 
      */
-    let createPlan = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    const createPlan = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
 
         // Reset the errors messages
@@ -402,25 +387,13 @@ const PlansList = (): React.JSX.Element => {
 
         try {
 
-            // Generate a new CSRF token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-            }
-
             // Set the bearer token
-            let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+            const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
             // Set the headers
-            let headers: typePostHeader = {
+            const headers: typePostHeader = {
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                    CsrfToken: csrfToken.token
+                    Authorization: `Bearer ${token}`
                 }
             };            
 
@@ -454,16 +427,16 @@ const PlansList = (): React.JSX.Element => {
                 } else {
 
                     // Keys container
-                    let keys: string[] = Object.keys(response.data);
+                    const keys: string[] = Object.keys(response.data);
 
                     // Count the keys
-                    let keysTotal: number = keys.length;
+                    const keysTotal: number = keys.length;
 
                     // Check if keys exists
                     if ( keysTotal > 0 ) {
 
                         // Errors container
-                        let errorsHolder: {[key: string]: string} = {};
+                        const errorsHolder: {[key: string]: string} = {};
 
                         // List the keys
                         for ( let e = 0; e < keysTotal; e++ ) {
@@ -517,7 +490,7 @@ const PlansList = (): React.JSX.Element => {
      * 
      * @param React.ChangeEvent e 
      */
-    let searchPlans = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const searchPlans = (e: React.ChangeEvent<HTMLInputElement>): void => {
 
         // Add fc-search-active to show the animation
         e.target.closest('.fc-search-box')!.classList.add('fc-search-active');
@@ -546,7 +519,7 @@ const PlansList = (): React.JSX.Element => {
      * 
      * @param React.ChangeEvent e 
      */
-    let cancelSearchPlans = (e: React.MouseEvent<HTMLAnchorElement>): void => {
+    const cancelSearchPlans = (e: React.MouseEvent<HTMLAnchorElement>): void => {
 
         // Add fc-search-complete to hide the animation
         e.currentTarget.closest('.fc-search-box')!.classList.remove('fc-search-complete');
@@ -581,25 +554,13 @@ const PlansList = (): React.JSX.Element => {
 
         try {
 
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-            }
-
             // Set the bearer token
-            let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+            const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
             // Set the headers
-            let headers: typePostHeader = {
+            const headers: typePostHeader = {
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                    CsrfToken: csrfToken.token
+                    Authorization: `Bearer ${token}`
                 }
             }; 
 

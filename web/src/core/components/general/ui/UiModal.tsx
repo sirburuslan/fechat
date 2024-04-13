@@ -22,7 +22,7 @@ import { getIcon } from '@/core/inc/incIndex';
 const UiModal = (props: {size?: string, title: string, status: string, updateStatus: Dispatch<SetStateAction<string>>, children: ReactElement}): React.JSX.Element => {
 
     // Hide modal handler
-    let hideModal = (): void => {
+    const hideModal = (): void => {
 
         // Start to hide modal
         props.updateStatus('fc-modal-hide');

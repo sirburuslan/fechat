@@ -13,35 +13,21 @@
 // Namespace for User Profile Controllers
 namespace FeChat.Controllers.User.Profile {
 
-    // Use the .NET methods to get DTO properties
+    // System Namespaces
     using System.Reflection;
-
-    // Used Mvc to get the Controller feature
-    using Microsoft.AspNetCore.Mvc;
-
-    // Use the Authorization to restrict access for guests
     using Microsoft.AspNetCore.Authorization;
-
-    // Use the Cors feature to control the access
     using Microsoft.AspNetCore.Cors;
-
-    // Use the Versioning to add version in url
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Options;
     using Asp.Versioning;
 
-    // Use the Dtos for response
-    using FeChat.Models.Dtos;
-
-    // Use the Dtos for members
-    using FeChat.Models.Dtos.Members;
-
-    // Use the entities
-    using FeChat.Models.Entities.Members;
-
-    // Use the general namespace fot strings
-    using FeChat.Utils.General;    
-
-    // Use the Repositories for database requests
-    using FeChat.Utils.Interfaces.Repositories.Members;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Members;
+    using Models.Entities.Members;
+    using Utils.Configuration;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Members;
 
     /// <summary>
     /// Members Options Update Controller
@@ -52,19 +38,20 @@ namespace FeChat.Controllers.User.Profile {
     public class UpdateController: Controller {
 
         /// <summary>
-        /// Container for app's configuration
+        /// App Settings container.
         /// </summary>
-        private readonly IConfiguration _configuration;
+        private readonly AppSettings _options;
 
         /// <summary>
-        /// Constructor for this controller
+        /// Initializes a new instance of the <see cref="UpdateController"/> class.
         /// </summary>
-        /// <param name="configuration">App configuration</param>
-        public UpdateController(IConfiguration configuration) {
+        /// <param name="options">All App Options.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
+        public UpdateController(IOptions<AppSettings> options) {
 
-            // Add configuration to the container
-            _configuration = configuration;
-
+            // Save the configuration
+            _options = options.Value ?? throw new ArgumentNullException(nameof(options), new Strings().Get("OptionsNotFound"));
+            
         }
 
         /// <summary>
@@ -78,17 +65,6 @@ namespace FeChat.Controllers.User.Profile {
         [HttpPost("options")]
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> Options([FromBody] OptionsDto optionsDto, Member memberInfo, IMembersRepository membersRepository) {
-
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
 
             // Get all members options
             ResponseDto<List<OptionDto>> optionsList = await membersRepository.OptionsListAsync(memberInfo.Info!.MemberId);
@@ -247,18 +223,7 @@ namespace FeChat.Controllers.User.Profile {
         [Authorize]
         [HttpPost("profile")]
         [EnableCors("AllowOrigin")]
-        public async Task<IActionResult> UpdateProfile([FromBody] MemberDto memberDto, Member memberInfo, IMembersRepository membersRepository) {     
-
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
+        public async Task<IActionResult> UpdateProfile([FromBody] MemberDto memberDto, Member memberInfo, IMembersRepository membersRepository) {
 
             // Verify if email exists
             if ( memberDto.Email == null ) {
@@ -543,17 +508,6 @@ namespace FeChat.Controllers.User.Profile {
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> UpdateMemberPassword([FromBody] MemberDto memberDto, Member memberInfo, IMembersRepository membersRepository) {
 
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
-
             // Verify if password exists
             if ( memberDto.Password == null ) {
 
@@ -628,17 +582,6 @@ namespace FeChat.Controllers.User.Profile {
         [HttpPost("notifications")]
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> UpdateNotificationsPassword([FromBody] MemberDto memberDto, Member memberInfo, IMembersRepository membersRepository) {
-            
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
         
             // Options to update container
             List<MemberOptionsEntity> optionsUpdate = new();
@@ -805,19 +748,8 @@ namespace FeChat.Controllers.User.Profile {
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> UpdateMemberImage(IFormFile file, Member memberInfo, IMembersRepository membersRepository) {
 
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
-
             // Try to upload the file
-            ResponseDto<StorageDto> uploadImage = await new ImageUpload().UploadAsync(_configuration, file);
+            ResponseDto<StorageDto> uploadImage = await new ImageUpload().UploadAsync(_options.Storage, file);
 
             // Check if the file was uploaded
             if ( uploadImage.Result != null ) {

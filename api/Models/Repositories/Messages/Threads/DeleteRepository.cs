@@ -13,23 +13,15 @@
 // Namespace for Messages Threads Repositories
 namespace FeChat.Models.Repositories.Messages.Threads {
 
-    // Use the Entity Framework
+    // System Namespaces
     using Microsoft.EntityFrameworkCore;
-
-    // Use the catching memory
     using Microsoft.Extensions.Caching.Memory;
 
-    // Use the general Dtos for Response
-    using FeChat.Models.Dtos;
-
-    // Use Messages entities
-    using FeChat.Models.Entities.Messages;
-
-    // Use the Configuration utils for Db connector
-    using FeChat.Utils.Configuration;
-
-    // Use General Utils
-    using FeChat.Utils.General;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Entities.Messages;
+    using Utils.Configuration;
+    using Utils.General;
 
     /// <summary>
     /// Threads Delete Repository

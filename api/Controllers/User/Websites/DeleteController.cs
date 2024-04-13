@@ -13,23 +13,15 @@
 // Namespace for the User Websites Controllers
 namespace FeChat.Controllers.User.Websites {
 
-    // Used Mvc to get the Controller feature
-    using Microsoft.AspNetCore.Mvc;
-
-    // Use the Cors feature to control the access
+    // System Namespaces
     using Microsoft.AspNetCore.Cors;
-
-    // Use the Versioning to add version in url
+    using Microsoft.AspNetCore.Mvc;
     using Asp.Versioning;
 
-    // Use the General Utils classes for Strings
-    using FeChat.Utils.General;
-    
-    // Use General dtos classes
-    using FeChat.Models.Dtos;
-
-    // Use the Websites Repositories
-    using FeChat.Utils.Interfaces.Repositories.Websites;
+    // App Namespaces
+    using Models.Dtos;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Websites;
 
     /// <summary>
     /// Websites Delete Controller
@@ -38,22 +30,6 @@ namespace FeChat.Controllers.User.Websites {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/user/websites")]
     public class DeleteController: Controller {
-
-        /// <summary>
-        /// Container for app's configuration
-        /// </summary>
-        private readonly IConfiguration _configuration;
-
-        /// <summary>
-        /// Constructor for this controller
-        /// </summary>
-        /// <param name="configuration">App configuration</param>
-        public DeleteController(IConfiguration configuration) {
-
-            // Add configuration to the container
-            _configuration = configuration;
-
-        }
 
         /// <summary>
         /// Delete a website
@@ -65,17 +41,6 @@ namespace FeChat.Controllers.User.Websites {
         [HttpDelete("{websiteId}")]
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> DeleteWebsite(int websiteId, Member memberInfo, IWebsitesRepository websitesRepository) {
-
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
 
             // Delete a member
             ResponseDto<bool> deleteWebsite = await websitesRepository.DeleteWebsiteAsync(websiteId, memberInfo.Info!.MemberId);

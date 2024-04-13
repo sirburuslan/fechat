@@ -12,25 +12,14 @@
 
 // Namespace for Messages Typing Repositories
 namespace FeChat.Models.Repositories.Messages.Typing {
-
-    // Use the catching memory
-    using Microsoft.Extensions.Caching.Memory;
-
-    // Use Messages entities
-    using FeChat.Models.Entities.Messages;
-
-    // Use the Configuration utils for Db connector
-    using FeChat.Utils.Configuration;
+    // App Namespaces
+    using Models.Entities.Messages;
+    using Utils.Configuration;
 
     /// <summary>
     /// Typing Create Repository
     /// </summary>
     public class CreateRepository {
-
-        /// <summary>
-        /// Memory cache container
-        /// </summary>
-        private readonly IMemoryCache _memoryCache;
 
         /// <summary>
         /// Plans table context container
@@ -40,12 +29,8 @@ namespace FeChat.Models.Repositories.Messages.Typing {
         /// <summary>
         /// Typing Create Repository Constructor
         /// </summary>
-        /// <param name="memoryCache">Membery cache instance</param>
         /// <param name="db">Db connection instance</param>
-        public CreateRepository(IMemoryCache memoryCache, Db db) {
-
-            // Save the memory chache
-            _memoryCache = memoryCache;
+        public CreateRepository(Db db) {
 
             // Save the session
             _context = db;

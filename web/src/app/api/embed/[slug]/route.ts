@@ -14,7 +14,7 @@ export async function GET(request: Request, { params }: { params: { slug: string
     return new Response(`
 (() => {
           
-    let iframe = document.createElement('iframe');
+    const iframe = document.createElement('iframe');
 
     iframe.src = '${process.env.NEXT_PUBLIC_SITE_URL}chat/${params.slug}';
 
@@ -24,7 +24,7 @@ export async function GET(request: Request, { params }: { params: { slug: string
 
     document.getElementsByTagName('body')[0].appendChild(iframe);
 
-    let chat = document.getElementsByClassName('fc-iframe-chat')[0];      
+    const chat = document.getElementsByClassName('fc-iframe-chat')[0];      
 
     window.addEventListener('message', function(event) {
 

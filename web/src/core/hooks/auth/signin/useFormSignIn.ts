@@ -27,13 +27,13 @@ const useFormSignIn = (values: {
 } => {
 
     // Current time
-    let ctime: number = Date.now();
+    const ctime: number = Date.now();
 
     // Set a counter
-    let [count, setCount] = useState(0);
+    const [count, setCount] = useState(0);
 
     // Process the response
-    let [response, setData] = useState({email: '', password: ''});
+    const [response, setData] = useState({email: '', password: ''});
 
     // Register useEffect hook for monitoring the count changes
     useEffect((): void => {

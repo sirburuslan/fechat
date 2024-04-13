@@ -13,11 +13,11 @@
 // Namespace for PayPal Cancel Subscription
 namespace FeChat.Utils.Gateways.PayPal.Subscriptions {
 
-    // Use text classes for encoding
+    // System Namespaces
     using System.Text;
 
-    // Use General Dtos
-    using FeChat.Models.Dtos;
+    // App Namespaces
+    using Models.Dtos;
 
     /// <summary>
     /// PayPal Cancel Subscription

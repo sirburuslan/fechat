@@ -13,14 +13,10 @@
 // Namespace for Subscriptions Interfaces
 namespace FeChat.Utils.Interfaces.Repositories.Subscriptions {
 
-    // Use General Dtos
-    using FeChat.Models.Dtos;
-
-    // Use Subscriptions Dtos
-    using FeChat.Models.Dtos.Subscriptions;
-
-    // Use Transactions Dtos
-    using FeChat.Models.Dtos.Transactions;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Subscriptions;
+    using Models.Dtos.Transactions;
 
     /// <summary>
     /// Repository for Subscriptions

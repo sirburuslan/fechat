@@ -13,47 +13,23 @@
 // Namespace for Controllers
 namespace FeChat.Controllers {
 
-    // Use the Dynamic classes
+    // System Namespaces
     using System.Dynamic;
-
-    // Use the Authentication feature to get the access token
     using Microsoft.AspNetCore.Authentication;
-
-    // Use Mvc for Controllers
-    using Microsoft.AspNetCore.Mvc;
-
-    // Use the cors
     using Microsoft.AspNetCore.Cors;
-
-    // Add api version in url
+    using Microsoft.AspNetCore.Mvc;
     using Asp.Versioning;
 
-    // Use General Dtos
-    using FeChat.Models.Dtos;
-
-    // Use the Dtos for members
-    using FeChat.Models.Dtos.Members;
-
-    // Use the Dtos for plans
-    using FeChat.Models.Dtos.Plans;    
-
-    // Use the Dtos for subscriptions
-    using FeChat.Models.Dtos.Subscriptions;
-
-    // Use General classes for strings
-    using FeChat.Utils.General;
-
-    // Use the Settings interfaces
-    using FeChat.Utils.Interfaces.Repositories.Settings;
-
-    // Use the Plans Repositories
-    using FeChat.Utils.Interfaces.Repositories.Plans;
-    
-    // Use the Members repository
-    using FeChat.Utils.Interfaces.Repositories.Members;
-
-    // Use the Subscriptions Repositories
-    using FeChat.Utils.Interfaces.Repositories.Subscriptions;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Members;
+    using Models.Dtos.Plans;
+    using Models.Dtos.Subscriptions;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Members;
+    using Utils.Interfaces.Repositories.Plans;
+    using Utils.Interfaces.Repositories.Settings;
+    using Utils.Interfaces.Repositories.Subscriptions;
 
     /// <summary>
     /// Settings Reader

@@ -13,20 +13,14 @@
 // Namespace for Dtos
 namespace FeChat.Models.Dtos {
 
-    // Use the annotations for validation
+    // System Namespaces
     using System.ComponentModel.DataAnnotations;
-
-    // Web classes for html sanitize 
-    using System.Web;
-
-    // Use web encoding for javascript sanitizing
     using System.Text.Encodings.Web;
+    using System.Web;
     
-    // Use the general utils for error messages
-    using FeChat.Utils.General;
-    
-    // Use custom validation
-    using FeChat.Utils.Validations;
+    // App Namespaces
+    using Utils.General;
+    using Utils.Validations;
 
     /// <summary>
     /// Search Dto

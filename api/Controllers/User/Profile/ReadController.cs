@@ -13,29 +13,17 @@
 // Namespace for User Profile Controllers
 namespace FeChat.Controllers.User {
 
-    // Use the Asp MVC for Controllers
-    using Microsoft.AspNetCore.Mvc;
-
-    // Use the Authorization to restrict access for guests
+    // System Namespaces
     using Microsoft.AspNetCore.Authorization;
-
-    // Use the Cors feature to control the access
     using Microsoft.AspNetCore.Cors;
-
-    // Use the Versioning to add version in url
+    using Microsoft.AspNetCore.Mvc;
     using Asp.Versioning;
 
-    // Use the General Utils classes for Strings
-    using FeChat.Utils.General;
-    
-    // Use General dtos classes
-    using FeChat.Models.Dtos;
-
-    // Use Members dtos classes
-    using FeChat.Models.Dtos.Members;
-
-    // Use the Members Repositories
-    using FeChat.Utils.Interfaces.Repositories.Members;
+    // App Namespaces
+    using Utils.General;
+    using Models.Dtos;
+    using Models.Dtos.Members;
+    using Utils.Interfaces.Repositories.Members;
 
     /// <summary>
     /// Members Read Controller

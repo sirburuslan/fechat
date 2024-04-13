@@ -13,7 +13,7 @@
 // Namespace for Websites Entities
 namespace FeChat.Models.Entities.Websites {
 
-    // Use the Annotations
+    // System Namespaces
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>

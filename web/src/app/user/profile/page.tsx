@@ -31,10 +31,10 @@ import SecureStorage from 'react-secure-storage';
 import { useQuery } from 'react-query';
 
 // Import the incs
-import { getIcon, getWord, getToken, getOptions, updateOptions, showNotification } from '@/core/inc/incIndex';
+import { getIcon, getWord, getOptions, updateOptions, showNotification } from '@/core/inc/incIndex';
 
 // Import types
-import { typeToken, typePostHeader, typeOptions } from '@/core/types/typesIndex';
+import { typePostHeader, typeOptions } from '@/core/types/typesIndex';
 
 // Import the options for website and member
 import { WebsiteOptionsContext, MemberOptionsContext } from '@/core/contexts/OptionsContext';
@@ -46,13 +46,13 @@ import ProfileData from "@/core/components/user/profile/ProfileData";
 const Page = (): React.JSX.Element => {
 
     // Website options
-    let {websiteOptions, setWebsiteOptions} = useContext(WebsiteOptionsContext); 
+    const {websiteOptions, setWebsiteOptions} = useContext(WebsiteOptionsContext); 
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext); 
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext); 
 
     // Set a hook for fields value
-    let [fields, setFields] = useState({
+    const [fields, setFields] = useState({
         MemberId: '',
         ProfilePhoto: '',
         FirstName: '',
@@ -68,10 +68,10 @@ const Page = (): React.JSX.Element => {
     });
 
     // Set a hook for error message if member can't be reached
-    let [profileError, setProfileError] = useState('');
+    const [profileError, setProfileError] = useState('');
 
     // Hook to fetch data for Member with useQuery
-    let [memberFetchedData, setMemberFetchedData] = useState(false);   
+    const [memberFetchedData, setMemberFetchedData] = useState(false);   
 
     // Check if document is defined
     if ( typeof document !== 'undefined' ) {
@@ -82,35 +82,20 @@ const Page = (): React.JSX.Element => {
     }
 
     // Get the member's information
-    let profileInfo = async (): Promise<any> => {
-
-        // Generate a new csrf token
-        let csrfToken: typeToken = await getToken();
-
-        // Check if csrf token is missing
-        if ( !csrfToken.success ) {
-
-            // Return error response
-            return {
-                success: false,
-                message: getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language'])
-            };
-
-        }
+    const profileInfo = async (): Promise<any> => {
 
         // Set the bearer token
-        let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+        const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
         // Set the headers
-        let headers: typePostHeader = {
+        const headers: typePostHeader = {
             headers: {
-                Authorization: `Bearer ${token}`,
-                CsrfToken: csrfToken.token
+                Authorization: `Bearer ${token}`
             }
         };            
 
         // Request the fields value
-        let response = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'api/v1/user/profile', headers);
+        const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'api/v1/user/profile', headers);
 
         // Process the response
         return response.data;
@@ -118,7 +103,7 @@ const Page = (): React.JSX.Element => {
     };
     
     // Request the profile info
-    let { isLoading, error, data } = useQuery('profileInfo', profileInfo, {
+    const { isLoading, error, data } = useQuery('profileInfo', profileInfo, {
         enabled: !memberFetchedData
     });
 
@@ -154,10 +139,10 @@ const Page = (): React.JSX.Element => {
         } else if (data) {
 
             // Received fields
-            let rFields: string[] = Object.keys(data.member as object);
+            const rFields: string[] = Object.keys(data.member as object);
 
             // Calculate fields length
-            let fieldsLength: number = rFields.length;
+            const fieldsLength: number = rFields.length;
 
             // List the member infos
             for ( let o = 0; o < fieldsLength; o++ ) {
@@ -189,20 +174,20 @@ const Page = (): React.JSX.Element => {
      * 
      * @param Event e
      */
-    let trackClicks = (e: Event): void => {
+    const trackClicks = (e: Event): void => {
 
         // Get the target
-        let target = e.target;
+        const target = e.target;
         
         // Check if the click is inside dropdown
         if ( (target instanceof Element) && target.closest('.fc-option-dropdown') && !target.closest('#fc-option-dropdown-plan') && (target.nodeName === 'A') ) {
             e.preventDefault();
             
             // Get the element's ID
-            let elementId: string | null = target.getAttribute('data-id');
+            const elementId: string | null = target.getAttribute('data-id');
 
             // Get the option
-            let option: string | null = target.closest('.fc-extra-option')!.getAttribute('data-option');
+            const option: string | null = target.closest('.fc-extra-option')!.getAttribute('data-option');
 
             // Verify if option is not null
             if ( option !== null ) {
@@ -222,10 +207,10 @@ const Page = (): React.JSX.Element => {
     /**
      * Images uploader
      */
-    let uploadImage = async (e: React.ChangeEvent): Promise<void> => {
+    const uploadImage = async (e: React.ChangeEvent): Promise<void> => {
 
         // Select media
-        let mediaContainer: HTMLElement | null = e.currentTarget.closest('.fc-profile-photo-area');        
+        const mediaContainer: HTMLElement | null = e.currentTarget.closest('.fc-profile-photo-area');        
 
         try {
 
@@ -233,34 +218,22 @@ const Page = (): React.JSX.Element => {
             mediaContainer!.classList.add('fc-uploading-active');
 
             // Set the bearer token
-            let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+            const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
             // Get the file
-            let file = (e.target as HTMLInputElement).files![0];
+            const file = (e.target as HTMLInputElement).files![0];
 
             // Create an instance for the form data
-            let form: FormData = new FormData();
+            const form: FormData = new FormData();
             
             // Set text input
-            form.append('file', file);   
-
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-            }
+            form.append('file', file);
 
             // Upload the image on the server
             await axios.post(process.env.NEXT_PUBLIC_API_URL + 'api/v1/user/image', form, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${token}`,
-                    CsrfToken: csrfToken.token
+                    Authorization: `Bearer ${token}`
                 },
                 onUploadProgress: (progressEvent: AxiosProgressEvent) => {
 
@@ -268,7 +241,7 @@ const Page = (): React.JSX.Element => {
                     if ( typeof progressEvent.total === 'number' ) {
 
                         // Calculate the progress percentage
-                        let progress: number = (progressEvent.loaded / progressEvent.total) * 100;
+                        const progress: number = (progressEvent.loaded / progressEvent.total) * 100;
 
                         // Set the progress percentage
                         mediaContainer!.style.cssText = `--width: ${progress.toFixed(2)}%`;
@@ -294,7 +267,7 @@ const Page = (): React.JSX.Element => {
                     setMemberFetchedData(false);
 
                     // Request the options
-                    let optionsList: {success: boolean, options?: typeOptions} = await getOptions();
+                    const optionsList: {success: boolean, options?: typeOptions} = await getOptions();
 
                     // Update memberOptions
                     updateOptions(optionsList, setWebsiteOptions, setMemberOptions);

@@ -13,17 +13,13 @@
 // Namespace for Plans Dtos
 namespace FeChat.Models.Dtos.Plans {
 
-    // Use the data annotations for validation
+    // System Namespaces
     using System.ComponentModel.DataAnnotations;
-
-    // Use Web system for html sanitizing
+    using System.Text.Encodings.Web;
     using System.Web;
 
-    // Text Enconding for Javascript sanitizing
-    using System.Text.Encodings.Web;
-
-    // Use the General Utils for Error Messages
-    using FeChat.Utils.General;
+    // App Namespaces
+    using Utils.General;
 
     /// <summary>
     /// Dto for Plan

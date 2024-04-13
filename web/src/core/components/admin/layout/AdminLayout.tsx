@@ -31,10 +31,10 @@ import SidebarLayout from "@/core/components/admin/layout/SidebarLayout";
 const AdminLayout = ({children}: {children: React.ReactNode}): React.JSX.Element => {
 
     // Get the router
-    let router = useRouter();
+    const router = useRouter();
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
 
     // Verify if the member is logged in
     if ( (memberOptions.Default === '0') && (parseInt(memberOptions.MemberId) < 1) ) {

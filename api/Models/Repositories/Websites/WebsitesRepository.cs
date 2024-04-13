@@ -13,35 +13,19 @@
 // Namespace for the Websites Repositories
 namespace FeChat.Models.Repositories.Websites {
 
-    // Use the Entity Framework
+    // System Namespaces
     using Microsoft.EntityFrameworkCore;
-
-    // Use the memory catching
     using Microsoft.Extensions.Caching.Memory;
 
-    // Use Generals Dtos
-    using FeChat.Models.Dtos;
-
-    // Use Websites Dtos
-    using FeChat.Models.Dtos.Websites;
-
-    // Use the Messages entities
-    using FeChat.Models.Entities.Messages;
-
-    // Use Websites entities
-    using FeChat.Models.Entities.Websites;
-
-    // Use the Messages repositories
-    using FeChat.Models.Repositories.Messages;
-
-    // Use the Configuration Utils for db
-    using FeChat.Utils.Configuration;
-
-    // Use the General Utils for strings
-    using FeChat.Utils.General;
-
-    // Use the Websites interface
-    using FeChat.Utils.Interfaces.Repositories.Websites;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Websites;
+    using Models.Entities.Messages;
+    using Models.Entities.Websites;
+    using Messages;
+    using Utils.Configuration;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Websites;
 
     /// <summary>
     /// Websites Repository

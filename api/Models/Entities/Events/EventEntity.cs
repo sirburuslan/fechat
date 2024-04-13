@@ -13,7 +13,7 @@
 // Namespace for Events Entities
 namespace FeChat.Models.Entities.Events {
 
-    // Use the Adnnotations for attributes
+    // System Namespaces
     using System.ComponentModel.DataAnnotations; 
 
     /// <summary>

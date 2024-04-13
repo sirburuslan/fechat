@@ -13,23 +13,17 @@
 // Administrator Controllers namespace
 namespace FeChat.Controllers.Administrator {
 
-    // Use the Mvc to get the controller
-    using Microsoft.AspNetCore.Mvc;
-
-    // Use Authorization for access restriction
+    // System Namespaces
     using Microsoft.AspNetCore.Authorization;
-
-    // Use Cors libraries
     using Microsoft.AspNetCore.Cors;
-
-    // Use the Versioning library
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Options;
     using Asp.Versioning;
 
-    // Use general dtos
-    using FeChat.Models.Dtos;
-
-    // Use the General namespace to get the Tokens class
-    using FeChat.Utils.General;
+    // App Namespaces
+    using Models.Dtos;
+    using Utils.Configuration;
+    using Utils.General;
 
     /// <summary>
     /// Upload Manager
@@ -40,19 +34,20 @@ namespace FeChat.Controllers.Administrator {
     public class UploadController: Controller {
 
         /// <summary>
-        /// Container for app's configuration
+        /// App Settings container.
         /// </summary>
-        private readonly IConfiguration _configuration;
+        private readonly AppSettings _options;
 
         /// <summary>
-        /// Constructor for this controller
+        /// Initializes a new instance of the <see cref="UploadController"/> class.
         /// </summary>
-        /// <param name="configuration">App configuration</param>
-        public UploadController(IConfiguration configuration) {
+        /// <param name="options">All App Options.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
+        public UploadController(IOptions<AppSettings> options) {
 
-            // Add configuration to the container
-            _configuration = configuration;
-
+            // Save the configuration
+            _options = options.Value ?? throw new ArgumentNullException(nameof(options), new Strings().Get("OptionsNotFound"));
+            
         }
 
         /// <summary>
@@ -65,19 +60,8 @@ namespace FeChat.Controllers.Administrator {
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> Image(IFormFile file) {
 
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
-
             // Try to upload the file
-            ResponseDto<StorageDto> uploadImage = await new ImageUpload().UploadAsync(_configuration, file);
+            ResponseDto<StorageDto> uploadImage = await new ImageUpload().UploadAsync(_options.Storage, file);
 
             // Check if the file was uploaded
             if ( uploadImage.Result != null ) {

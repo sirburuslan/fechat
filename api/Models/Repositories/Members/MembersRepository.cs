@@ -13,23 +13,15 @@
 // Namespace for Members repositories
 namespace FeChat.Models.Repositories.Members {
 
-    // Use the Memory Cache to story the data in cache
+    // System Namespaces
     using Microsoft.Extensions.Caching.Memory;
 
-    // Use the Dtos for response
-    using FeChat.Models.Dtos;
-
-    // Use Dtos for Members
-    using FeChat.Models.Dtos.Members;
-
-    // Use the Entities
-    using FeChat.Models.Entities.Members;
-
-    // Get the Configuration Utils for connection
-    using FeChat.Utils.Configuration;
-
-    // Use the IMembersRepository interface
-    using FeChat.Utils.Interfaces.Repositories.Members;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Members;
+    using Models.Entities.Members;
+    using Utils.Configuration;
+    using Utils.Interfaces.Repositories.Members;
 
     /// <summary>
     /// Members Repository pattern

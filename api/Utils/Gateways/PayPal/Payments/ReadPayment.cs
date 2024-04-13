@@ -13,8 +13,8 @@
 // Namespace for PayPal Payments
 namespace FeChat.Utils.Gateways.PayPal.Payments {
 
-    // Use General Dtos
-    using FeChat.Models.Dtos;
+    // App Namespaces
+    using Models.Dtos;
 
     /// <summary>
     /// Read Payments Class

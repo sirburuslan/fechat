@@ -13,47 +13,25 @@
 // Namespace for Auth Controllers
 namespace FeChat.Controllers.Auth {
 
-    // Use the Jwt classes
+    // System Namespaces
     using System.IdentityModel.Tokens.Jwt;
-
-    // Use the Text encoding
     using System.Text;
-
-    // Use Web for HTML decoding
     using System.Web;
-
-    // Use the Claims classes
     using System.Security.Claims;
-    
-    // Use the Mvc to get the controller
     using Microsoft.AspNetCore.Mvc;
-
-    // Use Tokens to generate tokens
+    using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
-
-    // Import the Versioning library
     using Asp.Versioning;
 
-    // Use the Dtos for response
-    using FeChat.Models.Dtos;
-
-    // Use Dtos for Members
-    using FeChat.Models.Dtos.Members;
-
-    // Using the Entities for Members
-    using FeChat.Models.Entities.Members;
-
-    // Use General Utils
-    using FeChat.Utils.General;
-
-    // Use the Events Repositories
-    using FeChat.Utils.Interfaces.Repositories.Events;
-
-    // Use the Members Repositories
-    using FeChat.Utils.Interfaces.Repositories.Members;
-
-    // Use the Settings Repositories
-    using FeChat.Utils.Interfaces.Repositories.Settings;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Members;
+    using Models.Entities.Members;
+    using Utils.Configuration;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Events;
+    using Utils.Interfaces.Repositories.Members;
+    using Utils.Interfaces.Repositories.Settings;
 
     /// <summary>
     /// This controller is used to login or sign up user with Google
@@ -64,20 +42,19 @@ namespace FeChat.Controllers.Auth {
     public class GoogleController : Controller {
 
         /// <summary>
-        /// App configuration container
+        /// App Settings container.
         /// </summary>
-        private readonly IConfiguration _configuration;
+        private readonly AppSettings _options;
 
         /// <summary>
-        /// Class Constructor
+        /// Initializes a new instance of the <see cref="GoogleController"/> class.
         /// </summary>
-        /// <param name="configuration">
-        /// App configuration
-        /// </param>
-        public GoogleController(IConfiguration configuration) {
+        /// <param name="options">All App Options.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
+        public GoogleController(IOptions<AppSettings> options) {
 
             // Save the configuration
-            _configuration = configuration;
+            _options = options.Value ?? throw new ArgumentNullException(nameof(options), new Strings().Get("OptionsNotFound"));
             
         }
 
@@ -133,7 +110,7 @@ namespace FeChat.Controllers.Auth {
                         { "client_id", GoogleClientId },
                         { "client_secret", GoogleClientSecret },
                         { "code", googleDto.Code ?? string.Empty },
-                        { "redirect_uri", _configuration["SiteUrl"] + "/auth/google/callback" },
+                        { "redirect_uri", _options.SiteUrl + "/auth/google/callback" },
                         { "grant_type", "authorization_code" },
                         { "access_type", "offline" },
                         { "prompt", "consent" }
@@ -275,7 +252,7 @@ namespace FeChat.Controllers.Auth {
                         await membersRepository.SaveOptionsAsync(optionsSave);
 
                         // Prepare and define the secret key
-                        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"] ?? string.Empty));
+                        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.JwtSettings.Key ?? string.Empty));
 
                         // Create aa signature with the key
                         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -289,8 +266,8 @@ namespace FeChat.Controllers.Auth {
 
                         // Create the token
                         var token = new JwtSecurityToken(
-                            issuer: _configuration["AppDomain"],
-                            audience: _configuration["AppDomain"],
+                            issuer: _options.JwtSettings.Issuer,
+                            audience: _options.JwtSettings.Audience,
                             claims: claims,
                             expires: DateTime.UtcNow.AddHours(720),
                             signingCredentials: credentials
@@ -322,7 +299,7 @@ namespace FeChat.Controllers.Auth {
                         if ( memberDto.Result != null ) {
 
                             // Prepare and define the secret key
-                            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"] ?? string.Empty));
+                            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.JwtSettings.Key ?? string.Empty));
 
                             // Create aa signature with the key
                             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -336,8 +313,8 @@ namespace FeChat.Controllers.Auth {
 
                             // Create the token
                             var token = new JwtSecurityToken(
-                                issuer: _configuration["AppDomain"],
-                                audience: _configuration["AppDomain"],
+                                issuer: _options.JwtSettings.Issuer,
+                                audience: _options.JwtSettings.Audience,
                                 claims: claims,
                                 expires: DateTime.UtcNow.AddHours(720),
                                 signingCredentials: credentials

@@ -15,7 +15,6 @@ import getMonth from "@/core/inc/incMonths";
 import getIcon from "@/core/inc/incIcons";
 import { getWord, getLanguages } from "@/core/inc/incWords";
 import getField from "@/core/inc/incFields";
-import getToken from "@/core/inc/incTokens";
 import { updateOptions, getOptions, getMemberOptions, getWebsiteOptions } from "@/core/inc/incOptions";
 import showNotification from "@/core/inc/incNotification";
 import { calculateTime, cancelSession, getCurrencies, unescapeRegexString } from "@/core/inc/incGeneral";
@@ -27,7 +26,6 @@ export {
     getWord,
     getLanguages,
     getField,
-    getToken,
     updateOptions,
     getOptions,
     getMemberOptions,

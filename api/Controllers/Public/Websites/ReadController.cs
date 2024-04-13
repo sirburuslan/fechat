@@ -13,29 +13,17 @@
 // Namespace for Public Websites Controllers
 namespace FeChat.Controllers.Public.Websites {
 
-    // Used Mvc to get the Controller feature
-    using Microsoft.AspNetCore.Mvc;
-
-    // Use the Authorization to restrict access for guests
+    // System Namespaces
     using Microsoft.AspNetCore.Authorization;
-
-    // Use the Cors feature to control the access
     using Microsoft.AspNetCore.Cors;
-
-    // Use the Versioning to add version in url
+    using Microsoft.AspNetCore.Mvc;
     using Asp.Versioning;
 
-    // Use the General Utils classes for Strings
-    using FeChat.Utils.General;
-    
-    // Use General dtos classes
-    using FeChat.Models.Dtos;
-
-    // Use Websites dtos classes
-    using FeChat.Models.Dtos.Websites;
-
-    // Use the Interfaces for Websites Repositories
-    using FeChat.Utils.Interfaces.Repositories.Websites;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Websites;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Websites;
 
     /// <summary>
     /// Websites Read Controller

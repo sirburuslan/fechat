@@ -13,23 +13,15 @@
 // Namespace for User Threads Controllers
 namespace FeChat.Controllers.User.Threads {
 
-    // Use the MVC for the controller interface
-    using Microsoft.AspNetCore.Mvc;
-
-    // Use the Cors feature to control the access
+    // System Namespaces
     using Microsoft.AspNetCore.Cors;
-
-    // Use the Versioning to add version in url
+    using Microsoft.AspNetCore.Mvc;
     using Asp.Versioning;
 
-    // Use the General Dtos
-    using FeChat.Models.Dtos;
-
-    // Use the General utils for member role validation
-    using FeChat.Utils.General;
-
-    // Use interfaces for Messages Repositories
-    using FeChat.Utils.Interfaces.Repositories.Messages;
+    // App Namespaces
+    using Models.Dtos;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Messages;
 
     /// <summary>
     /// Threads Read Controller
@@ -38,23 +30,6 @@ namespace FeChat.Controllers.User.Threads {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/user/threads")]
     public class DeleteController: Controller {
-
-        /// <summary>
-        /// Container for app's configuration
-        /// </summary>
-        private readonly IConfiguration _configuration;
-
-        /// <summary>
-        /// Constructor for this controller
-        /// </summary>
-        /// <param name="configuration">App configuration</param>
-        public DeleteController(IConfiguration configuration) {
-
-            // Add configuration to the container
-            _configuration = configuration;
-
-        }
-
 
         /// <summary>
         /// Delete a thread
@@ -66,17 +41,6 @@ namespace FeChat.Controllers.User.Threads {
         [HttpDelete("{threadId}")]
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> DeleteThread(int threadId, Member memberInfo, IMessagesRepository messagesRepository) {
-
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
 
             // Delete a member
             ResponseDto<bool> deleteThread = await messagesRepository.DeleteThreadAsync(threadId, memberInfo.Info!.MemberId);

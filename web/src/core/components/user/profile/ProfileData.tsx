@@ -22,10 +22,10 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import SecureStorage from 'react-secure-storage';
 
 // Import the incs
-import { getIcon, getWord, getLanguages, getToken, getField, getOptions, updateOptions, showNotification } from '@/core/inc/incIndex';
+import { getIcon, getWord, getLanguages, getField, getOptions, updateOptions, showNotification } from '@/core/inc/incIndex';
 
 // Import types
-import { typeToken, typePostHeader, typeOptions } from '@/core/types/typesIndex';
+import { typePostHeader, typeOptions } from '@/core/types/typesIndex';
 
 // Import the options for website and member
 import { WebsiteOptionsContext, MemberOptionsContext } from '@/core/contexts/OptionsContext';
@@ -34,46 +34,34 @@ import { WebsiteOptionsContext, MemberOptionsContext } from '@/core/contexts/Opt
 const ProfileData: React.FC<{fields: {[key: string]: string | number}, setFields: Dispatch<SetStateAction<any>>}> = ({fields, setFields}): React.JSX.Element => {
 
     // Website options
-    let {websiteOptions, setWebsiteOptions} = useContext(WebsiteOptionsContext); 
+    const {websiteOptions, setWebsiteOptions} = useContext(WebsiteOptionsContext); 
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);   
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);   
 
     /**
      * Update the member's data
      * 
      * @param FormEvent e 
      */
-    let memberUpdate = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    const memberUpdate = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
 
         // Get the target
-        let target: Element = e.currentTarget;
+        const target: Element = e.currentTarget;
 
         // Add active class
         target.classList.add('fc-option-active-btn');
 
         try {
 
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-            }
-
             // Set the bearer token
-            let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+            const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
             // Prepare the headers
-            let headers: typePostHeader = {
+            const headers: typePostHeader = {
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                    CsrfToken: csrfToken.token
+                    Authorization: `Bearer ${token}`
                 }
             };
 
@@ -97,7 +85,7 @@ const ProfileData: React.FC<{fields: {[key: string]: string | number}, setFields
                     showNotification('success', response.data.message);
 
                     // Request the options
-                    let optionsList: {success: boolean, options?: typeOptions} = await getOptions();
+                    const optionsList: {success: boolean, options?: typeOptions} = await getOptions();
 
                     // Update memberOptions
                     updateOptions(optionsList, setWebsiteOptions, setMemberOptions);
@@ -110,7 +98,7 @@ const ProfileData: React.FC<{fields: {[key: string]: string | number}, setFields
                 } else {
 
                     // Keys container
-                    let keys: string[] = Object.keys(response.data);
+                    const keys: string[] = Object.keys(response.data);
 
                     // Run error notification
                     throw new Error(response.data[keys[0]][0]);                    
@@ -168,36 +156,24 @@ const ProfileData: React.FC<{fields: {[key: string]: string | number}, setFields
      * 
      * @param FormEvent e 
      */
-    let passwordUpdate = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    const passwordUpdate = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
 
         // Get the target
-        let target: Element = e.currentTarget;
+        const target: Element = e.currentTarget;
 
         // Add active class
         target.classList.add('fc-option-active-btn');
 
         try {
 
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-            }
-
             // Set the bearer token
-            let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+            const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
             // Prepare the headers
-            let headers: typePostHeader = {
+            const headers: typePostHeader = {
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                    CsrfToken: csrfToken.token
+                    Authorization: `Bearer ${token}`
                 }
             };
 
@@ -224,7 +200,7 @@ const ProfileData: React.FC<{fields: {[key: string]: string | number}, setFields
                 } else {
 
                     // Keys container
-                    let keys: string[] = Object.keys(response.data);
+                    const keys: string[] = Object.keys(response.data);
 
                     // Run error notification
                     throw new Error(response.data[keys[0]][0]);                    

@@ -27,7 +27,7 @@ const getIcon = (iconName: string, params?: {[key: string]: string | number}): s
     if ( icons.hasOwnProperty(iconName) ) {
 
         // Get icon
-        let iconObj: PropertyDescriptor | undefined = Object.getOwnPropertyDescriptor(icons, iconName);
+        const iconObj: PropertyDescriptor | undefined = Object.getOwnPropertyDescriptor(icons, iconName);
 
         // Check if iconObj exists and has the value property
         if (iconObj && iconObj.value && typeof iconObj.value === 'function') {

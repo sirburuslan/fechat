@@ -13,29 +13,17 @@
 // Namespace for User Threads Controllers
 namespace FeChat.Controllers.User.Threads {
 
-    // Use the MVC for the controller interface
-    using Microsoft.AspNetCore.Mvc;
-
-    // Use the authorization for access restriction
+    // System Namespaces
     using Microsoft.AspNetCore.Authorization;
-
-    // Use the Cors feature to control the access
     using Microsoft.AspNetCore.Cors;
-
-    // Use the Versioning to add version in url
+    using Microsoft.AspNetCore.Mvc;
     using Asp.Versioning;
 
-    // Use general dtos
-    using FeChat.Models.Dtos;
-
-    // Use dtos for messages
-    using FeChat.Models.Dtos.Messages;
-
-    // Use interfaces for Messages Repositories
-    using FeChat.Utils.Interfaces.Repositories.Messages;
-    
-    // Use General utils for member role validation
-    using FeChat.Utils.General;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Messages;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Messages;
 
     /// <summary>
     /// Threads Update Controller
@@ -44,22 +32,6 @@ namespace FeChat.Controllers.User.Threads {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/user/threads")]
     public class UpdateController: Controller {
-
-        /// <summary>
-        /// Container for app's configuration
-        /// </summary>
-        private readonly IConfiguration _configuration;
-
-        /// <summary>
-        /// Constructor for this controller
-        /// </summary>
-        /// <param name="configuration">App configuration</param>
-        public UpdateController(IConfiguration configuration) {
-
-            // Add configuration to the container
-            _configuration = configuration;
-
-        }
 
         /// <summary>
         /// Update the typing status
@@ -72,17 +44,6 @@ namespace FeChat.Controllers.User.Threads {
         [HttpPost("{threadId}/typing")]
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> TypingActive(int threadId, Member memberInfo, IMessagesRepository messagesRepository) {
-
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
 
             // Get the typing data
             ResponseDto<TypingDto> typing = await messagesRepository.GetTypingAsync(threadId, memberInfo.Info!.MemberId);

@@ -13,7 +13,7 @@
 // Namespace for General Utils
 namespace FeChat.Utils.General {
 
-    // Use the Memory Cache to story the data in cache
+    // System Namespaces
     using Microsoft.Extensions.Caching.Memory;
 
     /// <summary>

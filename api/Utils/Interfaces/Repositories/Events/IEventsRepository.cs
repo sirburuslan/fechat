@@ -13,11 +13,9 @@
 // Namespace for the Events Repositories
 namespace FeChat.Utils.Interfaces.Repositories.Events {
 
-    // Use General Dtos
-    using FeChat.Models.Dtos;
-
-    // Use Events Dtos
-    using FeChat.Models.Dtos.Events;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Events;
 
     /// <summary>
     /// Interface for Events Repository

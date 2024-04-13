@@ -13,29 +13,17 @@
 // Namespace for Settings repositories
 namespace FeChat.Models.Repositories.Settings {
 
-    // Use the Entity Framework
+    // System Namespaces
     using Microsoft.EntityFrameworkCore;
-
-    // Use Cache to store the quries
     using Microsoft.Extensions.Caching.Memory;
 
-    // Use the main Dtos
-    using FeChat.Models.Dtos;
-
-    // Use the Settings Dtos
-    using FeChat.Models.Dtos.Settings;
-
-    // Use the Settings entities
-    using FeChat.Models.Entities.Settings;
-
-    // Use the Configuration's classes
-    using FeChat.Utils.Configuration;
-
-    // Use general utils
-    using FeChat.Utils.General;
-
-    // Use the Settings Repositories interface
-    using FeChat.Utils.Interfaces.Repositories.Settings;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Settings;
+    using Models.Entities.Settings;
+    using Utils.Configuration;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Settings;
 
     /// <summary>
     /// Repository for general settings

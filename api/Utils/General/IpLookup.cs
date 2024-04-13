@@ -13,8 +13,8 @@
 // Namespace for General Utils
 namespace FeChat.Utils.General {
 
-    // Use General Dtos for responses
-    using FeChat.Models.Dtos;
+    // App Namespaces
+    using Models.Dtos;
 
     /// <summary>
     /// Ip Lookup

@@ -13,29 +13,17 @@
 // Namespace for Events Repositories
 namespace FeChat.Models.Repositories.Events {
 
-    // Use the Entity Framework Core
+    // System Namespaces
     using Microsoft.EntityFrameworkCore;
-
-    // Use the Memory Cache to story the data in cache
     using Microsoft.Extensions.Caching.Memory;
 
-    // Use the Events entities
-    using FeChat.Models.Entities.Events;
-
-    // Use General Dtos
-    using FeChat.Models.Dtos;
-
-    // Use Events Dtos
-    using FeChat.Models.Dtos.Events;
-
-    // Get the Configuration Utils for connection
-    using FeChat.Utils.Configuration;
-    
-    // Use General Utils
-    using FeChat.Utils.General;
-
-    // Use the interfaces for Events Repositories
-    using FeChat.Utils.Interfaces.Repositories.Events;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Events;
+    using Models.Entities.Events;
+    using Utils.Configuration;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Events;
 
     /// <summary>
     /// Events Repository

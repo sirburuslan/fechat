@@ -22,7 +22,7 @@ const FieldText = (params: typeField): React.JSX.Element => {
     /**
      * Change value handler
      */
-    let changeValue = (): void => {
+    const changeValue = (): void => {
 
         // Change the input value
         params.hook.fields[params.name] = (document.querySelector(".fc-settings-option #fc-settings-text-input-" + params.name.toLowerCase()) as HTMLInputElement).value;

@@ -45,7 +45,7 @@ const FieldCheckbox = (params: typeField): React.JSX.Element => {
     /**
      * Change value handler
      */
-    let changeValue = (): void => {
+    const changeValue = (): void => {
 
         // Change the input value
         params.hook.fields[params.name] = (document.querySelector(".fc-settings-option #fc-settings-checkbox-input-" + params.name.toLowerCase()) as HTMLInputElement).checked?1:0;

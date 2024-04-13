@@ -26,10 +26,10 @@ import SecureStorage from 'react-secure-storage';
 import { PayPalScriptProvider, PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 
 // Import the incs
-import { getWord, getToken, showNotification, getOptions, updateOptions } from '@/core/inc/incIndex';
+import { getWord, showNotification, getOptions, updateOptions } from '@/core/inc/incIndex';
 
 // Import the types
-import { typeToken, typePostHeader, typeOptions } from '@/core/types/typesIndex';
+import { typePostHeader, typeOptions } from '@/core/types/typesIndex';
 
 // Import the options for website and member
 import { WebsiteOptionsContext, MemberOptionsContext } from '@/core/contexts/OptionsContext';
@@ -43,13 +43,13 @@ import { WebsiteOptionsContext, MemberOptionsContext } from '@/core/contexts/Opt
 const PayPalButton = ({planId, payPalPlanId}: {planId: string, payPalPlanId: string}) => {
 
     // Website options
-    let {websiteOptions, setWebsiteOptions} = useContext(WebsiteOptionsContext); 
+    const {websiteOptions, setWebsiteOptions} = useContext(WebsiteOptionsContext); 
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);  
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);  
 
     // Get access to the Script context and dispatch actions
-	let [{ options }, dispatch] = usePayPalScriptReducer();
+	const [{ options }, dispatch] = usePayPalScriptReducer();
 
     // Wait for content load
 	useEffect(() => {
@@ -70,23 +70,12 @@ const PayPalButton = ({planId, payPalPlanId}: {planId: string, payPalPlanId: str
      * 
      * @param data 
      */
-    let onApprove = async (data: any): Promise<void> => {
+    const onApprove = async (data: any): Promise<void> => {
 
         try {
 
             // Set the bearer token
-            let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
-
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-            }
+            const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
             // Create a subscription
             await axios.post(process.env.NEXT_PUBLIC_API_URL + 'api/v1/user/subscriptions', {
@@ -96,8 +85,7 @@ const PayPalButton = ({planId, payPalPlanId}: {planId: string, payPalPlanId: str
                 SubscriptionId: data.subscriptionID
             }, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                    CsrfToken: csrfToken.token
+                    Authorization: `Bearer ${token}`
                 }
             })
 
@@ -111,7 +99,7 @@ const PayPalButton = ({planId, payPalPlanId}: {planId: string, payPalPlanId: str
                     showNotification('success', response.data.message);
 
                     // Request the options
-                    let optionsList: {success: boolean, options?: typeOptions} = await getOptions();
+                    const optionsList: {success: boolean, options?: typeOptions} = await getOptions();
 
                     // Update memberOptions
                     updateOptions(optionsList, setWebsiteOptions, setMemberOptions);
@@ -163,7 +151,7 @@ const PayPalButton = ({planId, payPalPlanId}: {planId: string, payPalPlanId: str
 	return (<PayPalButtons createSubscription={async (data: Record<string, unknown>, actions: any) => {
 
             // Get the order ID
-			let orderId = await actions.subscription.create({plan_id: payPalPlanId});
+			const orderId = await actions.subscription.create({plan_id: payPalPlanId});
 
             return orderId;
 
@@ -182,19 +170,19 @@ const PayPalButton = ({planId, payPalPlanId}: {planId: string, payPalPlanId: str
 const GatewaysList = (props: {plan: string}): React.JSX.Element => {
 
     // Website options
-    let {websiteOptions, setWebsiteOptions} = useContext(WebsiteOptionsContext); 
+    const {websiteOptions, setWebsiteOptions} = useContext(WebsiteOptionsContext); 
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
 
     // Set a hook for gateways list
-    let [gatewaysList, setGatewaysList] = useState<React.ReactNode>([]);    
+    const [gatewaysList, setGatewaysList] = useState<React.ReactNode>([]);    
 
     // Set a hook for error messages
-    let [gatewaysError, setGatewaysError] = useState('');
+    const [gatewaysError, setGatewaysError] = useState('');
 
     // Hook to fetch data with useQuery
-    let [fetchedData, setFetchedData] = useState(false);
+    const [fetchedData, setFetchedData] = useState(false);
 
     // Check if document is defined
     if ( typeof document !== 'undefined' ) {
@@ -205,35 +193,20 @@ const GatewaysList = (props: {plan: string}): React.JSX.Element => {
     }
 
     // Get the gateways list
-    let gateways = async (): Promise<any> => {
-
-        // Generate a new csrf token
-        let csrfToken: typeToken = await getToken();
-
-        // Check if csrf token is missing
-        if ( !csrfToken.success ) {
-
-            // Return error message
-            return {
-                success: false,
-                message: getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language'])
-            };
-
-        }
+    const gateways = async (): Promise<any> => {
 
         // Set the bearer token
-        let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+        const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
         // Set the headers
-        let headers: typePostHeader = {
+        const headers: typePostHeader = {
             headers: {
-                Authorization: `Bearer ${token}`,
-                CsrfToken: csrfToken.token
+                Authorization: `Bearer ${token}`
             }
         };            
 
         // Request the fields value
-        let response = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'api/v1/user/gateways/' + props.plan, headers)
+        const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'api/v1/user/gateways/' + props.plan, headers)
 
         // Process the response
         return response.data;
@@ -241,7 +214,7 @@ const GatewaysList = (props: {plan: string}): React.JSX.Element => {
     };
 
     // Request the gateways list
-    let { isLoading, error, data } = useQuery('gatewaysList', gateways, {
+    const { isLoading, error, data } = useQuery('gatewaysList', gateways, {
         enabled: !fetchedData
     });
 
@@ -271,7 +244,7 @@ const GatewaysList = (props: {plan: string}): React.JSX.Element => {
                 setTimeout(async (): Promise<void> => {
 
                     // Request the options
-                    let optionsList: {success: boolean, options?: typeOptions} = await getOptions();
+                    const optionsList: {success: boolean, options?: typeOptions} = await getOptions();
 
                     // Update memberOptions
                     updateOptions(optionsList, setWebsiteOptions, setMemberOptions);

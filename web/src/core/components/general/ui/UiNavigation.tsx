@@ -22,16 +22,16 @@ import { getIcon } from '@/core/inc/incIndex';
 const UiNavigation: React.FC<{scope: string, page: number, total: number, limit: number}> = ({scope, page, total, limit}): React.JSX.Element => {
 
     // Count pages
-    let totalPages: number = Math.ceil(total / limit) + 1;
+    const totalPages: number = Math.ceil(total / limit) + 1;
 
     // Generate the pages
-    let pagesList = (): React.JSX.Element[] => {
+    const pagesList = (): React.JSX.Element[] => {
 
         // Calculate start page
-        let from: number = (page > 2) ? (page - 2) : 1;
+        const from: number = (page > 2) ? (page - 2) : 1;
 
         // Initialize an array to store the pages JSX elements
-        let pages: React.JSX.Element[] = [];
+        const pages: React.JSX.Element[] = [];
         
         // List all pages
         for ( let p: number = from; p < totalPages; p++ ) {

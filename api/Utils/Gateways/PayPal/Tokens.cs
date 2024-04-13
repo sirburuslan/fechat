@@ -13,14 +13,12 @@
 // Namespace for PayPal Gateway
 namespace FeChat.Utils.Gateways.PayPal {
 
-    // Use text for encoding
+    // System Namespaces
     using System.Text;
 
-    // Use General Dtos
-    using FeChat.Models.Dtos;
-
-    // Use General Utils
-    using FeChat.Utils.General;
+    // App Namespaces
+    using Models.Dtos;
+    using Utils.General;
 
     /// <summary>
     /// Tokens Generation Class

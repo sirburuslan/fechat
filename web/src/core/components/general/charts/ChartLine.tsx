@@ -53,7 +53,7 @@ const fcChartJsTooltip = (context: any, customLang?: string): void => {
     }
 
     // Get the tooltip's content
-    let tooltip_model = context.tooltip;
+    const tooltip_model = context.tooltip;
 
     // Set caret Position
     tooltip_element.classList.remove('above', 'below', 'no-transform');
@@ -72,7 +72,7 @@ const fcChartJsTooltip = (context: any, customLang?: string): void => {
     }
 
     // Get the body's lines
-    let get_lines = (bodyItem: {after: [], before: [], lines: []}): [] => {
+    const get_lines = (bodyItem: {after: [], before: [], lines: []}): [] => {
 
         return bodyItem.lines;
     }
@@ -81,10 +81,10 @@ const fcChartJsTooltip = (context: any, customLang?: string): void => {
     if (tooltip_model.body) {
 
         // Get the title's lines
-        let title_lines: string[] = tooltip_model.title || [];
+        const title_lines: string[] = tooltip_model.title || [];
 
         // Get the body's lines
-        let body_lines: string[] = tooltip_model.body.map(get_lines);
+        const body_lines: string[] = tooltip_model.body.map(get_lines);
 
         // Lets create the tooltip html content
         let tooltip_html: string = '<thead>';
@@ -93,10 +93,10 @@ const fcChartJsTooltip = (context: any, customLang?: string): void => {
         title_lines.forEach((title: string): void => {
 
             // Split the title
-            let values: string[] = title.split('/');
+            const values: string[] = title.split('/');
 
             // Prepare the date and month
-            let date: string = values[2] + ' ' + getMonth(values[1].padStart(2, '0'), customLang);
+            const date: string = values[2] + ' ' + getMonth(values[1].padStart(2, '0'), customLang);
 
             // Add the date and month to the tooltip html
             tooltip_html += '<tr><th>' + date + '</th></tr>';
@@ -130,20 +130,20 @@ const fcChartJsTooltip = (context: any, customLang?: string): void => {
         tooltip_html += '</tbody>';
 
         // Get the tooltip parent
-        let tooltip_parent: HTMLElement | null = tooltip_element.querySelector('table');
+        const tooltip_parent: HTMLElement | null = tooltip_element.querySelector('table');
 
         // Add tooltip content to the parent
         tooltip_parent!.innerHTML = tooltip_html;
     }
 
     // Get the position of the chart
-    let chart_position: DOMRect = context.chart.canvas.getBoundingClientRect();
+    const chart_position: DOMRect = context.chart.canvas.getBoundingClientRect();
 
     // Set left position
     let left_position: number = chart_position.left + window.pageXOffset + tooltip_model.caretX;
 
     // Set tooltip with
-    let tooltip_width: number = tooltip_element.offsetWidth;
+    const tooltip_width: number = tooltip_element.offsetWidth;
 
     // Verify if left position is over screen
     if ( (left_position + tooltip_width) > window.innerWidth ) {
@@ -157,7 +157,7 @@ const fcChartJsTooltip = (context: any, customLang?: string): void => {
     let top_position: number = chart_position.top + window.pageYOffset + tooltip_model.caretY;
 
     // Set tooltip height
-    let tooltip_height: number = tooltip_element.offsetHeight;   
+    const tooltip_height: number = tooltip_element.offsetHeight;   
     
     // Verify if top position is over screen
     if ( (top_position + tooltip_height) > window.innerHeight ) {
@@ -181,10 +181,10 @@ const fcChartJsTooltip = (context: any, customLang?: string): void => {
 const ChartLine: React.FC<{data: Array<{[key: string]: string | number}>, datasets: string[]}> = ({data, datasets}): React.JSX.Element => {
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext); 
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext); 
 
     // Create reference for canvas
-    let chartRef = useRef<HTMLCanvasElement | null>(null);
+    const chartRef = useRef<HTMLCanvasElement | null>(null);
 
     // My chart container
     let myChart: Chart<"line", string[], string> | null = null;   
@@ -195,7 +195,7 @@ const ChartLine: React.FC<{data: Array<{[key: string]: string | number}>, datase
         return (): void => {
 
             // Get tooltip
-            let tooltip: HTMLElement | null = document.getElementById('fc-chart-js-tooltip');
+            const tooltip: HTMLElement | null = document.getElementById('fc-chart-js-tooltip');
 
             // Verify if tooltip exists
             if ( tooltip ) {
@@ -216,19 +216,19 @@ const ChartLine: React.FC<{data: Array<{[key: string]: string | number}>, datase
         if ( chartRef.current ) {
 
             // Labels container
-            let labels: string[] = [];
+            const labels: string[] = [];
 
             // Values container
-            let values: string[] = []; 
+            const values: string[] = []; 
 
             // Verify if data exists
             if ( data.length > 0 ) {
 
                 // List the data
-                for ( let value of data ) {
+                for ( const value of data ) {
 
                     // Prepare the value
-                    let readyValue = value as {key: string, count: string};
+                    const readyValue = value as {key: string, count: string};
 
                     // Set label
                     labels.push(readyValue.key);
@@ -241,13 +241,13 @@ const ChartLine: React.FC<{data: Array<{[key: string]: string | number}>, datase
             }
 
             // Datasets container
-            let datasetsList = [];
+            const datasetsList = [];
 
             // Check if datasets is not empty
             if ( datasets.length > 0 ) {
 
                 // List the datasets
-                for ( let dataset of datasets ) {
+                for ( const dataset of datasets ) {
 
                     // Add dataset
                     datasetsList.push({
@@ -268,7 +268,7 @@ const ChartLine: React.FC<{data: Array<{[key: string]: string | number}>, datase
             }
 
             // Set data
-            let chartData = {
+            const chartData = {
                 labels: labels,
                 datasets: datasetsList
             };
@@ -314,10 +314,10 @@ const ChartLine: React.FC<{data: Array<{[key: string]: string | number}>, datase
                                 callback: function (val: any) {
 
                                     // Split
-                                    let values: string[] = this.getLabelForValue(val).split('/');
+                                    const values: string[] = this.getLabelForValue(val).split('/');
 
                                     // Set date
-                                    let texts: string[] = [values[2]];
+                                    const texts: string[] = [values[2]];
 
                                     // Set month
                                     texts.push(getMonth(values[1].padStart(2, '0'), memberOptions['Language']));
@@ -368,10 +368,10 @@ const ChartLine: React.FC<{data: Array<{[key: string]: string | number}>, datase
     }, [data]);
 
     // Handle mouse leave from chart
-    let hideTooltip = (): void => {
+    const hideTooltip = (): void => {
 
         // Get tooltip
-        let tooltip: HTMLElement | null = document.getElementById('fc-chart-js-tooltip');
+        const tooltip: HTMLElement | null = document.getElementById('fc-chart-js-tooltip');
 
         // Verify if tooltip exists
         if ( tooltip ) {

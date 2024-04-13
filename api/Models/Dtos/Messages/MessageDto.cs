@@ -13,17 +13,13 @@
 // Namespace for Messages Dtos
 namespace FeChat.Models.Dtos.Messages {
 
-    // Use the data annotations for validation
+    // System Namespaces
     using System.ComponentModel.DataAnnotations;
-
-    // Use Web system for html sanitizing
+    using System.Text.Encodings.Web;
     using System.Web;
 
-    // Text Enconding for Javascript sanitizing
-    using System.Text.Encodings.Web;
-
-    // Use General utils for errors messages
-    using FeChat.Utils.General;
+    // App Namespaces
+    using Utils.General;
 
     /// <summary>
     /// Message Dto

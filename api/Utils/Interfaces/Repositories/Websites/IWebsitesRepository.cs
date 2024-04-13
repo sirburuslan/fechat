@@ -13,11 +13,9 @@
 // Namespace for Websites Repositories
 namespace FeChat.Utils.Interfaces.Repositories.Websites {
 
-    // Use Generals Dtos
-    using FeChat.Models.Dtos;
-
-    // Use Websites Dtos
-    using FeChat.Models.Dtos.Websites;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Websites;
 
     /// <summary>
     /// Interface for Websites Repository

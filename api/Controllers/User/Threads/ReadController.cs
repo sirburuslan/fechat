@@ -13,36 +13,20 @@
 // Namespace for User Threads Controllers
 namespace FeChat.Controllers.User.Threads {
 
-    // Use the MVC for the controller interface
-    using Microsoft.AspNetCore.Mvc;
-
-    // Use the authorization for access restriction
+    // System Namespaces
     using Microsoft.AspNetCore.Authorization;
-
-    // Use the Cors feature to control the access
     using Microsoft.AspNetCore.Cors;
-
-    // Use the Versioning to add version in url
+    using Microsoft.AspNetCore.Mvc;
     using Asp.Versioning;
 
-    // Use general dtos
-    using FeChat.Models.Dtos;
-
-    // Use dtos for members
-    using FeChat.Models.Dtos.Members;
-
-    // Use dtos for messages
-    using FeChat.Models.Dtos.Messages;
-
-    // Use interfaces for Members Repositories
-    using FeChat.Utils.Interfaces.Repositories.Members;
-
-    // Use interfaces for Messages Repositories
-    using FeChat.Utils.Interfaces.Repositories.Messages;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Members;
+    using Models.Dtos.Messages;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Members;
+    using Utils.Interfaces.Repositories.Messages;
     
-    // Use General utils for member role validation
-    using FeChat.Utils.General;
-
     /// <summary>
     /// Threads Read Controller
     /// </summary>
@@ -50,22 +34,6 @@ namespace FeChat.Controllers.User.Threads {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/user/threads")]
     public class ReadController: Controller {
-
-        /// <summary>
-        /// Container for app's configuration
-        /// </summary>
-        private readonly IConfiguration _configuration;
-
-        /// <summary>
-        /// Constructor for this controller
-        /// </summary>
-        /// <param name="configuration">App configuration</param>
-        public ReadController(IConfiguration configuration) {
-
-            // Add configuration to the container
-            _configuration = configuration;
-
-        }
 
         /// <summary>
         /// Get the threads list
@@ -79,17 +47,6 @@ namespace FeChat.Controllers.User.Threads {
         [HttpPost("list/{websiteId?}")]
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> List([FromBody] SearchDto searchDto, int? websiteId, Member memberInfo, IMessagesRepository messagesRepository) {
-
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
 
             // Get all threads
             ResponseDto<ElementsDto<ResponseThreadDto>> threadsList = await messagesRepository.GetThreadsAsync(searchDto, memberInfo.Info!.MemberId, websiteId);
@@ -278,17 +235,6 @@ namespace FeChat.Controllers.User.Threads {
         [HttpPost("{threadId}/messages")]
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> ThreadMessages([FromBody] SearchDto searchDto, int threadId, Member memberInfo, IMessagesRepository messagesRepository) {
-
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
 
             // Create parameters for messages request
             MessagesListDto messagesListDto = new() {

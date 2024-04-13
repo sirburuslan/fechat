@@ -31,10 +31,10 @@ import Image from 'next/image';
 import SecureStorage from 'react-secure-storage';
 
 // Import the incs
-import { getIcon, getWord, getOptions, getToken, updateOptions } from '@/core/inc/incIndex';
+import { getIcon, getWord, getOptions, updateOptions } from '@/core/inc/incIndex';
 
 // Import the types
-import { typeOptions, typeToken, typePostHeader } from '@/core/types/typesIndex';
+import { typeOptions, } from '@/core/types/typesIndex';
 
 // Import the options for website and member
 import {WebsiteOptionsContext, MemberOptionsContext} from '@/core/contexts/OptionsContext';
@@ -46,28 +46,28 @@ import useFormSignIn from '@/core/hooks/auth/signin/useFormSignIn';
 const Page = (): React.JSX.Element => {
 
     // Get the router
-    let router = useRouter();
+    const router = useRouter();
 
     // Website options
-    let {websiteOptions, setWebsiteOptions} = useContext(WebsiteOptionsContext); 
+    const {websiteOptions, setWebsiteOptions} = useContext(WebsiteOptionsContext); 
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
 
     // Define the fields values
-    let [values, setValues] = useState({
+    const [values, setValues] = useState({
         email: '',
         password: ''
     });
 
     // Message state
-    let message = useRef<HTMLDivElement>(null);
+    const message = useRef<HTMLDivElement>(null);
 
     // Monitor the values
-    let {email, password} = useFormSignIn(values);
+    const {email, password} = useFormSignIn(values);
 
     // Define the state of the password input
-    let [passwordInputType, setPasswordInputType] = useState('password');
+    const [passwordInputType, setPasswordInputType] = useState('password');
 
     // Check if document is defined
     if ( typeof document !== 'undefined' ) {
@@ -78,10 +78,10 @@ const Page = (): React.JSX.Element => {
     };
 
     // Get all options
-    let getOptionsAll = async (): Promise<void> => {
+    const getOptionsAll = async (): Promise<void> => {
 
         // Request the options
-        let optionsList: {success: boolean, options?: typeOptions} = await getOptions();
+        const optionsList: {success: boolean, options?: typeOptions} = await getOptions();
 
         // Update memberOptions
         updateOptions(optionsList, setWebsiteOptions, setMemberOptions);
@@ -89,10 +89,10 @@ const Page = (): React.JSX.Element => {
     }
 
     // Detect when the password input type should be changed
-    let handleChangePasswordInput: MouseEventHandler<HTMLButtonElement> = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+    const handleChangePasswordInput: MouseEventHandler<HTMLButtonElement> = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
 
         // Get target
-        let target = e.target as Element;
+        const target = e.target as Element;
 
         // Check if the password input has the text type
         if (passwordInputType === 'text') {
@@ -116,47 +116,29 @@ const Page = (): React.JSX.Element => {
     };
  
     // Handle form submit
-    let submitAuth = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+    const submitAuth = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
 
         // Reset alert
         message.current!.innerHTML = '';
 
         // Get target
-        let target = e.target as Element;
+        const target = e.target as Element;
 
         // Add the fc-auth-main-form-submit-active-btn class
         target.getElementsByClassName('fc-auth-main-form-submit-btn')[0].classList.add('fc-auth-main-form-submit-active-btn');
 
         try {
 
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Throw error message
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated'));
-
-            }
-
-            // Set the headers
-            let headers: typePostHeader = {
-                headers: {
-                    CsrfToken: csrfToken.token
-                }
-            };
-
             // Submit the request
             await axios.post(process.env.NEXT_PUBLIC_API_URL + 'api/v1/auth/signin', {
                 Email: values.email,
                 Password: values.password
-            }, headers)
+            })
             .then((response: AxiosResponse): void => {
 
                 // Get data
-                let data: {success?: boolean, message?: string, Email?: string, Password?: string} = response.data;
+                const data: {success?: boolean, message?: string, Email?: string, Password?: string} = response.data;
 
                 // Verify if the user has been logged in successfully
                 if ( data.success ) {
@@ -171,7 +153,7 @@ const Page = (): React.JSX.Element => {
                     getOptionsAll();
 
                     // Create success message
-                    let messageAlert: string = `<div class="flex items-center px-4 py-3 mb-4 fc-auth-main-form-alert-success" role="alert">
+                    const messageAlert: string = `<div class="flex items-center px-4 py-3 mb-4 fc-auth-main-form-alert-success" role="alert">
                         ${ getIcon('Iconinformation', {className: 'fc-auth-main-form-alert-success-icon'}) }
                         <p>${data.message}</p>
                     </div>`;
@@ -200,7 +182,7 @@ const Page = (): React.JSX.Element => {
                 } else if ( (!data.success && data.message) || data.Email || data.Password ) {
 
                     // Set message
-                    let messageError: string | undefined = data.message || data.Email || data.Password;
+                    const messageError: string | undefined = data.message || data.Email || data.Password;
 
                     // Verify if message is not undefined
                     if ( typeof messageError !== 'undefined' ) {
@@ -229,7 +211,7 @@ const Page = (): React.JSX.Element => {
             if ( error instanceof Error ) {
 
                 // Create error message
-                let messageAlert: string = `<div class="flex items-center px-4 py-3 fc-auth-main-form-alert-error" role="alert">
+                const messageAlert: string = `<div class="flex items-center px-4 py-3 fc-auth-main-form-alert-error" role="alert">
                     ${ getIcon('Iconexclamation', {className: 'fc-auth-main-form-alert-error-icon'}) }
                     <p>${error.message}</p>
                 </div>`;

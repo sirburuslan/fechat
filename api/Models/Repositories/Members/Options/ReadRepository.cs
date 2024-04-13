@@ -13,23 +13,15 @@
 // Namespace for Members Repositories model
 namespace FeChat.Models.Repositories.Members.Options {
     
-    // Use the Entity Framework for requests
+    // System Namespaces
     using Microsoft.EntityFrameworkCore;
-    
-    // Use Cache to store the quries
     using Microsoft.Extensions.Caching.Memory;
 
-    // Use the Dtos for response
-    using FeChat.Models.Dtos;
-
-    // Use Dtos for members
-    using FeChat.Models.Dtos.Members;
-    
-    // Use the configuration for Db instance
-    using FeChat.Utils.Configuration;
-
-    // Use General namespace for the strings
-    using FeChat.Utils.General;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Members;
+    using Utils.Configuration;
+    using Utils.General;
 
     /// <summary>
     /// Members Options Read Repository

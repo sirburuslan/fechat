@@ -21,10 +21,10 @@ import axios, { AxiosError, AxiosProgressEvent, AxiosResponse } from 'axios';
 import SecureStorage from 'react-secure-storage';
 
 // Import incs
-import { getIcon, getWord, getToken, showNotification } from '@/core/inc/incIndex';
+import { getIcon, getWord, showNotification } from '@/core/inc/incIndex';
 
 // Import types
-import { typeField, typeToken } from '@/core/types/typesIndex';
+import { typeField } from '@/core/types/typesIndex';
 
 // Import the options for website and member
 import { MemberOptionsContext } from '@/core/contexts/OptionsContext';
@@ -33,12 +33,12 @@ import { MemberOptionsContext } from '@/core/contexts/OptionsContext';
 const FieldImage = (params: typeField): React.JSX.Element => {
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext); 
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext); 
 
     /**
      * Change value handler
      */
-    let changeValue = (): void => {
+    const changeValue = (): void => {
 
         // Change the input value
         params.hook.fields[params.name] = (document.querySelector(".fc-settings-option #fc-settings-image-input-" + params.name.toLowerCase()) as HTMLInputElement).value;
@@ -56,16 +56,16 @@ const FieldImage = (params: typeField): React.JSX.Element => {
      * 
      * @param event e
      */
-    let uploadImage = async (e: React.ChangeEvent): Promise<void> => {
+    const uploadImage = async (e: React.ChangeEvent): Promise<void> => {
 
         // Set the bearer token
-        let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+        const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
         // Get the files
-        let files: FileList | null = (e.target as HTMLInputElement).files;
+        const files: FileList | null = (e.target as HTMLInputElement).files;
 
         // Create an instance for the form data
-        let form: FormData = new FormData();
+        const form: FormData = new FormData();
         
         // Set text input
         form.append('file', files![0]);   
@@ -73,25 +73,13 @@ const FieldImage = (params: typeField): React.JSX.Element => {
         try {
 
             // Select media
-            let mediaContainer: HTMLElement | null = e.currentTarget.closest('.fc-settings-media');
-
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-            }
+            const mediaContainer: HTMLElement | null = e.currentTarget.closest('.fc-settings-media');
 
             // Upload the image on the server
             await axios.post(process.env.NEXT_PUBLIC_API_URL + 'api/v1/admin/upload/image', form, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${token}`,
-                    CsrfToken: csrfToken.token
+                    Authorization: `Bearer ${token}`
                 },
                 onUploadProgress: (progressEvent: AxiosProgressEvent) => {
 
@@ -99,7 +87,7 @@ const FieldImage = (params: typeField): React.JSX.Element => {
                     if ( typeof progressEvent.total === 'number' ) {
 
                         // Calculate the progress percentage
-                        let progress: number = (progressEvent.loaded / progressEvent.total) * 100;
+                        const progress: number = (progressEvent.loaded / progressEvent.total) * 100;
 
                         // Set the progress percentage
                         mediaContainer!.style.cssText = `--width: ${progress.toFixed(2)}%`;

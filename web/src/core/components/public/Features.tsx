@@ -25,7 +25,7 @@ import { MemberOptionsContext } from '@/core/contexts/OptionsContext';
 const Features = (): React.JSX.Element => {
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
 
     return (
         <div className="fc-features">

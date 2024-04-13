@@ -13,14 +13,9 @@
 // Namespace for Messages namespace
 namespace FeChat.Utils.Interfaces.Repositories.Messages {
 
-    // Use general dtos for responses
-    using FeChat.Models.Dtos;
-
-    // use members dtos
-    using FeChat.Models.Dtos.Members;
-
-    // Use messages dtos
-    using FeChat.Models.Dtos.Messages;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Messages;
 
     /// <summary>
     /// Interface for Messages Repository

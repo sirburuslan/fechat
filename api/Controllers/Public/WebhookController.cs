@@ -13,29 +13,17 @@
 // Namespace for Public Controllers
 namespace FeChat.Controllers.Public {
 
-    // Use the Cors feature to control the access
+    // System Namespaces
     using Microsoft.AspNetCore.Cors;
-
-    // Use the MVC support for Controllers feature
     using Microsoft.AspNetCore.Mvc;
-
-    // Use the versioning support to add version in url
     using Asp.Versioning;
 
-    // Use the General Dtos
-    using FeChat.Models.Dtos;
-
-    // Use the Subscriptions Dtos
-    using FeChat.Models.Dtos.Subscriptions;
-
-    // Use the Dtos for Subscriptions
-    using FeChat.Models.Dtos.Transactions;
-
-    // Gets the Settings Repositories
-    using FeChat.Utils.Interfaces.Repositories.Settings;
-
-    // Use the Repositories for Subscriptions
-    using FeChat.Utils.Interfaces.Repositories.Subscriptions;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Subscriptions;
+    using Models.Dtos.Transactions;
+    using Utils.Interfaces.Repositories.Settings;
+    using Utils.Interfaces.Repositories.Subscriptions;
 
     /// <summary>
     /// Webhook Controller

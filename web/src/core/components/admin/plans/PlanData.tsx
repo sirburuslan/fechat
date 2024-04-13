@@ -20,10 +20,10 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import SecureStorage from 'react-secure-storage';
 
 // Import the incs
-import { getField, getCurrencies, getWord, getIcon, getToken, showNotification } from '@/core/inc/incIndex';
+import { getField, getCurrencies, getWord, getIcon, showNotification } from '@/core/inc/incIndex';
 
 // Import types
-import { typeToken, typePostHeader } from '@/core/types/typesIndex';
+import { typePostHeader } from '@/core/types/typesIndex';
 
 // Import the options for website and member
 import { MemberOptionsContext } from '@/core/contexts/OptionsContext';
@@ -32,7 +32,7 @@ import { MemberOptionsContext } from '@/core/contexts/OptionsContext';
 const PlanData: React.FC<{planId: string, fields: {[key: string]: string | number}, setFields: Dispatch<SetStateAction<any>>, features: string[]}> = ({planId, fields, setFields, features}) => {
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext); 
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext); 
     
     // Run some code for the client
     useEffect((): () => void => {
@@ -54,20 +54,20 @@ const PlanData: React.FC<{planId: string, fields: {[key: string]: string | numbe
      * 
      * @param Event e
      */
-    let trackClicks = (e: Event): void => {
+    const trackClicks = (e: Event): void => {
 
         // Get the target
-        let target = e.target;
+        const target = e.target;
         
         // Check if the click is inside dropdown
         if ( (target instanceof Element) && target.closest('.fc-option-dropdown') && (target.nodeName === 'A') ) {
             e.preventDefault();
             
             // Get the element's ID
-            let elementId: string | null = target.getAttribute('data-id');
+            const elementId: string | null = target.getAttribute('data-id');
 
             // Get the option
-            let option: string | null = target.closest('.fc-extra-option')!.getAttribute('data-option');
+            const option: string | null = target.closest('.fc-extra-option')!.getAttribute('data-option');
 
             // Verify if option is not null
             if ( option !== null ) {
@@ -89,36 +89,24 @@ const PlanData: React.FC<{planId: string, fields: {[key: string]: string | numbe
      * 
      * @param FormEvent e 
      */
-    let planUpdateBasic = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    const planUpdateBasic = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
 
         // Get the target
-        let target: Element = e.currentTarget;
+        const target: Element = e.currentTarget;
 
         // Add active class
         target.classList.add('fc-option-active-btn');
 
         try {
 
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-            }
-
             // Set the bearer token
-            let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+            const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
             // Prepare the headers
-            let headers: typePostHeader = {
+            const headers: typePostHeader = {
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                    CsrfToken: csrfToken.token
+                    Authorization: `Bearer ${token}`
                 }
             };
 
@@ -146,7 +134,7 @@ const PlanData: React.FC<{planId: string, fields: {[key: string]: string | numbe
                 } else {
 
                     // Keys container
-                    let keys: string[] = Object.keys(response.data);
+                    const keys: string[] = Object.keys(response.data);
 
                     // Run error notification
                     throw new Error(response.data[keys[0]][0]);                    
@@ -204,37 +192,25 @@ const PlanData: React.FC<{planId: string, fields: {[key: string]: string | numbe
      * 
      * @param FormEvent e 
      */
-    let planUpdateRestrictions = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    const planUpdateRestrictions = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
 
         // Get the target
-        let target: Element = e.currentTarget;
+        const target: Element = e.currentTarget;
 
         // Add active class
         target.classList.add('fc-option-active-btn');
 
         try {
 
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-            }
-
             // Set the bearer token
-            let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+            const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
             // Prepare the headers
-            let headers: typePostHeader = {
+            const headers: typePostHeader = {
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                    CsrfToken: csrfToken.token
+                    Authorization: `Bearer ${token}`
                 }
             };
 
@@ -261,7 +237,7 @@ const PlanData: React.FC<{planId: string, fields: {[key: string]: string | numbe
                 } else {
 
                     // Keys container
-                    let keys: string[] = Object.keys(response.data);
+                    const keys: string[] = Object.keys(response.data);
 
                     // Run error notification
                     throw new Error(response.data[keys[0]][0]);                    
@@ -319,37 +295,25 @@ const PlanData: React.FC<{planId: string, fields: {[key: string]: string | numbe
      * 
      * @param FormEvent e 
      */
-    let planUpdateFeatures = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    const planUpdateFeatures = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
 
         // Get the target
-        let target: Element = e.currentTarget;
+        const target: Element = e.currentTarget;
 
         // Add active class
         target.classList.add('fc-option-active-btn');
 
         try {
 
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-            }
-
             // Set the bearer token
-            let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+            const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
             // Prepare the headers
-            let headers: typePostHeader = {
+            const headers: typePostHeader = {
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                    CsrfToken: csrfToken.token
+                    Authorization: `Bearer ${token}`
                 }
             };
 
@@ -373,7 +337,7 @@ const PlanData: React.FC<{planId: string, fields: {[key: string]: string | numbe
                 } else {
 
                     // Keys container
-                    let keys: string[] = Object.keys(response.data);
+                    const keys: string[] = Object.keys(response.data);
 
                     // Run error notification
                     throw new Error(response.data[keys[0]][0]);                    

@@ -28,10 +28,10 @@ import '@/styles/auth/main.scss';
 const Layout = ({ children }: { children: React.ReactNode }): React.JSX.Element => {
 
     // Get the router
-    let router = useRouter();
+    const router = useRouter();
 
     // Get the current path name
-    let pathname: string = usePathname();
+    const pathname: string = usePathname();
 
     // Run the content after component load
     useEffect((): void => {

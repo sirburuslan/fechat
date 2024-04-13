@@ -13,7 +13,7 @@
 // Namespace for Plans Entities
 namespace FeChat.Models.Entities.Plans {
 
-    // Use the Adnnotations for attributes
+    // System Namespaces
     using System.ComponentModel.DataAnnotations; 
 
     /// <summary>

@@ -13,41 +13,21 @@
 // Namespace for the User Websites Controllers
 namespace FeChat.Controllers.User.Websites {
 
-    // Used Mvc to get the Controller feature
-    using Microsoft.AspNetCore.Mvc;
-
-    // Use the Authorization to restrict access for guests
+    // System Namespaces
     using Microsoft.AspNetCore.Authorization;
-
-    // Use the Cors feature to control the access
-    using Microsoft.AspNetCore.Cors;
-
-    // Use the Versioning to add version in url
+    using Microsoft.AspNetCore.Cors;    
+    using Microsoft.AspNetCore.Mvc;
     using Asp.Versioning;
 
-    // Use the General Utils classes for Strings
-    using FeChat.Utils.General;
-    
-    // Use General Dtos
-    using FeChat.Models.Dtos;
-
-    // Use Plans dtos
-    using FeChat.Models.Dtos.Plans;
-
-    // Use Subscriptions Dtos
-    using FeChat.Models.Dtos.Subscriptions;
-
-    // Use Websites Dtos
-    using FeChat.Models.Dtos.Websites;
-
-    // Use the Repositories for Plans
-    using FeChat.Utils.Interfaces.Repositories.Plans;
-
-    // Use Repositories for Subscriptions
-    using FeChat.Utils.Interfaces.Repositories.Subscriptions;
-
-    // Use the Repositories for Websites
-    using FeChat.Utils.Interfaces.Repositories.Websites;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Plans;
+    using Models.Dtos.Subscriptions;
+    using Models.Dtos.Websites;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Plans;
+    using Utils.Interfaces.Repositories.Subscriptions;
+    using Utils.Interfaces.Repositories.Websites;
 
     /// <summary>
     /// Plans Create Controller
@@ -56,22 +36,6 @@ namespace FeChat.Controllers.User.Websites {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/user/websites")]
     public class CreateController: Controller {
-
-        /// <summary>
-        /// Container for app's configuration
-        /// </summary>
-        private readonly IConfiguration _configuration;
-
-        /// <summary>
-        /// Constructor for this controller
-        /// </summary>
-        /// <param name="configuration">App configuration</param>
-        public CreateController(IConfiguration configuration) {
-
-            // Add configuration to the container
-            _configuration = configuration;
-
-        }
 
         /// <summary>
         /// Save a website
@@ -85,17 +49,6 @@ namespace FeChat.Controllers.User.Websites {
         [HttpPost]
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> CreateWebsite([FromBody] NewWebsiteDto websiteDto, Member memberInfo, ISubscriptionsRepository subscriptionsRepository, IPlansRepository plansRepository, IWebsitesRepository websitesRepository) {
-
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
 
             // Default websites limit number container
             int websitesLimit = 0;

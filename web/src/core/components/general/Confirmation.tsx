@@ -28,23 +28,23 @@ import { UiModal } from '@/core/components/general/ui/UiIndex';
 const Confirmation = (props: {confirmAction: (id: string) => void, children: ReactElement}): React.JSX.Element => {
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);  
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);  
 
     // Modal status
-    let [modalStatus, setModalStatus] = useState('');
+    const [modalStatus, setModalStatus] = useState('');
 
     // Confirmation button scope
-    let [buttonScope, setButtonScope] = useState('');
+    const [buttonScope, setButtonScope] = useState('');
 
     /**
      * Track any click
      * 
      * @param Event e
      */
-    let trackClicks = async (e: Event): Promise<void> => {
+    const trackClicks = async (e: Event): Promise<void> => {
 
         // Get the target
-        let target = e.target;
+        const target = e.target;
 
         // Check if is clicked the confirmation button
         if ( (target instanceof Element) && (target.classList !== undefined) && target.classList.contains('fc-confirmation-modal-button') ) {
@@ -66,7 +66,7 @@ const Confirmation = (props: {confirmAction: (id: string) => void, children: Rea
     };
 
     // Track the confirmation button click
-    let buttonClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    const buttonClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.preventDefault();
 
         // Verify if button has data id

@@ -13,11 +13,11 @@
 // Namespace for Validations
 namespace FeChat.Utils.Validations {
     
-    // Use the DataAnnotations to create a new validation
+    // System Namespaces
     using System.ComponentModel.DataAnnotations;
 
-    // Use the General namespace for strings
-    using FeChat.Utils.General;
+    // App Namespaces
+    using Utils.General;
 
     /// <summary>
     /// Create a custom Validation for urls

@@ -31,10 +31,10 @@ import { ChartLine } from '@/core/components/general/charts/ChartsIndex';
 const ChartLineWidget: React.FC<{threads: Array<{[key: string]: string | number}>, datasets: string[]}> = ({threads, datasets}): React.JSX.Element => {
 
     // Member options
-    let {memberOptions} = useContext(MemberOptionsContext);
+    const {memberOptions} = useContext(MemberOptionsContext);
 
     // Dropdown items
-    let dropdown_items: Array<{text: string, url: string, id: string}> = [{
+    const dropdown_items: Array<{text: string, url: string, id: string}> = [{
         text: getWord('admin', 'admin_30_days', memberOptions['Language']),
         url: '#',
         id: '1'
@@ -53,7 +53,7 @@ const ChartLineWidget: React.FC<{threads: Array<{[key: string]: string | number}
     }];
 
     // Create the function which will open or close dropdown
-    let openTimeDropdown = (e: React.MouseEvent<HTMLElement>): void => {
+    const openTimeDropdown = (e: React.MouseEvent<HTMLElement>): void => {
         e.preventDefault();
 
         // Verify if the dropdown is showed

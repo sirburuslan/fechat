@@ -13,17 +13,13 @@
 // Namespace for Binders Models
 namespace FeChat.Models.Binders {
     
-    // Use the Json classes for deserialization
+    // System Namespaces
     using Newtonsoft.Json;
-
-    // Use the Model Binding of Asp Net Core
     using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-    // Use the Plans Dtos
-    using FeChat.Models.Dtos.Plans;
-
-    // Use the General classes for Strings
-    using FeChat.Utils.General;
+    // App Namespaces
+    using Models.Dtos.Plans;
+    using Utils.General;
 
     /// <summary>
     /// Model Binder for RestrictionsDto

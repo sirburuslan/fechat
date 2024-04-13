@@ -7,13 +7,13 @@
  * @version 0.0.1
  * @updated 2024-03-15
  *
- * This class is used read the data from the jwt token and validates the anti-csrf tokens
+ * This class is used read the data from the jwt token
  */
 
 // The General namespace
 namespace FeChat.Utils.General {
 
-    // Use the Jwy for token reading
+    // System Namespaces
     using System.IdentityModel.Tokens.Jwt;
 
     /// <summary>

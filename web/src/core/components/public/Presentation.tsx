@@ -31,10 +31,10 @@ import { WebsiteOptionsContext, MemberOptionsContext } from '@/core/contexts/Opt
 const Presentation = (): React.JSX.Element => {
 
     // Website options
-    let {websiteOptions} = useContext(WebsiteOptionsContext);
+    const {websiteOptions} = useContext(WebsiteOptionsContext);
 
     // Member options
-    let {memberOptions} = useContext(MemberOptionsContext);
+    const {memberOptions} = useContext(MemberOptionsContext);
 
     return (
         <div className="fc-presentation">

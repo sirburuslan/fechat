@@ -13,20 +13,14 @@
 // Namespace for Subscriptions Transactions Repositories
 namespace FeChat.Models.Repositories.Subscriptions.Transactions {
 
-    // Use the Entity Framework Core to extend the Linq features
+    // System Namespaces
     using Microsoft.EntityFrameworkCore;
-
-    // Use Memory catching
     using Microsoft.Extensions.Caching.Memory;
 
-    // Use Transactions Entities
-    using FeChat.Models.Entities.Transactions;
-
-    // Use the Configuration Utils
-    using FeChat.Utils.Configuration;
-
-    // Import the General Utils for Cache class
-    using FeChat.Utils.General;
+    // App Namespaces
+    using Models.Entities.Transactions;
+    using Utils.Configuration;
+    using Utils.General;
 
     /// <summary>
     /// Transactions Delete Repository

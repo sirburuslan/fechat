@@ -13,23 +13,15 @@
 // Namespace for Subscriptions Repositories
 namespace FeChat.Models.Repositories.Subscriptions.Subscriptions {
 
-    // Use Memory catching
+    // System Namespaces
     using Microsoft.Extensions.Caching.Memory;
 
-    // Use General Dtos
-    using FeChat.Models.Dtos;
-
-    // Use Subscriptions Dtos
-    using FeChat.Models.Dtos.Subscriptions;
-
-    // Use Subscriptions Entities
-    using FeChat.Models.Entities.Subscriptions;
-
-    // Use General Utils to access the strings
-    using FeChat.Utils.General;
-
-    // Use the Configuration Utils
-    using FeChat.Utils.Configuration;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Subscriptions;
+    using Models.Entities.Subscriptions;
+    using Utils.Configuration;
+    using Utils.General;
 
     /// <summary>
     /// Subscriptions Update Repository

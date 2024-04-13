@@ -28,10 +28,7 @@ import axios, { AxiosError, AxiosProgressEvent, AxiosResponse } from 'axios';
 import SecureStorage from 'react-secure-storage';
 
 // Import the incs
-import { getIcon, getWord, getToken, getMonth, showNotification, unescapeRegexString } from '@/core/inc/incIndex';
-
-// Import types
-import { typeToken, typePostHeader } from '@/core/types/typesIndex';
+import { getIcon, getWord, getMonth, showNotification, unescapeRegexString } from '@/core/inc/incIndex';
 
 // Import the Person icon
 import IconPerson from '@/core/icons/collection/IconPerson.ts';
@@ -43,16 +40,16 @@ import '@/styles/chat/_main.scss';
 const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
 
     // Chat Disabled status
-    let [chatDisabled, disableChat] = useState(0);    
+    const [chatDisabled, disableChat] = useState(0);    
 
     // Show chat state
-    let [chat, showChat] = useState('');
+    const [chat, showChat] = useState('');
 
     // Hook for chat owner
-    let [chatOwner, updateChatOwner] = useState('');
+    const [chatOwner, updateChatOwner] = useState('');
 
     // Hook for chat header
-    let [chatHeader, updateChatHeader] = useState(<>
+    const [chatHeader, updateChatHeader] = useState(<>
         <span className="fc-member-picture-cover">
             {getIcon('IconPerson')}
         </span>
@@ -60,43 +57,43 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
     </>);
 
     // Hook for messages
-    let [htmlMessages, setHtmlMessages] = useState('');
+    const [htmlMessages, setHtmlMessages] = useState('');
 
     // Hook for new message
-    let [message, setMessage] = useState('');
+    const [message, setMessage] = useState('');
 
     // Set a hook for pagination parameters
-    let [pagination, setPagination] = useState({
+    const [pagination, setPagination] = useState({
         Page: 1
     });  
 
     // Init Chat fields
-    let [initChat, setInitChat] = useState({
+    const [initChat, setInitChat] = useState({
         name: '',
         email: '',
         message: ''
     });
 
     // Set a hook for errors value
-    let [errors, setErrors] = useState({});   
+    const [errors, setErrors] = useState({});   
     
     // Set a hook for chat start
-    let [startChat, setStartChat] = useState(1); 
+    const [startChat, setStartChat] = useState(1); 
 
     // Set a hook for message input
-    let [inputPause, updateInputPause] = useState(0);  
+    const [inputPause, updateInputPause] = useState(0);  
 
     // Messages ids container
-    let messagesIds = useRef<string[]>([]);
+    const messagesIds = useRef<string[]>([]);
 
     // Temporary dates container
-    let tempDates = useRef<{[key: string]: number}>({});
+    const tempDates = useRef<{[key: string]: number}>({});
 
     // Websocket container
-    let websocket = useRef<WebSocket>(); 
+    const websocket = useRef<WebSocket>(); 
     
     // Typing active container
-    let typingActive = useRef<NodeJS.Timeout>();
+    const typingActive = useRef<NodeJS.Timeout>();
 
     // Check if document is defined
     if ( typeof document !== 'undefined' ) {
@@ -120,7 +117,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
                     websocket.current.onopen = (event: Event): void => {
 
                         // Prepare the data to send
-                        let fields = {
+                        const fields = {
                             WebsiteId: params.slug,
                             ThreadSecret: SecureStorage.getItem('fc_website_thread_secret_' + params.slug)
                         };
@@ -134,13 +131,13 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
                     websocket.current.onmessage = (event: MessageEvent<any>): void => {
 
                         // Decode the event data
-                        let eventData = JSON.parse(event.data);
+                        const eventData = JSON.parse(event.data);
 
                         // Check if unseen messages exists
                         if ( typeof eventData.unseen !== 'undefined' ) {
 
                             // Select the chat body
-                            let chatBody: HTMLCollectionOf<Element> = document.getElementsByClassName('fc-chat-body');
+                            const chatBody: HTMLCollectionOf<Element> = document.getElementsByClassName('fc-chat-body');
 
                             // Check if chat body exists
                             if ( (chatBody.length > 0) && (chatBody[0] instanceof HTMLElement) ) {
@@ -216,7 +213,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
      * @param funcion fun contains the function
      * @param integer interval contains time
      */
-    let scheduleAnimation = ($fun: () => void, interval: number): void => {
+    const scheduleAnimation = ($fun: () => void, interval: number): void => {
 
         // Verify if an event was already scheduled
         if (typingActive.current) {
@@ -232,22 +229,12 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
     };
 
     // Get the website's information
-    let websiteInfo = async (): Promise<void> => {
+    const websiteInfo = async (): Promise<void> => {
 
-        try {
-
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Set the headers
-            let headers: typePostHeader = {
-                headers: {
-                    CsrfToken: csrfToken.token
-                }
-            };            
+        try {         
 
             // Request the fields value
-            await axios.get(process.env.NEXT_PUBLIC_API_URL + 'api/v1/websites/' + params.slug, headers)
+            await axios.get(process.env.NEXT_PUBLIC_API_URL + 'api/v1/websites/' + params.slug)
 
             // Process the response
             .then((response: AxiosResponse) => {
@@ -259,7 +246,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
                     window.parent.postMessage({domain: response.data.website.Domain}, '*');
 
                     // User's photo
-                    let userPhoto = IconPerson();
+                    const userPhoto = IconPerson();
 
                     // Update the chat owner data
                     updateChatOwner((response.data.website.ProfilePhoto !== '')?`<img src="${response.data.website.ProfilePhoto}" alt="User Photo" onError="this.src='${process.env.NEXT_PUBLIC_SITE_URL}assets/img/cover.png';" />`:userPhoto);
@@ -268,7 +255,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
                     updateChatHeader(
                         <>
                             {(response.data.website.ProfilePhoto !== '')?(
-                                <Image src={response.data.website.ProfilePhoto as string} alt="Member Photo" className="h-10 w-10 rounded-full" onError={(e: SyntheticEvent<HTMLImageElement, Event>): void => {e.currentTarget.src = '/assets/img/cover.png'}} />
+                                <Image src={response.data.website.ProfilePhoto as string} alt="Member Photo" width={36} height={36} className="h-10 w-10 rounded-full" onError={(e: SyntheticEvent<HTMLImageElement, Event>): void => {e.currentTarget.src = '/assets/img/cover.png'}} />
                             ):(
                                 <span className="fc-member-picture-cover">
                                     {getIcon('IconPerson')}
@@ -320,37 +307,19 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
     };
 
     // Get the messages from the database
-    let getMessages = async (): Promise<void> => {
+    const getMessages = async (): Promise<void> => {
 
         try {
 
             // Initial chat height
             let initChatHeight = 0;
 
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated'));
-
-            }
-
-            // Set the headers
-            let headers: typePostHeader = {
-                headers: {
-                    CsrfToken: csrfToken.token
-                }
-            };
-
             // Request the fields value
             await axios.post(process.env.NEXT_PUBLIC_API_URL + 'api/v1/messages/list', {
                 WebsiteId: params.slug,
                 ThreadSecret: SecureStorage.getItem('fc_website_thread_secret_' + params.slug),
                 Page: pagination.Page
-            }, headers)
+            })
 
             // Process the response
             .then((response: AxiosResponse) => {
@@ -359,25 +328,25 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
                 if ( response.data.success ) {
 
                     // Reverse the messages
-                    let elements = response.data.result.elements.reverse();
+                    const elements = response.data.result.elements.reverse();
 
                     // Verify if temporary dates missing
                     if ( Object.keys(tempDates.current).length > 0 ) {
 
                         // Parse data
-                        let created = new Date(elements[0].created * 1000);
+                        const created = new Date(elements[0].created * 1000);
 
                         // Extrate the date
-                        let date: string = created.getDate().toString().padStart(2, '0');
+                        const date: string = created.getDate().toString().padStart(2, '0');
 
                         // Extrate the month
-                        let month: string = (created.getMonth() + 1).toString().padStart(2, '0');   
+                        const month: string = (created.getMonth() + 1).toString().padStart(2, '0');   
                         
                         // Extrate the year
-                        let year: string = created.getFullYear().toString();   
+                        const year: string = created.getFullYear().toString();   
                         
                         // Select the added date in the chat
-                        let dateHeader = document.querySelector('.fc-date[data-date="' + date + '-' + month + '-' + year + '"]');
+                        const dateHeader = document.querySelector('.fc-date[data-date="' + date + '-' + month + '-' + year + '"]');
                         
                         // Verify if date exists already
                         if ( dateHeader ) {
@@ -399,7 +368,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
                     let messagesList: string = '';
 
                     // List the messages
-                    for ( let element of elements ) {
+                    for ( const element of elements ) {
 
                         // Verify if the message is already displayed
                         if ( messagesIds.current.includes(element.messageId) ) {
@@ -407,16 +376,16 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
                         }
 
                         // Parse data
-                        let created = new Date(element.created * 1000);
+                        const created = new Date(element.created * 1000);
 
                         // Extrate the date
-                        let date: string = created.getDate().toString().padStart(2, '0');
+                        const date: string = created.getDate().toString().padStart(2, '0');
 
                         // Extrate the month
-                        let month: string = (created.getMonth() + 1).toString().padStart(2, '0');   
+                        const month: string = (created.getMonth() + 1).toString().padStart(2, '0');   
                         
                         // Extrate the year
-                        let year: string = created.getFullYear().toString();
+                        const year: string = created.getFullYear().toString();
 
                         // Message date container
                         let messageDate: string = '';
@@ -449,7 +418,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
                         } else if ( element.attachments.length > 0 ) {
 
                             // List attached files
-                            for ( let attachment of element.attachments ) {
+                            for ( const attachment of element.attachments ) {
 
                                 // Append image
                                 content += `<a href="${attachment}" target="_blank">
@@ -518,7 +487,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
                     }
 
                     // Select the chat body
-                    let chatBody: Element = document.getElementsByClassName('fc-chat-body')[0];
+                    const chatBody: Element = document.getElementsByClassName('fc-chat-body')[0];
 
                     // Check if the div is scrolled up to the bottom
                     if ( (((chatBody as HTMLElement).offsetHeight + chatBody.scrollTop) >= chatBody.scrollHeight) || (chatBody.scrollHeight < 200) ) {
@@ -527,7 +496,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
                         setTimeout((): void => {
 
                             // Select the chat body
-                            let chatBody: Element = document.getElementsByClassName('fc-chat-body')[0];
+                            const chatBody: Element = document.getElementsByClassName('fc-chat-body')[0];
 
                             // Scroll the messages to the bottom
                             chatBody.scrollTop = chatBody.scrollHeight;
@@ -540,7 +509,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
                         setTimeout((): void => {
 
                             // Select the chat body
-                            let chatBody: Element = document.getElementsByClassName('fc-chat-body')[0];
+                            const chatBody: Element = document.getElementsByClassName('fc-chat-body')[0];
 
                             // Scroll the messages to the bottom
                             chatBody.scrollTop = chatBody.scrollHeight - initChatHeight - 44;
@@ -633,7 +602,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
      * 
      * @param Event e 
      */
-    let handleChange: React.FormEventHandler<HTMLTextAreaElement> = async (e): Promise<void> => {
+    const handleChange: React.FormEventHandler<HTMLTextAreaElement> = async (e): Promise<void> => {
 
         // Update the message value
         setMessage(e.currentTarget.value);
@@ -641,31 +610,13 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
         // Verify if inputPause is less than 3 seconds
         if ( Date.now()/1000 > inputPause ) {
 
-            try {
-
-                // Generate a new csrf token
-                let csrfToken: typeToken = await getToken();
-
-                // Check if csrf token is missing
-                if ( !csrfToken.success ) {
-
-                    // Show error notification
-                    throw new Error(getWord('errors', 'error_csrf_token_not_generated'));
-
-                }
-
-                // Set the headers
-                let headers: typePostHeader = {
-                    headers: {
-                        CsrfToken: csrfToken.token
-                    }
-                };   
+            try { 
                 
                 // Prepare the thread secret
-                let threadSecret: string = SecureStorage.getItem('fc_website_thread_secret_' + params.slug)?SecureStorage.getItem('fc_website_thread_secret_' + params.slug)!.toString():''; 
+                const threadSecret: string = SecureStorage.getItem('fc_website_thread_secret_' + params.slug)?SecureStorage.getItem('fc_website_thread_secret_' + params.slug)!.toString():''; 
 
                 // Request the messages
-                await axios.post(process.env.NEXT_PUBLIC_API_URL + 'api/v1/threads/' + params.slug + '/' + threadSecret + '/typing', null, headers)
+                await axios.post(process.env.NEXT_PUBLIC_API_URL + 'api/v1/threads/' + params.slug + '/' + threadSecret + '/typing', null)
 
                 // Process the response
                 .then((response: AxiosResponse) => {
@@ -706,17 +657,17 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
      * 
      * @param Event e
      */
-    let trackClicks = async (e: Event): Promise<void> => {
+    const trackClicks = async (e: Event): Promise<void> => {
 
         // Get the target
-        let target = e.target;
+        const target = e.target;
 
         // Check if the click is inside dropdown
         if ( (target instanceof Element) && target.classList && target.classList.contains('fc-chat-unseen-messages') ) {
             e.preventDefault();
 
             // Select the chat body
-            let chatBody: Element = document.getElementsByClassName('fc-chat-body')[0];
+            const chatBody: Element = document.getElementsByClassName('fc-chat-body')[0];
 
             // Scroll the messages to the bottom
             chatBody.scrollTop = chatBody.scrollHeight;
@@ -728,7 +679,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
             e.preventDefault();
 
             // Get the page
-            let page: string | null = target.getAttribute('data-page');
+            const page: string | null = target.getAttribute('data-page');
 
             // Set pagination's page
             pagination.Page = parseInt(page!);
@@ -748,7 +699,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
      * 
      * @param Event e 
      */
-    let openChat = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    const openChat = (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.preventDefault();
 
         // Sent message to the parent
@@ -783,7 +734,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
             setTimeout((): void => {
 
                 // Select the chat body
-                let chatBody: Element = document.getElementsByClassName('fc-chat-body')[0];
+                const chatBody: Element = document.getElementsByClassName('fc-chat-body')[0];
 
                 // Scroll the messages to the bottom
                 chatBody.scrollTop = chatBody.scrollHeight;
@@ -799,7 +750,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
      * 
      * @param Event e 
      */
-    let hideChat: MouseEventHandler<HTMLAnchorElement> = (e): void => {
+    const hideChat: MouseEventHandler<HTMLAnchorElement> = (e): void => {
         e.preventDefault();
 
         // Sent message to the parent
@@ -820,31 +771,13 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
      * 
      * @param Event e 
      */
-    let initChatSubmit: React.FormEventHandler = async (e): Promise<void> => {
+    const initChatSubmit: React.FormEventHandler = async (e): Promise<void> => {
         e.preventDefault();
         
         // Reset the errors messages
         setErrors({});
 
-        try {
-
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated'));
-
-            }
-
-            // Set the headers
-            let headers: typePostHeader = {
-                headers: {
-                    CsrfToken: csrfToken.token
-                }
-            };  
+        try {  
 
             // Request the fields value
             await axios.post(process.env.NEXT_PUBLIC_API_URL + 'api/v1/threads', {
@@ -852,7 +785,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
                 Name: initChat.name,
                 Email: initChat.email,
                 Message: initChat.message
-            }, headers)
+            })
 
             // Process the response
             .then((response: AxiosResponse) => {
@@ -885,16 +818,16 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
                 } else {
 
                     // Keys container
-                    let keys: string[] = Object.keys(response.data);
+                    const keys: string[] = Object.keys(response.data);
 
                     // Count the keys
-                    let keysTotal: number = keys.length;
+                    const keysTotal: number = keys.length;
 
                     // Check if keys exists
                     if ( keysTotal > 0 ) {
 
                         // Errors container
-                        let errorsHolder: {[key: string]: string} = {};
+                        const errorsHolder: {[key: string]: string} = {};
 
                         // List the keys
                         for ( let e = 0; e < keysTotal; e++ ) {
@@ -948,10 +881,10 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
      * 
      * @param Event e
      */
-    let uploadImages = async (e: React.ChangeEvent): Promise<void> => {
+    const uploadImages = async (e: React.ChangeEvent): Promise<void> => {
 
         // Select progress bar
-        let progressBar = e.currentTarget.closest('.fc-chat-footer')!.getElementsByClassName('fc-progress-bar')[0] as HTMLElement;
+        const progressBar = e.currentTarget.closest('.fc-chat-footer')!.getElementsByClassName('fc-progress-bar')[0] as HTMLElement;
         
         // Show progress box
         progressBar.closest('.fc-chat-uploading-attachments')!.classList.add('fc-chat-uploading-attachments-show');
@@ -967,13 +900,13 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
             }
 
             // Get the files
-            let files: FileList | null = (e.target as HTMLInputElement).files;
+            const files: FileList | null = (e.target as HTMLInputElement).files;
 
             // Create an instance for the form data
-            let form: FormData = new FormData();
+            const form: FormData = new FormData();
 
             // List the files
-            for ( let file of files! ) {
+            for ( const file of files! ) {
 
                 // Append the file
                 form.append('files', file); 
@@ -981,24 +914,12 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
             }
 
             // Prepare the thread secret
-            let threadSecret: string = SecureStorage.getItem('fc_website_thread_secret_' + params.slug)?SecureStorage.getItem('fc_website_thread_secret_' + params.slug)!.toString():'';       
-
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated'));
-
-            }
+            const threadSecret: string = SecureStorage.getItem('fc_website_thread_secret_' + params.slug)?SecureStorage.getItem('fc_website_thread_secret_' + params.slug)!.toString():'';       
 
             // Upload the images on the server
             await axios.post(process.env.NEXT_PUBLIC_API_URL + 'api/v1/messages/attachments/' + params.slug + '/' + threadSecret, form, {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
-                    CsrfToken: csrfToken.token
+                    'Content-Type': 'multipart/form-data'
                 },
                 onUploadProgress: (progressEvent: AxiosProgressEvent) => {
 
@@ -1006,7 +927,7 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
                     if ( typeof progressEvent.total === 'number' ) {
 
                         // Calculate the progress percentage
-                        let progress: number = (progressEvent.loaded / progressEvent.total) * 100;
+                        const progress: number = (progressEvent.loaded / progressEvent.total) * 100;
 
                         // Set the progress percentage
                         progressBar!.style.width = `${progress.toFixed(2)}%`;
@@ -1105,35 +1026,17 @@ const Page = ({params}: {params: {slug: string}}): React.JSX.Element => {
      * 
      * @param Event e 
      */
-    let newMessageSubmit: React.FormEventHandler = async (e): Promise<void> => {
+    const newMessageSubmit: React.FormEventHandler = async (e): Promise<void> => {
         e.preventDefault();
 
-        try {
-
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated'));
-
-            }
-
-            // Set the headers
-            let headers: typePostHeader = {
-                headers: {
-                    CsrfToken: csrfToken.token
-                }
-            };  
+        try {  
 
             // Request the fields value
             await axios.post(process.env.NEXT_PUBLIC_API_URL + 'api/v1/messages', {
                 WebsiteId: params.slug,
                 ThreadSecret: SecureStorage.getItem('fc_website_thread_secret_' + params.slug),
                 Message: message
-            }, headers)
+            })
 
             // Process the response
             .then((response: AxiosResponse) => {

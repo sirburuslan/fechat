@@ -8,7 +8,7 @@
 const IconFeature = (params: {[key: string]: string | number}): React.JSX.Element => {
 
     // Create the icon class
-    let icon_class: string = params?.className?params.className as string + ' bi bi-tag-fill':'bi bi-tag-fill';
+    const icon_class: string = params?.className?params.className as string + ' bi bi-tag-fill':'bi bi-tag-fill';
 
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className={icon_class} viewBox="0 0 16 16">

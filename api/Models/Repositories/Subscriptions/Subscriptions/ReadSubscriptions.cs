@@ -13,23 +13,15 @@
 // Namespace for Subscriptions Repositories
 namespace FeChat.Models.Repositories.Subscriptions.Subscriptions {
 
-    // Use Entity Framework Core to extend Linq features
+    // System Namespaces
     using Microsoft.EntityFrameworkCore;
-
-    // Use Memory catching
     using Microsoft.Extensions.Caching.Memory;
 
-    // Use General Dtos
-    using FeChat.Models.Dtos;
-
-    // Use Subscriptions Dtos
-    using FeChat.Models.Dtos.Subscriptions;
-
-    // Use General Utils to access the strings
-    using FeChat.Utils.General;
-
-    // Use the Configuration Utils
-    using FeChat.Utils.Configuration;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Subscriptions;
+    using Utils.General;
+    using Utils.Configuration;
 
     /// <summary>
     /// Subscriptions Read Repository

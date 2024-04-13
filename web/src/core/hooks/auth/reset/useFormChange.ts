@@ -24,13 +24,13 @@ const useFormChange = (values: {
 } => {
 
     // Current time
-    let ctime: number = Date.now();
+    const ctime: number = Date.now();
 
     // Set a counter
-    let [count, setCount] = useState(0);
+    const [count, setCount] = useState(0);
 
     // Process the response
-    let [response, setData] = useState({password: '', repeatPassword: ''});
+    const [response, setData] = useState({password: '', repeatPassword: ''});
 
     // Register useEffect hook for monitoring the count changes
     useEffect((): void => {

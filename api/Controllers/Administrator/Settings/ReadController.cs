@@ -13,38 +13,20 @@
 // Namespace fot Administrator Settings Controllers
 namespace FeChat.Controllers.Administrator.Settings {
 
-    // Use the Generic NET classes for dictionary
+    // System Namespaces
     using System.Collections.Generic;
-    
-    // Use the Dynamic classes
     using System.Dynamic;
-
-    // Use the Mvc to get the controller
-    using Microsoft.AspNetCore.Mvc;
-
-    // Use the Authentication feature to get the access token
     using Microsoft.AspNetCore.Authentication;
-
-    // Use Cors libraries
-    using Microsoft.AspNetCore.Cors;
-
-    // Use the Versioning library
+    using Microsoft.AspNetCore.Cors;    
+    using Microsoft.AspNetCore.Mvc;
     using Asp.Versioning;
 
-    // Use General Dtos
-    using FeChat.Models.Dtos;
-
-    // Use the Dtos for members
-    using FeChat.Models.Dtos.Members;
-
-    // Use General Utils
-    using FeChat.Utils.General;  
-    
-    // Use the Settings interfaces
-    using FeChat.Utils.Interfaces.Repositories.Settings;
-    
-    // Use the Members repository
-    using FeChat.Utils.Interfaces.Repositories.Members;
+    // App Namespaces
+    using Models.Dtos;
+    using Models.Dtos.Members;
+    using Utils.General;
+    using Utils.Interfaces.Repositories.Settings;
+    using Utils.Interfaces.Repositories.Members;
 
     /// <summary>
     /// Plans Read Controller
@@ -58,22 +40,13 @@ namespace FeChat.Controllers.Administrator.Settings {
         ISettingsRepository _settingsRepository;
 
         /// <summary>
-        /// Container for app's configuration
-        /// </summary>
-        private readonly IConfiguration _configuration;
-
-        /// <summary>
         /// Settings controller constructor
         /// </summary>
         /// <param name="settingsRepository">An instance for the settings repository</param>
-        /// <param name="configuration">App configuration</param>
-        public ReadController(ISettingsRepository settingsRepository, IConfiguration configuration) {
+        public ReadController(ISettingsRepository settingsRepository) {
 
             // Set injected settings repository
             _settingsRepository = settingsRepository;
-
-            // Add configuration to the container
-            _configuration = configuration;
 
         }
 
@@ -215,22 +188,10 @@ namespace FeChat.Controllers.Administrator.Settings {
         /// <summary>
         /// Get the list with options
         /// </summary>
-        /// <param name="membersRepository">Contains an instance to the Members repository</param>
         /// <returns>Requested options</returns>
         [HttpPost("list")]
         [EnableCors("AllowOrigin")]
-        public async Task<IActionResult> AllOptions(IMembersRepository membersRepository) {
-
-            // Verify if antiforgery is valid
-            if ( await new Antiforgery(HttpContext, _configuration).Validate() == false ) {
-
-                // Return error response
-                return new JsonResult(new {
-                    success = false,
-                    message = new Strings().Get("InvalidCsrfToken")
-                });
-
-            }
+        public async Task<IActionResult> AllOptions() {
 
             // Get the options saved in the database
             ResponseDto<List<Models.Dtos.Settings.OptionDto>> savedOptions = await _settingsRepository.OptionsListAsync();

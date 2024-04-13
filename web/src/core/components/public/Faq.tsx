@@ -28,14 +28,14 @@ import { MemberOptionsContext } from '@/core/contexts/OptionsContext';
 const Faq = (): React.JSX.Element => {
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);
 
     /**
      * Show or hide an answer
      * 
      * @param Event e 
      */
-    let showHideAnswer = (e: React.MouseEvent): void => {
+    const showHideAnswer = (e: React.MouseEvent): void => {
         e.preventDefault();
 
         // Verify if answer is showed

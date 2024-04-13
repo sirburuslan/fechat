@@ -22,15 +22,15 @@ import { typeField } from '@/core/types/typesIndex';
 const FieldPassword = (params: typeField): React.JSX.Element => {
 
     // Define the state of the password input
-    let [passwordInputType, setPasswordInputType] = useState('password');
+    const [passwordInputType, setPasswordInputType] = useState('password');
 
     // Generate unique id
-    let uniqueId: string = "fc-settings-password-input-" + params.name;
+    const uniqueId: string = "fc-settings-password-input-" + params.name;
 
     /**
      * Change value handler
      */
-    let changeValue = (): void => {
+    const changeValue = (): void => {
 
         // Change the input value
         params.hook.fields[params.name] = (document.querySelector(".fc-option-password #" + uniqueId) as HTMLInputElement).value;
@@ -41,10 +41,10 @@ const FieldPassword = (params: typeField): React.JSX.Element => {
     };
 
     // Detect when the password input type should be changed
-    let handleChangePasswordInput: MouseEventHandler<HTMLButtonElement> = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+    const handleChangePasswordInput: MouseEventHandler<HTMLButtonElement> = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
 
         // Get target
-        let target = e.target as Element;
+        const target = e.target as Element;
 
         // Check if the password input has the text type
         if (passwordInputType === 'text') {

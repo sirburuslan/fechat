@@ -13,7 +13,7 @@
 'use client';
 
 // Import the React's features
-import { MouseEventHandler, useEffect, useContext, SyntheticEvent } from 'react';
+import { MouseEventHandler, useContext, SyntheticEvent } from 'react';
 
 // Import the Next JS Link component
 import Link from 'next/link';
@@ -31,7 +31,7 @@ import axios, { AxiosResponse, AxiosError } from 'axios';
 import SecureStorage from 'react-secure-storage';
 
 // Import the incs
-import { getIcon, getWord, getToken, showNotification } from '@/core/inc/incIndex';
+import { getIcon, getWord, showNotification } from '@/core/inc/incIndex';
 
 // Import the options for website and member
 import {WebsiteOptionsContext, MemberOptionsContext} from '@/core/contexts/OptionsContext';
@@ -40,22 +40,22 @@ import {WebsiteOptionsContext, MemberOptionsContext} from '@/core/contexts/Optio
 import { UiDropdown } from '@/core/components/general/ui/UiIndex';
 
 // Import the types
-import { typePostHeader, typeToken } from '@/core/types/typesIndex';
+import { typePostHeader } from '@/core/types/typesIndex';
 
 // Create the sidebar layout
 const SidebarLayout = (): React.JSX.Element => {
 
     // Website options
-    let {websiteOptions} = useContext(WebsiteOptionsContext); 
+    const {websiteOptions} = useContext(WebsiteOptionsContext); 
 
     // Member options
-    let {memberOptions} = useContext(MemberOptionsContext);  
+    const {memberOptions} = useContext(MemberOptionsContext);  
 
     // Get the current path name
-    let pathname: string = usePathname();
+    const pathname: string = usePathname();
 
     // Dropdown items
-    let dropdownitems: Array<{text: string, url: string}> = [{
+    const dropdownitems: Array<{text: string, url: string}> = [{
         text: getWord('admin', 'admin_settings', memberOptions['Language']),
         url: '/admin/settings'
     }, {
@@ -68,36 +68,24 @@ const SidebarLayout = (): React.JSX.Element => {
      * 
      * @param number sidebarStatus
      */
-    let changeSidebarStatus = async (sidebarStatus: number): Promise<void> => {
+    const changeSidebarStatus = async (sidebarStatus: number): Promise<void> => {
 
         try {
 
             // Set the bearer token
-            let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
-
-            // Generate a new csrf token
-            let csrfToken: typeToken = await getToken();
-
-            // Check if csrf token is missing
-            if ( !csrfToken.success ) {
-
-                // Show error notification
-                throw new Error(getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language']));
-
-            }
+            const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
             // Set the post's fields
-            let fields: {
+            const fields: {
                 [key: string]: string | number | null
             } = {
                 sidebarStatus: sidebarStatus
             };
 
             // Set the headers
-            let headers: typePostHeader = {
+            const headers: typePostHeader = {
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                    CsrfToken: csrfToken.token
+                    Authorization: `Bearer ${token}`
                 }
             };
 
@@ -150,10 +138,10 @@ const SidebarLayout = (): React.JSX.Element => {
     }
 
     // Minimize or maximize sidebar
-    let MinimizeMaximizeSidebar: (e: React.MouseEvent<HTMLButtonElement>) => void = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    const MinimizeMaximizeSidebar: (e: React.MouseEvent<HTMLButtonElement>) => void = (e: React.MouseEvent<HTMLButtonElement>): void => {
 
         // Get the target
-        let target = e.target as HTMLElement;
+        const target = e.target as HTMLElement;
 
         // Verify if the sidebar is minimized
         if ( target.closest('.fc-dashboard-sidebar')!.classList.contains('fc-minimized-sidebar') ) {
@@ -195,7 +183,7 @@ const SidebarLayout = (): React.JSX.Element => {
     }
 
     // Create the function which will open or close dropdown
-    let openProfileDropdown: MouseEventHandler = (e: React.MouseEvent<HTMLElement>): void => {
+    const openProfileDropdown: MouseEventHandler = (e: React.MouseEvent<HTMLElement>): void => {
         e.preventDefault();
 
         // Verify if the dropdown is showed
@@ -205,7 +193,7 @@ const SidebarLayout = (): React.JSX.Element => {
             document.getElementById('fc-member-profile-menu')!.setAttribute('data-expand', 'true');
 
             // Get menu
-            let menu: Element = document.getElementById('fc-member-profile-menu')!.getElementsByClassName('fc-dropdown-menu')[0];
+            const menu: Element = document.getElementById('fc-member-profile-menu')!.getElementsByClassName('fc-dropdown-menu')[0];
 
             // Remove the position absolute from the menu
             (menu as HTMLElement).style.cssText = `position:fixed;top:inherit;`;

@@ -19,10 +19,10 @@
 const showNotification = (type: string, message: string): void => {
 
     // Status status class
-    let bgColor = (type === 'success')?'fc-popup-notification-success':'fc-popup-notification-error';
+    const bgColor = (type === 'success')?'fc-popup-notification-success':'fc-popup-notification-error';
 
     // Create the popup
-    let popup: string = '<div class="fc-popup-notification ' + bgColor + '">'
+    const popup: string = '<div class="fc-popup-notification ' + bgColor + '">'
         + message
     + '</div>'
     

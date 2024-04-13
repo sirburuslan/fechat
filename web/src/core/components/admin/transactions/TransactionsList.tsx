@@ -29,10 +29,10 @@ import { useQuery } from 'react-query';
 import SecureStorage from 'react-secure-storage';
 
 // Imoport the incs
-import { getIcon, getWord, getToken, calculateTime, unescapeRegexString } from '@/core/inc/incIndex';
+import { getIcon, getWord, calculateTime, unescapeRegexString } from '@/core/inc/incIndex';
 
 // Import the types
-import { typeToken, typePostHeader } from '@/core/types/typesIndex';
+import { typePostHeader } from '@/core/types/typesIndex';
 
 // Import the options for website and member
 import { MemberOptionsContext } from '@/core/contexts/OptionsContext';
@@ -44,16 +44,16 @@ import { UiNavigation } from '@/core/components/general/ui/UiIndex';
 const TransactionsList = (props: {plan?: string}) => {
 
     // Member options
-    let {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);  
+    const {memberOptions, setMemberOptions} = useContext(MemberOptionsContext);  
 
     // Set a hook for search parameters
-    let [search, setSearch] = useState({
+    const [search, setSearch] = useState({
         Search: '',
         Page: 1
     });   
     
     // Set a hook for navigation
-    let [navigation, setNavigation] = useState({
+    const [navigation, setNavigation] = useState({
         scope: 'transactions',
         page: 0,
         total: 0,
@@ -61,44 +61,29 @@ const TransactionsList = (props: {plan?: string}) => {
     });
 
     // Transactions list holder
-    let [transactions, setTransactions] = useState<React.ReactNode | null>(null);
+    const [transactions, setTransactions] = useState<React.ReactNode | null>(null);
 
     // Hook to fetch data with useQuery
-    let [fetchedData, setFetchedData] = useState(false);
+    const [fetchedData, setFetchedData] = useState(false);
 
     // Create the request for transactions
-    let transactionsListRequest = async (): Promise<any> => {
+    const transactionsListRequest = async (): Promise<any> => {
 
         // Hide the navigation box
         document.getElementsByClassName('fc-navigation')[0].classList.remove('block');
 
-        // Generate a new csrf token
-        let csrfToken: typeToken = await getToken();
-
-        // Check if csrf token is missing
-        if ( !csrfToken.success ) {
-
-            // Return error message
-            return {
-                success: false,
-                message: getWord('errors', 'error_csrf_token_not_generated', memberOptions['Language'])
-            };
-
-        }
-
         // Set the bearer token
-        let token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
+        const token: string | number | boolean | object | null = SecureStorage.getItem('fc_jwt');
 
         // Set the headers
-        let headers: typePostHeader = {
+        const headers: typePostHeader = {
             headers: {
-                Authorization: `Bearer ${token}`,
-                CsrfToken: csrfToken.token
+                Authorization: `Bearer ${token}`
             }
         };
 
         // Request the transactions list
-        let response = await axios.post((typeof props.plan !== 'undefined')?process.env.NEXT_PUBLIC_API_URL + 'api/v1/admin/transactions/list/' + props.plan as string:process.env.NEXT_PUBLIC_API_URL + 'api/v1/admin/transactions/list/', search, headers);
+        const response = await axios.post((typeof props.plan !== 'undefined')?process.env.NEXT_PUBLIC_API_URL + 'api/v1/admin/transactions/list/' + props.plan as string:process.env.NEXT_PUBLIC_API_URL + 'api/v1/admin/transactions/list/', search, headers);
         
         // Process the response
         return response.data;
@@ -106,7 +91,7 @@ const TransactionsList = (props: {plan?: string}) => {
     };
 
     // Request the transactions list
-    let { isLoading, error, data } = useQuery('transactionsList-' + props.plan, transactionsListRequest, {
+    const { isLoading, error, data } = useQuery('transactionsList-' + props.plan, transactionsListRequest, {
         enabled: !fetchedData
     });
 
@@ -170,7 +155,7 @@ const TransactionsList = (props: {plan?: string}) => {
             }));
 
             // Set limit
-            let limit: number = ((data.result.page * 10) < data.result.total)?(data.result.page * 10):data.result.total;
+            const limit: number = ((data.result.page * 10) < data.result.total)?(data.result.page * 10):data.result.total;
 
             // Set text
             document.querySelector('#fc-navigation-transactions h3')!.innerHTML = (((data.result.page - 1) * 10) + 1) + '-' + limit + ' ' + getWord('default', 'default_of', memberOptions['Language']) + ' ' + data.result.total + ' ' + getWord('default', 'default_results', memberOptions['Language']);
@@ -199,17 +184,17 @@ const TransactionsList = (props: {plan?: string}) => {
      * 
      * @param Event e
      */
-    let trackClicks = async (e: Event): Promise<void> => {
+    const trackClicks = async (e: Event): Promise<void> => {
 
         // Get the target
-        let target = e.target;
+        const target = e.target;
 
         // Check if the click is on a page link
         if ( (target instanceof Element) && target.closest('#fc-navigation-transactions') && (target.nodeName === 'A') ) {
             e.preventDefault();
 
             // Get the page
-            let page: string | null = target.getAttribute('data-page');
+            const page: string | null = target.getAttribute('data-page');
 
             // Set search value
             search.Page = parseInt(page!);

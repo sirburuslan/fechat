@@ -28,7 +28,7 @@ import TransactionsList from "@/core/components/admin/transactions/TransactionsL
 const Page = (): React.JSX.Element => {
 
     // Member options
-    let {memberOptions} = useContext(MemberOptionsContext);  
+    const {memberOptions} = useContext(MemberOptionsContext);  
 
     // Check if document is defined
     if ( typeof document !== 'undefined' ) {

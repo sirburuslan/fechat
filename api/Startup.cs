@@ -5,97 +5,29 @@
  *
  * @author Ruslan Sirbu
  * @version 0.0.1
- * @updated 2024-03-26
+ * @updated 2024-04-07
  *
  * This class contains the configuration of services and apps
  */
 
 // App namespace
 namespace FeChat {
-
-    // Use Globalization for cultures
-    using System.Globalization;
     
-    // Use the Text for key enconding
+    // System Namespaces
+    using System.Reflection;
     using System.Text;
-
-    // Use the media types
-    using static System.Net.Mime.MediaTypeNames;    
-
-    // Use the MVC design pattern
     using Microsoft.AspNetCore.Mvc;
-    
-    // Use entity framework
-    using Microsoft.EntityFrameworkCore;
-
-    // Use the documentation for api
-    using Microsoft.OpenApi.Models;
-
-    // Use JwtBearer to validate JWTs
     using Microsoft.AspNetCore.Authentication.JwtBearer;
-
-    // Use the Identity Model to create the tokens parameters
-    using Microsoft.IdentityModel.Tokens;
-
-    // Use the User controllers
-    using FeChat.Controllers.User;
-
-    // Use the Public controllers
-    using FeChat.Controllers.Public;
-
-    // Use the General Dtos
-    using FeChat.Models.Dtos;
-
-    // Use the Members Dtos
-    using FeChat.Models.Dtos.Members;
-
-    // Use the Settings repositories
-    using FeChat.Models.Repositories.Settings;
-
-    // Use the Events repositories
-    using FeChat.Models.Repositories.Events;
-
-    // Use the Members repositories
-    using FeChat.Models.Repositories.Members;
-
-    // Use the Messages repositories
-    using FeChat.Models.Repositories.Messages;  
-
-    // Use the Plans repositories
-    using FeChat.Models.Repositories.Plans;   
-
-    // Use the Subscriptions repositories
-    using FeChat.Models.Repositories.Subscriptions;   
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Options;
+    using Microsoft.IdentityModel.Tokens;   
+    using Microsoft.OpenApi.Models;
     
-    // Use the Websites repositories
-    using FeChat.Models.Repositories.Websites;     
 
-    // Use the configuration utils for db
-    using FeChat.Utils.Configuration;
-
-    // Use the general utils for filters
-    using FeChat.Utils.General;
-
-    // Use the settings interfaces for repositories
-    using FeChat.Utils.Interfaces.Repositories.Settings;
-
-    // Use the events interfaces for repositories
-    using FeChat.Utils.Interfaces.Repositories.Events;
-
-    // Use the members interfaces for repositories
-    using FeChat.Utils.Interfaces.Repositories.Members;
-
-    // Use the interfaces for messages repositories
-    using FeChat.Utils.Interfaces.Repositories.Messages;
-
-    // Use the plans interfaces for repositories
-    using FeChat.Utils.Interfaces.Repositories.Plans;
-
-    // Use the subscriptions interfaces for repositories
-    using FeChat.Utils.Interfaces.Repositories.Subscriptions;
-
-    // Use the interfaces for websites repositories
-    using FeChat.Utils.Interfaces.Repositories.Websites;
+    // App Namespaces
+    using Utils.Configuration;
+    using Utils.Extensions;
+    using Utils.General;
 
     /// <summary>
     /// Startup Class
@@ -124,7 +56,7 @@ namespace FeChat {
 
             // Save environment
             Environment = env;
-            
+
         }
 
 
@@ -134,25 +66,11 @@ namespace FeChat {
         /// <param name="services">Collection with services</param>
         public void ConfigureServices(IServiceCollection services) {
 
-            // Get the app domain
-            var AppDomain = Configuration.GetValue<string>("AppDomain");
+            // Bind app settings to the app settings class
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
-            // Get the site url
-            var SiteUrl = Configuration.GetValue<string>("SiteUrl");
-
-            // Get the jwt key
-            var JwtKey = Configuration.GetValue<string>("JwtKey");  
-
-            // Add multiversions support
-            services.AddApiVersioning().AddApiExplorer(options => {
-            
-                // Format string for the current API version
-                options.GroupNameFormat = "'v'VVV";
-
-                // Adds the version in the urls
-                options.SubstituteApiVersionInUrl = true;
-
-            });
+            // Add app settings class in the IOptions
+            services.AddSingleton(provider => provider.GetRequiredService<IOptions<AppSettings>>().Value);
 
             // Connect the DB Table Members
             services.AddDbContext<Db>(options => options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
@@ -166,32 +84,28 @@ namespace FeChat {
             // Register the library for responses compression
             services.AddResponseCompression();
 
+            // Register the WebSocket Middleware
+            services.AddTransient<WebSocketMiddleware>();
+
             // Register service for Member
             services.AddScoped<Member>();
 
-            // Register the Events Repository
-            services.AddScoped<IEventsRepository, EventsRepository>();
-
-            // Register the Members repository
-            services.AddScoped<IMembersRepository, MembersRepository>();           
-
-            // Register the Messages Repository
-            services.AddScoped<IMessagesRepository, MessagesRepository>(); 
-
-            // Register the Plans repository
-            services.AddScoped<IPlansRepository, PlansRepository>();
-
-            // Register the Settings repository
-            services.AddScoped<ISettingsRepository, SettingsRepository>();
-
-            // Register the Subscriptions repository
-            services.AddScoped<ISubscriptionsRepository, SubscriptionsRepository>();  
-
-            // Register the Websites Repository
-            services.AddScoped<IWebsitesRepository, WebsitesRepository>();                            
+            // Register all repositories
+            services.RegisterRepositories(Assembly.GetExecutingAssembly());                      
 
             // Register the localization for the app's strings
             services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+            // Add multiversions support
+            services.AddApiVersioning().AddApiExplorer(options => {
+            
+                // Format string for the current API version
+                options.GroupNameFormat = "'v'VVV";
+
+                // Adds the version in the urls
+                options.SubstituteApiVersionInUrl = true;
+
+            });
 
             // Configure the session state
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
@@ -200,27 +114,28 @@ namespace FeChat {
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = AppDomain,
-                    ValidAudience = AppDomain,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtKey ?? string.Empty))
+                    ValidIssuer = Configuration.GetValue<string>("AppSettings:JwtSettings:Issuer"),
+                    ValidAudience = Configuration.GetValue<string>("AppSettings:JwtSettings:Audience"),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("AppSettings:JwtSettings:Key") ?? string.Empty))
                 };
                 
             });
 
             // Add services for controllers
-            services.AddControllers().ConfigureApiBehaviorOptions(options => {
-
-                options.InvalidModelStateResponseFactory = context => new BadRequestObjectResult(context.ModelState) {
-                        
+            services.AddControllers(options =>
+            {
+                options.Filters.Add<JsonExceptionFilter>();
+            })
+            .ConfigureApiBehaviorOptions(options =>
+            {
+                options.InvalidModelStateResponseFactory = context => new BadRequestObjectResult(context.ModelState)
+                {
                     ContentTypes = {
-                        Application.Json
+                        "application/json"
                     },
                     StatusCode = 200
-                    
                 };
-
-            })
-            .AddXmlSerializerFormatters();
+            });
 
             // Verify if the app is in development
             if ( Environment.IsDevelopment() ) {
@@ -240,10 +155,9 @@ namespace FeChat {
                     // Define a custom filter to remove URLs without a version
                     c.DocumentFilter<RemoveUnversionedUrlsFilter>();
 
-                    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                     c.IncludeXmlComments(xmlPath);
-
 
                 });
 
@@ -262,19 +176,15 @@ namespace FeChat {
 
                 options.AddPolicy(name: "AllowOrigin",
                 policy  => {
-                    policy.WithOrigins(SiteUrl ?? string.Empty);
+                    policy.WithOrigins(Configuration.GetValue<string>("AppSettings:SiteUrl") ?? string.Empty);
                     policy.AllowAnyMethod();
                     policy.AllowAnyHeader();
                 });
 
             });
 
-            // Add the AntiForgery service
-            services.AddAntiforgery(options => {
-                options.FormFieldName = "AntiforgeryFieldname";
-                options.HeaderName = "X-CSRF-TOKEN-HEADERNAME";
-                options.SuppressXFrameOptionsHeader = false;
-            });
+            // Register the Language Middleware
+            services.AddSingleton<LanguageMiddleware>();
 
             // Add HttpClient as a transient service
             services.AddHttpClient();        
@@ -290,52 +200,6 @@ namespace FeChat {
         /// <param name="app">Application's request pipeline</param>
         public void Configure(IApplicationBuilder app) {
 
-            // Redirects all HTTP urls to HTTPS
-            app.UseHttpsRedirection();
-
-            // Enable support for WebSocket requests
-            app.UseWebSockets();
-
-            // Use the Responses Compression
-            app.UseResponseCompression();
-
-            // Catch the websockets requests
-            app.Use(async (context, next) => {
-
-                // Check if is a WebSocket request
-                if (context.WebSockets.IsWebSocketRequest) {
-
-                    // Retrieve the service provider from the HttpContext
-                    IServiceProvider serviceProvider = context.RequestServices;
-                    
-                    // Get the members repository from the service provider
-                    IMembersRepository members = serviceProvider.GetService<IMembersRepository>()!;
-
-                    // Get the messages repository from the service provider
-                    IMessagesRepository messages = serviceProvider.GetService<IMessagesRepository>()!;
-
-                    // Check if is requested web socket for user
-                    if ( context.Request.Path == "/api/v1/user/websocket" ) {
-
-                        // Handle WebSocket connection
-                        await new UserWebSocketController().QueueRequest(context, members, messages);
-
-                    } else {
-
-                        // Handle WebSocket connection
-                        await new WebSocketController().QueueRequest(context, messages);
-                        
-                    }
-
-                } else {
-
-                    // Handle non-WebSocket requests
-                    await next();
-
-                }
-
-            });
-
             // Verify if the app is in development
             if (Environment.IsDevelopment()) {
 
@@ -345,13 +209,24 @@ namespace FeChat {
                 // Enable Swagger UI
                 app.UseSwaggerUI();
 
-                // Enables the Developer Exception Page 
-                app.UseDeveloperExceptionPage();
+            } else {
+
+                // Enable the HTTP Strict Transport Security policy
+                app.UseHsts();
 
             }
 
-            // Get the site url
-            var SiteUrl = Configuration.GetValue<string>("SiteUrl");
+            // Redirects all HTTP urls to HTTPS
+            app.UseHttpsRedirection();
+
+            // Enable support for WebSocket requests
+            app.UseWebSockets();
+
+            // Use the Responses Compression
+            app.UseResponseCompression();
+
+            // Use the Websocket Middleware
+            app.UseMiddleware<WebSocketMiddleware>();
 
             // Enables authentication capabilities
             app.UseAuthentication();
@@ -362,85 +237,13 @@ namespace FeChat {
             // Set the created Cors policy
             app.UseCors(options =>
             {
-                options.WithOrigins(SiteUrl ?? string.Empty)
+                options.WithOrigins(Configuration.GetValue<string>("AppSettings:SiteUrl") ?? string.Empty)
                     .AllowAnyMethod()
                     .AllowAnyHeader();
-            });   
+            }); 
 
-            // Process the HTTP requests
-            app.Use(async (context, next) => {
-
-                // Default language container
-                string lang = "en-US";
-
-                // Check if is requested the administrator controllers
-                if ( context.Request.Path.ToString().IndexOf("/api/v1/admin/") == 0 ) {
-
-                    // Get current member data
-                    ResponseDto<MemberDto> memberAccess = await new Access(context).IsAdminAsync(context.RequestServices.GetService<IMembersRepository>()!);
-
-                    // Check if memberAccess contains an error message
-                    if ( memberAccess.Result == null ) {
-
-                        // Handle unauthorized access here
-                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                        return;
-
-                    }
-
-                    // Get the member service
-                    var member = context.RequestServices.GetService<Member>();
-
-                    // Check if member is not null
-                    if ( member != null ) {
-
-                        // Set Member
-                        member.Info = memberAccess.Result;
-                        
-                    }
-
-                    // Set language
-                    lang = (memberAccess.Result.Language != null)?memberAccess.Result.Language:"";
-
-                } else if ( (context.Request.Path.ToString().IndexOf("/api/v1/user") == 0) && ( context.Request.Path != "/api/v1/user/websocket" ) ) {
-
-                    // Get current member data
-                    ResponseDto<MemberDto> memberAccess = await new Access(context).IsUserAsync(context.RequestServices.GetService<IMembersRepository>()!);
-
-                    // Check if memberAccess contains an error message
-                    if ( memberAccess.Result == null ) {
-
-                        // Handle unauthorized access here
-                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                        return;
-
-                    }
-
-                    // Get the member service
-                    var member = context.RequestServices.GetService<Member>();
-
-                    // Check if member is not null
-                    if ( member != null ) {
-
-                        // Set Member
-                        member.Info = memberAccess.Result;
-                        
-                    }
-
-                    // Set language
-                    lang = (memberAccess.Result.Language != null)?memberAccess.Result.Language:"";
-
-                }
-
-                // Set the culture for the request
-                var cultureInfo = new CultureInfo(lang);
-                CultureInfo.CurrentCulture = cultureInfo;
-                CultureInfo.CurrentUICulture = cultureInfo;
-
-                // Call the next middleware in the pipeline
-                await next();
-
-            });         
+            // Use the Language Middleware
+            app.UseMiddleware<LanguageMiddleware>();      
 
             // Enables the autorization middleware for requests validation
             app.UseAuthorization();
@@ -453,9 +256,6 @@ namespace FeChat {
             });
 
             app.UseCookiePolicy();
-
-            // Enable support for WebSocket requests
-            app.UseWebSockets();
 
         }
 
